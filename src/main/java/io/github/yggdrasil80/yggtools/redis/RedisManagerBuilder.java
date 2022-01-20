@@ -12,8 +12,6 @@ public class RedisManagerBuilder implements IBuilder<RedisManager> {
     private final BuilderArgument<String> redisPass = new BuilderArgument<>("RedisPass", () -> "", true);
     private final BuilderArgument<Integer> redisDB = new BuilderArgument<>("RedisDB", () -> 0, false);
 
-    private final BuilderArgument<PubSubManager> pubSub = new BuilderArgument<>("PubSub", () -> new PubSubManagerBuilder().build(), false);
-
     private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> LoggerFactory.getLogger(RedisManager.class), false);
 
     public RedisManagerBuilder withRedis(String redisHost, int redisPort, String redisPass, int redisDB) {
@@ -40,11 +38,6 @@ public class RedisManagerBuilder implements IBuilder<RedisManager> {
         return this;
     }
 
-    public RedisManagerBuilder withPubSub(PubSubManager pubSub) {
-        this.pubSub.set(pubSub);
-        return this;
-    }
-
     public RedisManagerBuilder withLogger(Logger logger) {
         this.logger.set(logger);
         return this;
@@ -52,6 +45,6 @@ public class RedisManagerBuilder implements IBuilder<RedisManager> {
 
     @Override
     public RedisManager build() {
-        return new RedisManager(this.redisHost.get(), this.redisPort.get(), this.redisPass.get(), this.redisDB.get(), this.pubSub.get(), this.logger.get());
+        return new RedisManager(this.redisHost.get(), this.redisPort.get(), this.redisPass.get(), this.redisDB.get(), this.logger.get());
     }
 }

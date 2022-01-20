@@ -5,16 +5,18 @@ import io.github.yggdrasil80.yggtools.utils.IBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.function.Supplier;
+
 public class PubSubManagerBuilder implements IBuilder<PubSubManager> {
 
-    private final BuilderArgument<RedisManager> redis = new BuilderArgument<>("RedisManager", () -> new RedisManagerBuilder().build(), true);
+    private final BuilderArgument<Supplier<RedisManager>> redis = new BuilderArgument<>("RedisManager", () -> () -> new RedisManagerBuilder().build(), true);
     private final BuilderArgument<Enum<? extends IChannel>> channels = new BuilderArgument<>("Channels", () -> IChannelDefault.DEFAULT, true);
     private final BuilderArgument<Enum<? extends IChannel>> patterns = new BuilderArgument<>("Patterns", () -> IChannelDefault.DEFAULT_PATTERN, false);
 
     private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> LoggerFactory.getLogger(PubSubManager.class), false);
     private final BuilderArgument<Boolean> debug = new BuilderArgument<>("Debug", () -> false, false);
 
-    public PubSubManagerBuilder withRedis(RedisManager redis) {
+    public PubSubManagerBuilder withRedis(Supplier<RedisManager> redis) {
         this.redis.set(redis);
         return this;
     }
@@ -41,6 +43,6 @@ public class PubSubManagerBuilder implements IBuilder<PubSubManager> {
 
     @Override
     public PubSubManager build() {
-        return new PubSubManager(this.redis.get(), this.channels.get(), this.patterns.get(), this.logger.get(), this.debug.get());
+        return new PubSubManager(this.redis.get().get(), this.channels.get(), this.patterns.get(), this.logger.get(), this.debug.get());
     }
 }

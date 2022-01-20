@@ -11,18 +11,15 @@ public class RedisManager {
     private final int redisPort;
     private final String redisPass;
     private final int redisDB;
-
     private JedisPool jedisPool;
-    private PubSubManager pubSub;
 
     private final Logger logger;
 
-    public RedisManager(String redisHost, int redisPort, String redisPass, int redisDB, PubSubManager pubSub, Logger logger) {
+    public RedisManager(String redisHost, int redisPort, String redisPass, int redisDB, Logger logger) {
         this.redisHost = redisHost;
         this.redisPort = redisPort;
         this.redisPass = redisPass;
         this.redisDB = redisDB;
-        this.pubSub = pubSub;
         this.logger = logger;
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
@@ -36,14 +33,10 @@ public class RedisManager {
         } catch (final Exception e) {
             this.logger.error("An error occurred during connecting to Redis ! (" + e.getMessage() + "). Shutdown...");
         }
-
-        if (this.pubSub != null) this.pubSub.start();
     }
 
     public void stop() {
         this.logger.info("Stopping Redis connection...");
-
-        if (this.pubSub != null) this.pubSub.stop();
 
         this.jedisPool.close();
         this.jedisPool.destroy();
