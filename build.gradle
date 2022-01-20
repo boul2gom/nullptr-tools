@@ -1,0 +1,89 @@
+apply plugin: 'idea'
+apply plugin: 'signing'
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+
+version = '1.0.0'
+archivesBaseName = 'YggTools'
+group = 'io.github.yggdrasil80'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    options.encoding = 'UTF-8'
+}
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar) {
+    classifier 'javadoc'
+    from javadoc
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api 'redis.clients:jedis:4.0.1'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) { publication ->
+            from components.java
+            artifact tasks.sourcesJar
+            artifact tasks.javadocJar
+
+            pom {
+                groupId = project.group
+                version = project.version
+                artifactId = 'yggtools'
+                name = project.name
+                description = 'YggTools is my tools library'
+                url = 'https://github.com/Yggdrasil80/YggTools'
+
+                developers {
+                    developer {
+                        id = 'yggdrasil80'
+                        name = 'Yggdrasil80'
+                        email = 'louisdechorivit@gmail.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
+                    developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
+                    url = 'https://github.com/Yggdrasil80/YggTools/tree/main'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
+            }
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+        }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSPHRASE"))
+    sign publishing.publications.mavenJava
+}
