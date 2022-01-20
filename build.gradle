@@ -63,6 +63,13 @@ publishing {
                     }
                 }
 
+                licenses {
+                    license {
+                        name = 'GNU General Public License v3.0'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                    }
+                }
+
                 scm {
                     connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
                     developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
