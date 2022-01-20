@@ -16,6 +16,10 @@ public class RedisManagerBuilder implements IBuilder<RedisManager> {
 
     private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> LoggerFactory.getLogger(RedisManager.class), false);
 
+    public RedisManagerBuilder withRedis(String redisHost, int redisPort, String redisPass, int redisDB) {
+        return this.withRedisHost(redisHost).withRedisPort(redisPort).withRedisPass(redisPass).withRedisDB(redisDB);
+    }
+
     public RedisManagerBuilder withRedisHost(String redisHost) {
         this.redisHost.set(redisHost);
         return this;
