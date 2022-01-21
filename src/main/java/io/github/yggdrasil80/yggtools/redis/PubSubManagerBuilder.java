@@ -8,6 +8,7 @@ public final class PubSubManagerBuilder implements IBuilder<PubSubManager> {
 
     private final BuilderArgument<RedisManager> redis = new BuilderArgument<>("RedisManager", () -> new RedisManagerBuilder().build(), true);
     private final BuilderArgument<Class<? extends IChannel>> channels = new BuilderArgument<>("Channels", () -> IChannelDefault.class, true);
+    private final BuilderArgument<Class<? extends IPattern>> patterns = new BuilderArgument<>("Patterns", () -> IPatternDefault.class, false);
 
     private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> new Logger("PubSubManager"), false);
     private final BuilderArgument<Boolean> debug = new BuilderArgument<>("Debug", () -> false, false);
@@ -19,6 +20,11 @@ public final class PubSubManagerBuilder implements IBuilder<PubSubManager> {
 
     public PubSubManagerBuilder withChannels(final Class<? extends IChannel> channels) {
         this.channels.set(channels);
+        return this;
+    }
+
+    public PubSubManagerBuilder withPatterns(final Class<? extends IPattern> patterns) {
+        this.patterns.set(patterns);
         return this;
     }
 

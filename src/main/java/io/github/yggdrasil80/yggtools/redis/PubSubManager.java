@@ -10,13 +10,15 @@ public final class PubSubManager extends JedisPubSub {
 
     private final RedisManager redis;
     private final Class<? extends IChannel> channels;
+    private final Class<? extends IPattern> patterns;
 
     private final Logger logger;
     private final boolean debug;
 
-    public PubSubManager(final RedisManager redis, final Class<? extends IChannel> channels, final Logger logger, final boolean debug) {
+    public PubSubManager(final RedisManager redis, final Class<? extends IChannel> channels, final Class<? extends IPattern> patterns, final Logger logger, final boolean debug) {
         this.redis = redis;
         this.channels = channels;
+        this.patterns = patterns;
         this.logger = logger;
         this.debug = debug;
     }
@@ -24,6 +26,7 @@ public final class PubSubManager extends JedisPubSub {
     public void start() {
         try (final Jedis jedis = this.redis.getJedis()){
             Arrays.asList(this.channels.getEnumConstants()).forEach(channel -> jedis.subscribe(this, channel.getChannel()));
+            Arrays.asList(this.patterns.getEnumConstants()).forEach(pattern -> jedis.psubscribe(this, pattern.getPattern()));
         }
     }
 
@@ -65,5 +68,6 @@ public final class PubSubManager extends JedisPubSub {
 
     public void stop() {
         Arrays.asList(this.channels.getEnumConstants()).forEach(channel -> this.unsubscribe(channel.getChannel()));
+        Arrays.asList(this.patterns.getEnumConstants()).forEach(pattern -> this.punsubscribe(pattern.getPattern()));
     }
 }
