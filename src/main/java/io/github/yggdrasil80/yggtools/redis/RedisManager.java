@@ -5,7 +5,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-public class RedisManager {
+public final class RedisManager {
 
     private final String redisHost;
     private final int redisPort;
@@ -15,7 +15,7 @@ public class RedisManager {
 
     private final Logger logger;
 
-    public RedisManager(String redisHost, int redisPort, String redisPass, int redisDB, Logger logger) {
+    public RedisManager(final String redisHost, final int redisPort, final String redisPass, final int redisDB, final Logger logger) {
         this.redisHost = redisHost;
         this.redisPort = redisPort;
         this.redisPass = redisPass;
@@ -38,6 +38,18 @@ public class RedisManager {
 
         this.jedisPool.close();
         this.jedisPool.destroy();
+    }
+
+    public String get(String key) {
+        try (final Jedis jedis = this.jedisPool.getResource()){
+            return jedis.get(key);
+        }
+    }
+
+    public void set(String key, String value) {
+        try (final Jedis jedis = this.jedisPool.getResource()){
+            jedis.set(key, value);
+        }
     }
 
     public Jedis getJedis() {

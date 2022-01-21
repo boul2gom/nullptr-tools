@@ -9,17 +9,17 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Logger {
+public final class Logger {
 
     private final boolean useFile;
     private final String prefix;
     private PrintWriter writer;
 
-    public Logger(String prefix) {
+    public Logger(final String prefix) {
         this(false, null, prefix);
     }
 
-    public Logger(boolean useFile, Path path, String prefix) {
+    public Logger(final boolean useFile, final Path path, final String prefix) {
         this.prefix = "[" + prefix + "] ";
         this.useFile = useFile;
 
@@ -38,33 +38,33 @@ public class Logger {
         }
     }
 
-    private void message(LoggerPrintType type, String message) {
+    private void message(final LoggerPrintType type, final String message) {
         final String msg = String.format("[%s] ", new SimpleDateFormat("hh:mm:ss").format(new Date())) + this.prefix + "[" + type + "]: " + message;
         System.out.println(type.getColor() + msg + LoggerColor.RESET);
         this.logToFile(msg);
     }
 
-    public void info(String message) {
+    public void info(final String message) {
         this.message(LoggerPrintType.INFO, message);
     }
 
-    public void error(String message) {
+    public void error(final String message) {
         this.message(LoggerPrintType.ERROR, message);
     }
 
-    public void error(Throwable throwable) {
+    public void error(final Throwable throwable) {
         this.message(LoggerPrintType.ERROR, throwable.getMessage());
     }
 
-    public void warn(String message) {
+    public void warn(final String message) {
         this.message(LoggerPrintType.WARNING, message);
     }
 
-    public void debug(String message) {
+    public void debug(final String message) {
         this.message(LoggerPrintType.DEBUG, message);
     }
 
-    private void logToFile(String message) {
+    private void logToFile(final String message) {
         if (this.useFile) {
             this.writer.println(message);
             this.writer.flush();

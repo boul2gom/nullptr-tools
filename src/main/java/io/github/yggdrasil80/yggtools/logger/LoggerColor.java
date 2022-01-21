@@ -9,7 +9,7 @@ public enum LoggerColor {
 
     private final String color;
 
-    LoggerColor(String color) {
+    LoggerColor(final String color) {
         this.color = color;
     }
 

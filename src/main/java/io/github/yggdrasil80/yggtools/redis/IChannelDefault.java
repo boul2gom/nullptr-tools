@@ -6,7 +6,7 @@ public enum IChannelDefault implements IChannel {
 
     private final String channel;
 
-    IChannelDefault(String channel) {
+    IChannelDefault(final String channel) {
         this.channel = channel;
     }
 

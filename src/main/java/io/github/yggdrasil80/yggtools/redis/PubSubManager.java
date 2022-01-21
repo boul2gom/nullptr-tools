@@ -6,7 +6,7 @@ import redis.clients.jedis.JedisPubSub;
 
 import java.util.Arrays;
 
-public class PubSubManager extends JedisPubSub {
+public final class PubSubManager extends JedisPubSub {
 
     private final RedisManager redis;
     private final Class<? extends IChannel> channels;
@@ -14,7 +14,7 @@ public class PubSubManager extends JedisPubSub {
     private final Logger logger;
     private final boolean debug;
 
-    public PubSubManager(RedisManager redis, Class<? extends IChannel> channels, Logger logger, boolean debug) {
+    public PubSubManager(final RedisManager redis, final Class<? extends IChannel> channels, final Logger logger, final boolean debug) {
         this.redis = redis;
         this.channels = channels;
         this.logger = logger;
@@ -27,40 +27,40 @@ public class PubSubManager extends JedisPubSub {
         }
     }
 
-    public <T extends IChannel> void publish(T channel, String message) {
+    public <T extends IChannel> void publish(final T channel, final String message) {
         try (final Jedis jedis = this.redis.getJedis()){
             jedis.publish(channel.getChannel(), message);
         }
     }
 
     @Override
-    public void onMessage(String channel, String message) {
-        if (this.debug) this.logger.info("Channel " + channel + " has sent a message: " + message);
+    public void onMessage(final String channel, final String message) {
+        if (this.debug) this.logger.debug("Channel " + channel + " has sent a message: " + message);
     }
 
     @Override
-    public void onPMessage(String pattern, String channel, String message) {
-        if (this.debug) this.logger.info("Channel " + channel + " has sent a message: " + message + " with the pattern " + pattern);
+    public void onPMessage(final String pattern, final String channel, final String message) {
+        if (this.debug) this.logger.debug("Channel " + channel + " has sent a message: " + message + " with the pattern " + pattern);
     }
 
     @Override
-    public void onSubscribe(String channel, int subscribedChannels) {
-        if (this.debug) this.logger.info("Client is Subscribed to channel: " + channel + ", total: " + subscribedChannels);
+    public void onSubscribe(final String channel, final int subscribedChannels) {
+        if (this.debug) this.logger.debug("Client is Subscribed to channel: " + channel + ", total: " + subscribedChannels);
     }
 
     @Override
-    public void onPSubscribe(String pattern, int subscribedChannels) {
-        if (this.debug) this.logger.info("Client is Subscribed to pattern: " + pattern + ", total: " + subscribedChannels);
+    public void onPSubscribe(final String pattern, final int subscribedChannels) {
+        if (this.debug) this.logger.debug("Client is Subscribed to pattern: " + pattern + ", total: " + subscribedChannels);
     }
 
     @Override
-    public void onUnsubscribe(String channel, int subscribedChannels) {
-        if (this.debug) this.logger.info("Client is Unsubscribed to channel: " + channel + ", total: " + subscribedChannels);
+    public void onUnsubscribe(final String channel, final int subscribedChannels) {
+        if (this.debug) this.logger.debug("Client is Unsubscribed to channel: " + channel + ", total: " + subscribedChannels);
     }
 
     @Override
-    public void onPUnsubscribe(String pattern, int subscribedChannels) {
-        if (this.debug) this.logger.info("Client is Unsubscribed to pattern: " + pattern + ", total: " + subscribedChannels);
+    public void onPUnsubscribe(final String pattern, final int subscribedChannels) {
+        if (this.debug) this.logger.debug("Client is Unsubscribed to pattern: " + pattern + ", total: " + subscribedChannels);
     }
 
     public void stop() {

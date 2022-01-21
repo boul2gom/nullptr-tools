@@ -9,7 +9,7 @@ public enum LoggerPrintType {
 
     private final LoggerColor color;
 
-    LoggerPrintType(LoggerColor color) {
+    LoggerPrintType(final LoggerColor color) {
         this.color = color;
     }
 
