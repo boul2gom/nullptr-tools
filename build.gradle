@@ -3,7 +3,7 @@ apply plugin: 'signing'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version = '1.0.4'
+version = '1.0.5'
 archivesBaseName = 'YggTools'
 group = 'io.github.yggdrasil80'
 
