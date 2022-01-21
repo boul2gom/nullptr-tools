@@ -1,16 +1,15 @@
 package io.github.yggdrasil80.yggtools.redis;
 
+import io.github.yggdrasil80.yggtools.logger.Logger;
 import io.github.yggdrasil80.yggtools.utils.BuilderArgument;
 import io.github.yggdrasil80.yggtools.utils.IBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PubSubManagerBuilder implements IBuilder<PubSubManager> {
 
     private final BuilderArgument<RedisManager> redis = new BuilderArgument<>("RedisManager", () -> new RedisManagerBuilder().build(), true);
     private final BuilderArgument<Class<? extends IChannel>> channels = new BuilderArgument<>("Channels", () -> IChannelDefault.class, true);
 
-    private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> LoggerFactory.getLogger(PubSubManager.class), false);
+    private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> new Logger("PubSubManager"), false);
     private final BuilderArgument<Boolean> debug = new BuilderArgument<>("Debug", () -> false, false);
 
     public PubSubManagerBuilder withRedis(RedisManager redis) {

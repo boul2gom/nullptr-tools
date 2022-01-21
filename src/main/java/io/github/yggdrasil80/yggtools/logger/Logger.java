@@ -11,22 +11,30 @@ import java.util.Date;
 
 public class Logger {
 
+    private final boolean file;
     private final String prefix;
-    private final PrintWriter writer;
+    private PrintWriter writer;
 
-    public Logger(Path path, String prefix) {
+    public Logger(String prefix) {
+        this(false, null, prefix);
+    }
+
+    public Logger(boolean useFile, Path path, String prefix) {
         this.prefix = "[" + prefix + "] ";
+        this.file = useFile;
 
-        try {
-            if (Files.notExists(path)) {
-                Files.createDirectories(path.getParent());
-                Files.createFile(path);
+        if (this.file) {
+            try {
+                if (Files.notExists(path)) {
+                    Files.createDirectories(path.getParent());
+                    Files.createFile(path);
+                }
+
+                this.writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path), StandardCharsets.UTF_8)));
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-
-            this.writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path), StandardCharsets.UTF_8)));
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -57,8 +65,10 @@ public class Logger {
     }
 
     private void logToFile(String message) {
-        this.writer.println(message);
-        this.writer.flush();
+        if (this.file) {
+            this.writer.println(message);
+            this.writer.flush();
+        }
     }
 
     public void close() {

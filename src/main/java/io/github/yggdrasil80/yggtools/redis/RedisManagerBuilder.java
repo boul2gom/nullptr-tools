@@ -1,9 +1,8 @@
 package io.github.yggdrasil80.yggtools.redis;
 
+import io.github.yggdrasil80.yggtools.logger.Logger;
 import io.github.yggdrasil80.yggtools.utils.BuilderArgument;
 import io.github.yggdrasil80.yggtools.utils.IBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RedisManagerBuilder implements IBuilder<RedisManager> {
 
@@ -12,7 +11,7 @@ public class RedisManagerBuilder implements IBuilder<RedisManager> {
     private final BuilderArgument<String> redisPass = new BuilderArgument<>("RedisPass", () -> "", true);
     private final BuilderArgument<Integer> redisDB = new BuilderArgument<>("RedisDB", () -> 0, false);
 
-    private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> LoggerFactory.getLogger(RedisManager.class), false);
+    private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> new Logger("RedisManager"), false);
 
     public RedisManagerBuilder withRedis(String redisHost, int redisPort, String redisPass, int redisDB) {
         return this.withRedisHost(redisHost).withRedisPort(redisPort).withRedisPass(redisPass).withRedisDB(redisDB);

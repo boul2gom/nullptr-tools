@@ -1,9 +1,12 @@
 -classpath 'C:\\Users\\yggdr\\Desktop\\YggTools\\build\\classes\\java\\main;C:\\Users\\yggdr\\Desktop\\YggTools\\build\\resources\\main;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\redis.clients\\jedis\\4.0.1\\735d6479997f7211aa3f30932506942f30c9aa38\\jedis-4.0.1.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\org.slf4j\\slf4j-api\\1.7.32\\cdcff33940d9f2de763bc41ea05a0be5941176c3\\slf4j-api-1.7.32.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\org.apache.commons\\commons-pool2\\2.11.1\\8970fd110c965f285ed4c6e40be7630c62db6f68\\commons-pool2-2.11.1.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\org.json\\json\\20211205\\47032dcf2f69880f07dab3dc60b4b0ad97318308\\json-20211205.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\com.google.code.gson\\gson\\2.8.9\\8a432c1d6825781e21a02db2e2c33c5fde2833b9\\gson-2.8.9.jar'
 -d 'C:\\Users\\yggdr\\Desktop\\YggTools\\build\\docs\\javadoc'
--doctitle 'YggTools 1.0.1 API'
+-doctitle 'YggTools 1.0.6 API'
 -notimestamp 
 -quiet 
--windowtitle 'YggTools 1.0.1 API'
+-windowtitle 'YggTools 1.0.6 API'
+'C:\\Users\\yggdr\\Desktop\\YggTools\\src\\main\\java\\io\\github\\yggdrasil80\\yggtools\\logger\\Logger.java'
+'C:\\Users\\yggdr\\Desktop\\YggTools\\src\\main\\java\\io\\github\\yggdrasil80\\yggtools\\logger\\LoggerColor.java'
+'C:\\Users\\yggdr\\Desktop\\YggTools\\src\\main\\java\\io\\github\\yggdrasil80\\yggtools\\logger\\LoggerPrintType.java'
 'C:\\Users\\yggdr\\Desktop\\YggTools\\src\\main\\java\\io\\github\\yggdrasil80\\yggtools\\redis\\IChannel.java'
 'C:\\Users\\yggdr\\Desktop\\YggTools\\src\\main\\java\\io\\github\\yggdrasil80\\yggtools\\redis\\IChannelDefault.java'
 'C:\\Users\\yggdr\\Desktop\\YggTools\\src\\main\\java\\io\\github\\yggdrasil80\\yggtools\\redis\\PubSubManager.java'

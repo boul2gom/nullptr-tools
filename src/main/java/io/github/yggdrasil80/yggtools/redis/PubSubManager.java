@@ -1,6 +1,6 @@
 package io.github.yggdrasil80.yggtools.redis;
 
-import org.slf4j.Logger;
+import io.github.yggdrasil80.yggtools.logger.Logger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
