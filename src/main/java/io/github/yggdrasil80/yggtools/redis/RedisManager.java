@@ -21,8 +21,6 @@ public class RedisManager {
         this.redisPass = redisPass;
         this.redisDB = redisDB;
         this.logger = logger;
-
-        Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
     }
 
     public void start() {

@@ -9,32 +9,21 @@ import java.util.Arrays;
 public class PubSubManager extends JedisPubSub {
 
     private final RedisManager redis;
-    private final Enum<? extends IChannel> channels;
-    private final Enum<? extends IChannel> patterns;
+    private final Class<? extends IChannel> channels;
 
     private final Logger logger;
     private final boolean debug;
 
-    public PubSubManager(RedisManager redis, Enum<? extends IChannel> channels, Enum<? extends IChannel> patterns, Logger logger, boolean debug) {
+    public PubSubManager(RedisManager redis, Class<? extends IChannel> channels, Logger logger, boolean debug) {
         this.redis = redis;
         this.channels = channels;
-        this.patterns = patterns;
         this.logger = logger;
         this.debug = debug;
     }
 
     public void start() {
         try (final Jedis jedis = this.redis.getJedis()){
-            Arrays.asList(this.channels.getDeclaringClass().getEnumConstants()).forEach(channel -> {
-                jedis.subscribe(this, channel.getChannel());
-            });
-            if (this.patterns != null) {
-                Arrays.asList(this.patterns.getDeclaringClass().getEnumConstants()).forEach(channel -> {
-                    jedis.psubscribe(this, channel.getChannel());
-                });
-            }
-        } catch (Exception e) {
-            this.logger.error(e.getMessage());
+            Arrays.asList(this.channels.getEnumConstants()).forEach(channel -> jedis.subscribe(this, channel.getChannel()));
         }
     }
 
@@ -75,6 +64,6 @@ public class PubSubManager extends JedisPubSub {
     }
 
     public void stop() {
-        this.unsubscribe(IChannelDefault.DEFAULT.getChannel());
+        Arrays.asList(this.channels.getEnumConstants()).forEach(channel -> this.unsubscribe(channel.getChannel()));
     }
 }

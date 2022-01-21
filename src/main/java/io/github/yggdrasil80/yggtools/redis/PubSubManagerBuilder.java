@@ -8,8 +8,7 @@ import org.slf4j.LoggerFactory;
 public class PubSubManagerBuilder implements IBuilder<PubSubManager> {
 
     private final BuilderArgument<RedisManager> redis = new BuilderArgument<>("RedisManager", () -> new RedisManagerBuilder().build(), true);
-    private final BuilderArgument<Enum<? extends IChannel>> channels = new BuilderArgument<>("Channels", () -> IChannelDefault.DEFAULT, true);
-    private final BuilderArgument<Enum<? extends IChannel>> patterns = new BuilderArgument<>("Patterns", () -> IChannelDefault.DEFAULT_PATTERN, false);
+    private final BuilderArgument<Class<? extends IChannel>> channels = new BuilderArgument<>("Channels", () -> IChannelDefault.class, true);
 
     private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> LoggerFactory.getLogger(PubSubManager.class), false);
     private final BuilderArgument<Boolean> debug = new BuilderArgument<>("Debug", () -> false, false);
@@ -19,13 +18,8 @@ public class PubSubManagerBuilder implements IBuilder<PubSubManager> {
         return this;
     }
 
-    public PubSubManagerBuilder withChannels(Enum<? extends IChannel> channels) {
+    public PubSubManagerBuilder withChannels(Class<? extends IChannel> channels) {
         this.channels.set(channels);
-        return this;
-    }
-
-    public PubSubManagerBuilder withPatterns(Enum<? extends IChannel> patterns) {
-        this.patterns.set(patterns);
         return this;
     }
 
@@ -41,6 +35,6 @@ public class PubSubManagerBuilder implements IBuilder<PubSubManager> {
 
     @Override
     public PubSubManager build() {
-        return new PubSubManager(this.redis.get(), this.channels.get(), this.patterns.get(), this.logger.get(), this.debug.get());
+        return new PubSubManager(this.redis.get(), this.channels.get(), this.logger.get(), this.debug.get());
     }
 }
