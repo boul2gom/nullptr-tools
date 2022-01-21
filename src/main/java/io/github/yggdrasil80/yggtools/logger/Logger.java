@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class Logger {
 
-    private final boolean file;
+    private final boolean useFile;
     private final String prefix;
     private PrintWriter writer;
 
@@ -21,9 +21,9 @@ public class Logger {
 
     public Logger(boolean useFile, Path path, String prefix) {
         this.prefix = "[" + prefix + "] ";
-        this.file = useFile;
+        this.useFile = useFile;
 
-        if (this.file) {
+        if (this.useFile) {
             try {
                 if (Files.notExists(path)) {
                     Files.createDirectories(path.getParent());
@@ -65,7 +65,7 @@ public class Logger {
     }
 
     private void logToFile(String message) {
-        if (this.file) {
+        if (this.useFile) {
             this.writer.println(message);
             this.writer.flush();
         }
