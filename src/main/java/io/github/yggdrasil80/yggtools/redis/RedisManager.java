@@ -47,12 +47,12 @@ public final class RedisManager {
         this.jedisPool = new JedisPool(new JedisPoolConfig(), this.redisHost, this.redisPort, 2000, this.redisPass, this.redisDB, this.getClass().getSimpleName());
         this.reconnections += 1;
 
-        if (this.reconnections <= 3) {
-            this.execute(jedis -> this.logger.info("Connection set with Redis, on database " + jedis.getDB()));
-        } else {
+        if (this.reconnections > 3) {
             this.logger.error("Could not connect to Redis after 3 attempts. Exiting...");
-            System.exit(0);
+            throw new RuntimeException("Could not connect to Redis after 3 attempts.");
         }
+
+        this.execute(jedis -> this.logger.info("Connection set with Redis, on database " + jedis.getDB()));
     }
 
     /**
@@ -64,8 +64,9 @@ public final class RedisManager {
             consumer.accept(jedis);
         } catch (final Exception e) {
             this.logger.error("An error occurred during connecting to Redis ! (" + e.getMessage() + "). Trying to reconnect...");
-            this.start();
+            if (this.reconnections > 3) return;
 
+            this.start();
             this.execute(consumer);
         }
     }
@@ -81,8 +82,9 @@ public final class RedisManager {
             return function.apply(jedis);
         } catch (final Exception e) {
             this.logger.error("An error occurred during connecting to Redis ! (" + e.getMessage() + "). Trying to reconnect...");
-            this.start();
+            if (this.reconnections > 3) return null;
 
+            this.start();
             return this.executeAndGet(function);
         }
     }

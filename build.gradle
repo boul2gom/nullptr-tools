@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    api 'redis.clients:jedis:+'
+    api 'redis.clients:jedis:4.1.0'
 }
 
 publishing {
