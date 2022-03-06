@@ -40,6 +40,6 @@ public final class PubSubManagerBuilder implements IBuilder<PubSubManager> {
 
     @Override
     public PubSubManager build() {
-        return new PubSubManager(this.redis.get(), this.channels.get(), this.logger.get(), this.debug.get());
+        return new PubSubManager(this.redis.get(), this.channels.get(), this.patterns.get(), this.logger.get(), this.debug.get());
     }
 }

@@ -3,7 +3,7 @@ apply plugin: 'signing'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version = '1.0.7'
+version = '1.0.8'
 archivesBaseName = 'YggTools'
 group = 'io.github.yggdrasil80'
 
@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    api 'redis.clients:jedis:4.0.1'
+    api 'redis.clients:jedis:+'
 }
 
 publishing {

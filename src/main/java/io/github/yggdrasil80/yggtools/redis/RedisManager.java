@@ -5,6 +5,12 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+/**
+ * The RedisManager class is a wrapper for the Jedis library.
+ */
 public final class RedisManager {
 
     private final String redisHost;
@@ -14,25 +20,76 @@ public final class RedisManager {
     private JedisPool jedisPool;
 
     private final Logger logger;
+    private int reconnections;
 
+    /**
+     * The constructor of the RedisManager class.
+     * @param redisHost The host of the Redis server.
+     * @param redisPort The port of the Redis server.
+     * @param redisPass The password of the Redis server.
+     * @param redisDB The database number of the Redis server.
+     * @param logger The {@link Logger} instance.
+     */
     public RedisManager(final String redisHost, final int redisPort, final String redisPass, final int redisDB, final Logger logger) {
         this.redisHost = redisHost;
         this.redisPort = redisPort;
         this.redisPass = redisPass;
         this.redisDB = redisDB;
         this.logger = logger;
+
+        this.reconnections = 0;
     }
 
+    /**
+     * The method that starts the connection to the Redis server.
+     */
     public void start() {
         this.jedisPool = new JedisPool(new JedisPoolConfig(), this.redisHost, this.redisPort, 2000, this.redisPass, this.redisDB, this.getClass().getSimpleName());
+        this.reconnections += 1;
 
-        try (final Jedis jedis = this.jedisPool.getResource()){
-            this.logger.info("Connection set with Redis, on database " + jedis.getDB());
-        } catch (final Exception e) {
-            this.logger.error("An error occurred during connecting to Redis ! (" + e.getMessage() + "). Shutdown...");
+        if (this.reconnections <= 3) {
+            this.execute(jedis -> this.logger.info("Connection set with Redis, on database " + jedis.getDB()));
+        } else {
+            this.logger.error("Could not connect to Redis after 3 attempts. Exiting...");
+            System.exit(0);
         }
     }
 
+    /**
+     * The method that executes a function on the Redis server.
+     * @param consumer The function to execute.
+     */
+    public void execute(Consumer<Jedis> consumer) {
+        try (final Jedis jedis = this.jedisPool.getResource()) {
+            consumer.accept(jedis);
+        } catch (final Exception e) {
+            this.logger.error("An error occurred during connecting to Redis ! (" + e.getMessage() + "). Trying to reconnect...");
+            this.start();
+
+            this.execute(consumer);
+        }
+    }
+
+    /**
+     * The method that executes a function on the Redis server, and return an object.
+     * @param function The function to execute.
+     * @param <R> The type of the object to return.
+     * @return The object returned by the function.
+     */
+    public <R> R executeAndGet(Function<Jedis, R> function) {
+        try (final Jedis jedis = this.jedisPool.getResource()) {
+            return function.apply(jedis);
+        } catch (final Exception e) {
+            this.logger.error("An error occurred during connecting to Redis ! (" + e.getMessage() + "). Trying to reconnect...");
+            this.start();
+
+            return this.executeAndGet(function);
+        }
+    }
+
+    /**
+     * The method that stops the connection to the Redis server.
+     */
     public void stop() {
         this.logger.info("Stopping Redis connection...");
 
@@ -40,18 +97,10 @@ public final class RedisManager {
         this.jedisPool.destroy();
     }
 
-    public String get(String key) {
-        try (final Jedis jedis = this.jedisPool.getResource()){
-            return jedis.get(key);
-        }
-    }
-
-    public void set(String key, String value) {
-        try (final Jedis jedis = this.jedisPool.getResource()){
-            jedis.set(key, value);
-        }
-    }
-
+    /**
+     * The method that returns the {@link Jedis} resource from the pool.
+     * @return The {@link Jedis} resource from the pool.
+     */
     public Jedis getJedis() {
         return this.jedisPool.getResource();
     }
