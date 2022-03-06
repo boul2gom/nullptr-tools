@@ -19,7 +19,7 @@ public final class I18n {
      * @param languages The languages, by locale.
      */
     public I18n(Map<Locale, Map<String, String>> languages) {
-        this.locale = Locale.getDefault();
+        this.locale = new Locale("en_US");
         this.languages = languages;
         I18n.instance = this;
     }
@@ -53,11 +53,9 @@ public final class I18n {
     /**
      * Set the locale.
       * @param locale The locale.
-     * @return The I18n instance.
      */
-    public I18n setLocale(Locale locale) {
+    public void setLocale(Locale locale) {
         this.locale = locale;
-        return this;
     }
 
     /**
