@@ -20,6 +20,9 @@ jobs:
           java-version: '8'
           distribution: 'zulu'
 
+      - name: Build with Gradle
+        run: gradle build
+
       - name: Publish to MavenCentral
         run: gradle publish
         env:
