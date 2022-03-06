@@ -1,0 +1,6 @@
+archivesBaseName = "YggTools-Redis"
+
+dependencies {
+    api 'io.github.yggdrasil80:yggtools:+'
+    api 'redis.clients:jedis:4.1.0'
+}

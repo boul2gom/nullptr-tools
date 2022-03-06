@@ -1,2 +1,4 @@
 rootProject.name = 'YggTools'
+include 'Redis'
+findProject(':Redis')?.name = 'YggTools-Redis'
 

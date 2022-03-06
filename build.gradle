@@ -1,96 +1,99 @@
-apply plugin: 'idea'
-apply plugin: 'signing'
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'signing'
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 
-version = '1.0.8'
-archivesBaseName = 'YggTools'
-group = 'io.github.yggdrasil80'
+    version = '1.1.0'
+    group = 'io.github.yggdrasil80'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
-    }
-}
-
-compileJava {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    options.encoding = 'UTF-8'
-}
-
-task sourcesJar(type: Jar) {
-    classifier 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar) {
-    classifier 'javadoc'
-    from javadoc
-}
-
-artifacts {
-    archives sourcesJar, javadocJar
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api 'redis.clients:jedis:4.1.0'
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) { publication ->
-            from components.java
-            artifact tasks.sourcesJar
-            artifact tasks.javadocJar
-
-            pom {
-                groupId = project.group
-                version = project.version
-                artifactId = 'yggtools'
-                name = project.name
-                description = 'YggTools is my tools library'
-                url = 'https://github.com/Yggdrasil80/YggTools'
-
-                developers {
-                    developer {
-                        id = 'yggdrasil80'
-                        name = 'Yggdrasil80'
-                        email = 'louisdechorivit@gmail.com'
-                    }
-                }
-
-                licenses {
-                    license {
-                        name = 'GNU General Public License v3.0'
-                        url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
-                    }
-                }
-
-                scm {
-                    connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
-                    developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
-                    url = 'https://github.com/Yggdrasil80/YggTools/tree/main'
-                }
-            }
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(8)
         }
+    }
+
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        options.encoding = 'UTF-8'
+    }
+
+    task sourcesJar(type: Jar) {
+        classifier 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar) {
+        classifier 'javadoc'
+        from javadoc
+    }
+
+    artifacts {
+        archives sourcesJar, javadocJar
     }
 
     repositories {
-        maven {
-            credentials {
-                username = System.getenv("OSSRH_USERNAME")
-                password = System.getenv("OSSRH_PASSWORD")
+        mavenCentral()
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) { publication ->
+                from components.java
+                artifact tasks.sourcesJar
+                artifact tasks.javadocJar
+
+                pom {
+                    groupId = project.group
+                    version = project.version
+                    artifactId = 'yggtools' + (archivesBaseName.contains("-") && archivesBaseName.split('-')[1] != null ? "-" + archivesBaseName.split('-')[1].toLowerCase() : "")
+                    name = project.name
+                    description = 'YggTools is my tools library'
+                    url = 'https://github.com/Yggdrasil80/YggTools'
+
+                    developers {
+                        developer {
+                            id = 'yggdrasil80'
+                            name = 'Yggdrasil80'
+                            email = 'louisdechorivit@gmail.com'
+                        }
+                    }
+
+                    licenses {
+                        license {
+                            name = 'GNU General Public License v3.0'
+                            url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
+                        developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
+                        url = 'https://github.com/Yggdrasil80/YggTools/tree/main'
+                    }
+                }
             }
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
         }
+
+        repositories {
+            maven {
+                credentials {
+                    username = System.getenv("OSSRH_USERNAME")
+                    password = System.getenv("OSSRH_PASSWORD")
+                }
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            }
+        }
+    }
+
+    signing {
+        useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSPHRASE"))
+        sign publishing.publications.mavenJava
     }
 }
 
-signing {
-    useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSPHRASE"))
-    sign publishing.publications.mavenJava
+archivesBaseName = 'YggTools'
+
+dependencies {
+    api 'com.google.code.gson:gson:2.9.0'
 }
