@@ -1,17 +1,14 @@
-allprojects {
+subprojects {
     apply plugin: 'idea'
+    apply plugin: 'signing'
     apply plugin: 'java-library'
-
-    if (!project.name == "YggTools") {
-        apply plugin: 'signing'
-        apply plugin: 'maven-publish'
-    }
+    apply plugin: 'maven-publish'
 
     version = '1.1.1'
     group = 'io.github.yggdrasil80'
 
     def development = !(System.getenv("RELEASE_TYPE") != null && System.getenv("RELEASE_TYPE").equalsIgnoreCase("master"))
-    def artifact = rootProject.name.toLowerCase() + (!(project.name == "Tools") ? "-" + project.name.toLowerCase() : ""
+    def artifact = rootProject.name.toLowerCase() + (!(project.name == "Tools") ? "-" + project.name.toLowerCase() : "")
     def repository = !development ? "release" : "develop"
     def branch = !development ? "master" : "develop"
 
@@ -55,59 +52,57 @@ allprojects {
         }
     }
 
-    if (!project.name == "YggTools")  {
-        publishing {
-            publications {
-                mavenJava(MavenPublication) { publication ->
-                    from components.java
+    publishing {
+        publications {
+            mavenJava(MavenPublication) { publication ->
+                from components.java
 
-                    pom {
-                        groupId = project.group
-                        version = project.version + (development ? "-SNAPSHOT" : "")
-                        artifactId = artifact
-                        name = project.name
-                        description = 'YggTools is my tools library'
-                        url = 'https://github.com/Yggdrasil80/YggTools'
+                pom {
+                    groupId = project.group
+                    version = project.version + (development ? "-SNAPSHOT" : "")
+                    artifactId = artifact
+                    name = project.name
+                    description = 'YggTools is my tools library'
+                    url = 'https://github.com/Yggdrasil80/YggTools'
 
-                        developers {
-                            developer {
-                                id = 'yggdrasil80'
-                                name = 'Yggdrasil80'
-                                email = 'louisdechorivit@gmail.com'
-                            }
-                        }
-
-                        licenses {
-                            license {
-                                name = 'GNU General Public License v3.0'
-                                url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
-                            }
-                        }
-
-                        scm {
-                            connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
-                            developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
-                            url = 'https://github.com/Yggdrasil80/YggTools/tree/' + branch
+                    developers {
+                        developer {
+                            id = 'yggdrasil80'
+                            name = 'Yggdrasil80'
+                            email = 'louisdechorivit@gmail.com'
                         }
                     }
-                }
-            }
 
-            repositories {
-                maven {
-                    url = "https://repo.yggdrasil80.tech/" + repository + "/"
+                    licenses {
+                        license {
+                            name = 'GNU General Public License v3.0'
+                            url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                        }
+                    }
 
-                    credentials {
-                        username = System.getenv("MAVEN_USERNAME")
-                        password = System.getenv("MAVEN_TOKEN")
+                    scm {
+                        connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
+                        developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
+                        url = 'https://github.com/Yggdrasil80/YggTools/tree/' + branch
                     }
                 }
             }
         }
 
-        signing {
-            useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSPHRASE"))
-            sign publishing.publications.mavenJava
+        repositories {
+            maven {
+                url = "https://repo.yggdrasil80.tech/" + repository + "/"
+
+                credentials {
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_TOKEN")
+                }
+            }
         }
+    }
+
+    signing {
+        useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSPHRASE"))
+        sign publishing.publications.mavenJava
     }
 }

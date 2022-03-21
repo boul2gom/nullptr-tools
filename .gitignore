@@ -1,0 +1,11 @@
+# User specific stuff
+.gradle/
+.idea/
+
+# Build artifacts
+build/
+**/build/
+
+# Jar files
+*.jar
+!gradle-wrapper.jar
