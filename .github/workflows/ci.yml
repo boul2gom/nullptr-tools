@@ -53,19 +53,36 @@ jobs:
       - name: Build documentation
         run: gradle javadoc
 
-      - name: Publish Tools to Github Pages
-        uses: peaceiris/actions-gh-pages@v3.7.3
+      - name: Publish Redis
+        uses: seanmiddleditch/gha-publish-to-git@v2
         with:
-          personal_token: ${{ secrets.YGG_TOKEN }}
-          publish_dir: |
-            ./Tools/build/docs/javadoc
+          branch: gh-pages
+          github_pat: ${{ secrets.YGG_TOKEN }}
+          source_folder: ./Redis/build/docs/javadoc
 
-      - name: Publish Redis to Github Pages
+  deploy-doc:
+    needs: doc
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'zulu'
+
+      - name: Build documentation
+        run: gradle javadoc
+
+      - name: Publish Tools doc to Github Pages
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
-          publish_dir: ./Redis/build/docs/javadoc
-          destination_dir: Redis
+          publish_dir: ./Tools/build/docs/javadoc
 
   publish:
     needs: build
