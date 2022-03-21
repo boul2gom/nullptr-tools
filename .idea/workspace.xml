@@ -5,151 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1803059a-3945-486f-80c6-4fc2174d50b5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/publish.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/publish.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/checksums/checksums.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/checksums/md5-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/checksums/sha1-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/dependencies-accessors/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/fileChanges/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/resourceHashesCache.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/checksums.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/md5-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/sha1-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/dependencies-accessors/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileChanges/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Redis/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/IChannel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/IChannelDefault.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/IPattern.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/IPatternDefault.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/PubSubManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/PubSubManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/PubSubManagerBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/RedisManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/RedisManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/classes/java/main/io/github/yggdrasil80/yggtools/redis/RedisManagerBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/allclasses-frame.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/allclasses-frame.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/allclasses-noframe.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/allclasses-noframe.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/constant-values.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/constant-values.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/deprecated-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/deprecated-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/help-doc.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/help-doc.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/index-all.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/index-all.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/IChannel.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/IChannelDefault.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/IPattern.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/IPatternDefault.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/PubSubManager.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/PubSubManager.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/PubSubManagerBuilder.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/RedisManager.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/RedisManager.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/RedisManagerBuilder.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/package-frame.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/package-frame.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/package-summary.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/io/github/yggdrasil80/yggtools/redis/package-tree.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/docs/javadoc/overview-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/docs/javadoc/overview-tree.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/libs/YggTools-Redis-1.1.0-javadoc.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/libs/YggTools-Redis-1.1.0-javadoc.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/libs/YggTools-Redis-1.1.0-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/libs/YggTools-Redis-1.1.0-sources.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/libs/YggTools-Redis-1.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/libs/YggTools-Redis-1.1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/build/tmp/javadoc/javadoc.options" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/build/tmp/javadoc/javadoc.options" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/IChannel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/IChannelDefault.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/IPattern.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/IPatternDefault.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/PubSubManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/PubSubManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/PubSubManagerBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/RedisManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/RedisManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Redis/src/main/java/io/github/yggdrasil80/yggtools/redis/RedisManagerBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tools/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Tools/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/io/github/yggdrasil80/yggtools/builder/BuilderArgument.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/io/github/yggdrasil80/yggtools/builder/IBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/io/github/yggdrasil80/yggtools/i18n/I18n.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/io/github/yggdrasil80/yggtools/i18n/I18nLoader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/io/github/yggdrasil80/yggtools/logger/Logger.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/io/github/yggdrasil80/yggtools/logger/LoggerColor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/io/github/yggdrasil80/yggtools/logger/LoggerPrintType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/allclasses-frame.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/allclasses-noframe.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/constant-values.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/deprecated-list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/help-doc.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/index-all.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/builder/BuilderArgument.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/builder/IBuilder.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/builder/package-frame.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/builder/package-summary.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/builder/package-tree.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/i18n/I18n.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/i18n/I18nLoader.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/i18n/package-frame.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/i18n/package-summary.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/i18n/package-tree.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/logger/Logger.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/logger/LoggerColor.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/logger/LoggerPrintType.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/logger/package-frame.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/logger/package-summary.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/io/github/yggdrasil80/yggtools/logger/package-tree.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/overview-frame.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/overview-summary.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/overview-tree.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/package-list" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/script.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/docs/javadoc/stylesheet.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.1-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.1-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.5-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.5-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.5.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.6-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.6-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.6.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.8-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.8-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.0.8.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.1.0-javadoc.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/YggTools-1.1.0-javadoc.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.1.0-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/YggTools-1.1.0-sources.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/YggTools-1.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/YggTools-1.1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/javadoc/javadoc.options" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/yggdrasil80/yggtools/builder/BuilderArgument.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/yggdrasil80/yggtools/builder/IBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/yggdrasil80/yggtools/i18n/I18n.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/yggdrasil80/yggtools/i18n/I18nLoader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/yggdrasil80/yggtools/logger/Logger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/yggdrasil80/yggtools/logger/LoggerColor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/yggdrasil80/yggtools/logger/LoggerPrintType.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,6 +79,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Tools/src/main/java/io/github/yggdrasil80/yggtools/builder/BuilderArgument.java" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -250,7 +117,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="MTConfigurable" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.YggTools [testTruc]">
     <configuration name="YggTools [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -272,8 +139,30 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="YggTools [testTruc]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="testTruc" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.YggTools [testTruc]" />
         <item itemvalue="Gradle.YggTools [build]" />
       </list>
     </recent_temporary>
@@ -289,7 +178,7 @@
       <workItem from="1647533166296" duration="4078000" />
       <workItem from="1647537513997" duration="300000" />
       <workItem from="1647745189213" duration="5157000" />
-      <workItem from="1647821824023" duration="15703000" />
+      <workItem from="1647821824023" duration="16851000" />
     </task>
     <servers />
   </component>

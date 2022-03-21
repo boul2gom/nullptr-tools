@@ -1,5 +1,3 @@
-archivesBaseName = "YggTools-Redis"
-
 dependencies {
     api project(':Tools')
     api 'redis.clients:jedis:4.1.1'

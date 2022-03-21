@@ -8,7 +8,7 @@ allprojects {
     group = 'io.github.yggdrasil80'
 
     def development = !(System.getenv("RELEASE_TYPE") != null && System.getenv("RELEASE_TYPE").equalsIgnoreCase("master"))
-    def artifact = archivesBaseName.contains("-") && archivesBaseName.split('-')[1] != null ? "-" + archivesBaseName.split('-')[1].toLowerCase() : ""
+    def artifact = rootProject.name.toLowerCase() + (!(project.name == "Tools") ? "-" + (project.name == "YggTools" ? "all" : project.name.toLowerCase()) : "")
     def repository = !development ? "release" : "develop"
     def branch = !development ? "master" : "develop"
 
@@ -60,7 +60,7 @@ allprojects {
                 pom {
                     groupId = project.group
                     version = project.version + (development ? "-SNAPSHOT" : "")
-                    artifactId = 'yggtools' + artifact
+                    artifactId = artifact
                     name = project.name
                     description = 'YggTools is my tools library'
                     url = 'https://github.com/Yggdrasil80/YggTools'
