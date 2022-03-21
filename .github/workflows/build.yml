@@ -24,3 +24,12 @@ jobs:
 
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: YggTools
+          path: |
+            Redis/build/libs/
+            Tools/build/libs/
+            build/libs/
