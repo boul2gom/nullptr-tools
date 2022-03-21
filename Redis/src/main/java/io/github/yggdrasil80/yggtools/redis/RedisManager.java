@@ -153,7 +153,7 @@ public class RedisManager {
             return this;
         }
 
-        public Builder withPort(final Integer redisPort) {
+        public Builder withPort(final int redisPort) {
             return this.withPort(() -> redisPort);
         }
 

@@ -53,13 +53,19 @@ jobs:
       - name: Build documentation
         run: gradle javadoc
 
-      - name: Publish to Github Pages
+      - name: Publish Tools to Github Pages
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
           publish_dir: |
             ./Tools/build/docs/javadoc
-            ./Redis/build/docs/javadoc
+
+      - name: Publish Redis to Github Pages
+        uses: peaceiris/actions-gh-pages@v3.7.3
+        with:
+          personal_token: ${{ secrets.YGG_TOKEN }}
+          publish_dir: ./Redis/build/docs/javadoc
+          destination_dir: Redis
 
   publish:
     needs: build
