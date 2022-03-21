@@ -1,6 +1,8 @@
 name: Github CI
 
-on: [push]
+on:
+  push:
+    branches: [master, develop]
 
 jobs:
   build:
@@ -56,7 +58,6 @@ jobs:
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
           publish_dir: ./Tools/build/docs/javadoc
-          destination_dir: Tools
 
       - name: Publish Redis to Github Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -66,7 +67,7 @@ jobs:
           destination_dir: Redis
 
   publish:
-    needs: [doc, build]
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
