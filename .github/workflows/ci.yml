@@ -61,8 +61,8 @@ jobs:
       - name: Create doc archive
         run: |
           mkdir YggDoc
-          cp -r YggTools-Doc/Tools/build/docs/javadoc YggDoc/
-          cp -r YggTools-Doc/Redis/build/docs/javadoc YggDoc/Redis
+          cp -r Tools/build/docs/javadoc YggDoc/
+          cp -r Redis/build/docs/javadoc YggDoc/Redis
 
       - name: Upload doc archive
         uses: actions/upload-artifact@v3
@@ -88,7 +88,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
-          publish_dir: ./YggTools-Doc-Deploy/YggDoc/
+          publish_dir: ./YggDoc/
 
   publish:
     needs: build
@@ -109,11 +109,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: YggTools
-
-      - name: Move build artifacts to target folder
-        run: |
-          cp -r YggTools/Redis Redis/
-          cp -r YggTools/Tools Tools/
 
       - name: Publish to Maven Repository
         run: gradle publish
