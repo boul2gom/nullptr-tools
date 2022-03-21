@@ -27,13 +27,21 @@ jobs:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
-      - name: Upload artifact
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: YggTools
           path: |
             Redis/build/libs/
             Tools/build/libs/
+
+      - name: Upload doc artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: YggTools-Doc
+          path: |
+            Redis/build/docs/
+            Tools/build/docs/
 
   doc:
     needs: build
@@ -44,22 +52,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'zulu'
 
-      - name: Build doc
-        run: gradle javadoc
-
-      - name: Publish Redis
-        uses: seanmiddleditch/gha-publish-to-git@v2
+      - name: Download doc artifacts
+        uses: actions/download-artifact@v3
         with:
-          branch: gh-pages
-          github_pat: ${{ secrets.YGG_TOKEN }}
-          target_folder: Redis
-          source_folder: ./Redis/build/docs/javadoc
+          name: YggTools-Doc
+
+      - name: Create doc archive
+        run: |
+          mkdir YggDoc
+          cp -r YggTools-Doc/Tools/build/docs/javadoc YggDoc/
+          cp -r YggTools-Doc/Redis/build/docs/javadoc YggDoc/Redis
+
+      - name: Upload doc archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: YggTools-Doc-Deploy
+          path: YggDoc/
 
   deploy-doc:
     needs: doc
@@ -70,20 +79,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
+      - name: Download doc artifacts
+        uses: actions/download-artifact@v3
         with:
-          java-version: '8'
-          distribution: 'zulu'
+          name: YggTools-Doc-Deploy
 
-      - name: Build documentation
-        run: gradle javadoc
-
-      - name: Publish Tools doc to Github Pages
+      - name: Publish doc to Github Pages
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
-          publish_dir: ./Tools/build/docs/javadoc
+          publish_dir: ./YggTools-Doc-Deploy/YggDoc/
 
   publish:
     needs: build
@@ -100,8 +105,15 @@ jobs:
           java-version: '8'
           distribution: 'zulu'
 
-      - name: Build with Gradle
-        run: gradle build
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: YggTools
+
+      - name: Move build artifacts to target folder
+        run: |
+          cp -r YggTools/Redis Redis/
+          cp -r YggTools/Tools Tools/
 
       - name: Publish to Maven Repository
         run: gradle publish
