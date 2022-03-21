@@ -50,7 +50,7 @@ jobs:
           java-version: '8'
           distribution: 'zulu'
 
-      - name: Build documentation
+      - name: Build doc
         run: gradle javadoc
 
       - name: Publish Redis
@@ -58,6 +58,7 @@ jobs:
         with:
           branch: gh-pages
           github_pat: ${{ secrets.YGG_TOKEN }}
+          target_folder: Redis
           source_folder: ./Redis/build/docs/javadoc
 
   deploy-doc:
