@@ -61,8 +61,8 @@ jobs:
       - name: Create doc archive
         run: |
           mkdir YggDoc
-          cp -r Tools/build/docs/javadoc YggDoc/
-          cp -r Redis/build/docs/javadoc YggDoc/Redis
+          cp -r Tools/build/docs/javadoc/* YggDoc
+          cp -r Redis/build/docs/javadoc/ YggDoc/Redis
 
       - name: Upload doc archive
         uses: actions/upload-artifact@v3
