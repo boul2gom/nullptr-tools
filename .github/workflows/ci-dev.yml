@@ -1,0 +1,75 @@
+name: Github CI - Development
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'zulu'
+
+      - name: Build with Gradle
+        run: gradle build
+        env:
+          RELEASE_TYPE: "develop"
+
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: YggTools
+          path: |
+            Redis/build/libs/
+            Tools/build/libs/
+
+      - name: Upload doc artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: YggTools-Doc
+          path: |
+            Redis/build/docs/
+            Tools/build/docs/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'zulu'
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: YggTools
+
+      - name: Publish to Maven Repository
+        run: gradle publish
+        env:
+          RELEASE_TYPE: "develop"
+
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
