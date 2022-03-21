@@ -12,9 +12,9 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up JDK 8
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'zulu'
@@ -28,7 +28,7 @@ jobs:
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: YggTools
           path: |
@@ -43,9 +43,9 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up JDK 8
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'zulu'
@@ -53,18 +53,13 @@ jobs:
       - name: Build documentation
         run: gradle javadoc
 
-      - name: Publish Tools to Github Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Publish to Github Pages
+        uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
-          publish_dir: ./Tools/build/docs/javadoc
-
-      - name: Publish Redis to Github Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.YGG_TOKEN }}
-          publish_dir: ./Redis/build/docs/javadoc
-          destination_dir: Redis
+          publish_dir: |
+            ./Tools/build/docs/javadoc
+            ./Redis/build/docs/javadoc
 
   publish:
     needs: build
@@ -74,9 +69,9 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up JDK 8
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'zulu'
