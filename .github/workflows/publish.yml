@@ -1,9 +1,6 @@
-name: Gradle Pusblish
+name: Publish CI
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   publish:
@@ -23,12 +20,13 @@ jobs:
       - name: Build with Gradle
         run: gradle build
 
-      - name: Publish to MavenCentral
+      - name: Publish to Maven Repository
         run: gradle publish
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_TOKEN: ${{ secrets.SONATYPE_TOKEN }}
+          RELEASE_TYPE: ${{ github.ref_name }}
+
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}

@@ -1,110 +1,101 @@
 package io.github.yggdrasil80.yggtools.redis;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import io.github.yggdrasil80.yggtools.builder.BuilderArgument;
+import io.github.yggdrasil80.yggtools.builder.IBuilder;
+import io.github.yggdrasil80.yggtools.handling.ReceiverManager;
 import io.github.yggdrasil80.yggtools.logger.Logger;
+import io.github.yggdrasil80.yggtools.message.IMessage;
+import io.github.yggdrasil80.yggtools.message.MessageReceiver;
 import redis.clients.jedis.JedisPubSub;
 
-import java.util.Arrays;
-
 /**
- * The PubSubManager class used to manage the redis pubsub.
+ * The PubSubManager class used to manage the Redis pubsub.
  */
-public final class PubSubManager extends JedisPubSub {
+public class PubSubManager extends ReceiverManager<String, String, IMessage, MessageReceiver<? extends IMessage>> {
 
+
+
+    private final Gson gson;
+    private final PubSub pubSub;
     private final RedisManager redis;
-    private final Class<? extends IChannel> channels;
-    private final Class<? extends IPattern> patterns;
 
-    private final Logger logger;
-    private final boolean debug;
+    PubSubManager(final RedisManager redis, final GsonBuilder gson, final Logger logger, final boolean debug) {
+        super(logger, debug);
 
-    /**
-     * The PubSubManager constructor.
-     * @param redis The {@link RedisManager} instance.
-     * @param channels An Enum implementing of {@link IChannel} and containing the Channels list.
-     * @param patterns An Enum implementing of {@link IPattern} and containing the Patterns list.
-     * @param logger The {@link Logger} instance.
-     * @param debug <code>true</code> if the debug mode is enabled, <code>false</code> otherwise.
-     */
-    public PubSubManager(final RedisManager redis, final Class<? extends IChannel> channels, final Class<? extends IPattern> patterns, final Logger logger, final boolean debug) {
+        this.gson = gson.serializeNulls().create();
+        this.pubSub = new PubSub(this);
         this.redis = redis;
-        this.channels = channels;
-        this.patterns = patterns;
-        this.logger = logger;
-        this.debug = debug;
-    }
-
-    /**
-     * Start the PubSubManager, connecting to Redis and subscribe Channels and Patterns.
-     */
-    public void start() {
-        Arrays.asList(this.channels.getEnumConstants()).forEach(channel -> System.out.println("Subscribed to channel: " + channel.getChannel()));
-        this.redis.execute(jedis -> {
-            Arrays.asList(this.channels.getEnumConstants()).forEach(channel -> {
-                if (channel != null)
-                    jedis.subscribe(this, channel.getChannel());
-            });
-            Arrays.asList(this.patterns.getEnumConstants()).forEach(pattern -> {
-                if (pattern != null)
-                    jedis.psubscribe(this, pattern.getPattern());
-            });
-        });
-    }
-
-    /**
-     * Publish a message to a channel.
-     * @param channel The channel to publish on.
-     * @param message The message to publish.
-     * @param <T> The type of the channel.
-     */
-    public <T extends IChannel> void publish(final T channel, final String message) {
-        this.redis.execute(jedis -> jedis.publish(channel.getChannel(), message));
-    }
-
-    /**
-     * Publish a message to a pattern.
-     * @param pattern The pattern to publish on.
-     * @param message The message to publish.
-     * @param <T> The type of the pattern.
-     */
-    public <T extends IPattern> void publish(final T pattern, final String message) {
-        this.redis.execute(jedis -> jedis.publish(pattern.getPattern(), message));
     }
 
     @Override
+    public <R extends MessageReceiver<? extends IMessage>> void registerReceiver(String channel, R receiver) {
+        super.registerReceiver(channel, receiver);
+        this.redis.execute(jedis -> jedis.subscribe(this.pubSub, channel));
+    }
+
+    public void sendMessage(final String channel, final IMessage message) {
+        this.redis.execute(jedis -> jedis.publish(channel, this.gson.toJson(message)));
+    }
+
     public void onMessage(final String channel, final String message) {
-        if (this.debug) this.logger.debug("Channel " + channel + " has sent a message: " + message);
+        this.fireEvent(channel, message);
+
+        if (this.debug) this.logger.debug("[" + channel + "] Received: " + message);
     }
 
-    @Override
-    public void onPMessage(final String pattern, final String channel, final String message) {
-        if (this.debug) this.logger.debug("Channel " + channel + " has sent a message: " + message + " with the pattern " + pattern);
+    public static Builder builder() {
+        return new Builder();
     }
 
-    @Override
-    public void onSubscribe(final String channel, final int subscribedChannels) {
-        if (this.debug) this.logger.debug("Client is Subscribed to channel: " + channel + ", total: " + subscribedChannels);
+    public static class Builder implements IBuilder<PubSubManager> {
+
+        private final BuilderArgument<RedisManager> redis = new BuilderArgument<RedisManager>("RedisManager").required();
+
+        private final BuilderArgument<GsonBuilder> gson = new BuilderArgument<>("Gson", GsonBuilder::new).optional();
+        private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> new Logger("PubSubManager")).optional();
+        private final BuilderArgument<Boolean> debug = new BuilderArgument<>("Debug", () -> false).optional();
+
+        Builder() {}
+
+        public Builder withRedis(final RedisManager redis) {
+            this.redis.set(() -> redis);
+            return this;
+        }
+
+        public Builder withGson(final GsonBuilder gson) {
+            this.gson.set(() -> gson);
+            return this;
+        }
+
+        public Builder withLogger(final Logger logger) {
+            this.logger.set(() -> logger);
+            return this;
+        }
+
+        public Builder withDebug(final boolean debug) {
+            this.debug.set(() -> debug);
+            return this;
+        }
+
+        @Override
+        public PubSubManager build() {
+            return new PubSubManager(this.redis.get(), this.gson.get(), this.logger.get(), this.debug.get());
+        }
     }
 
-    @Override
-    public void onPSubscribe(final String pattern, final int subscribedChannels) {
-        if (this.debug) this.logger.debug("Client is Subscribed to pattern: " + pattern + ", total: " + subscribedChannels);
-    }
+    private static class PubSub extends JedisPubSub {
 
-    @Override
-    public void onUnsubscribe(final String channel, final int subscribedChannels) {
-        if (this.debug) this.logger.debug("Client is Unsubscribed to channel: " + channel + ", total: " + subscribedChannels);
-    }
+        private final PubSubManager manager;
 
-    @Override
-    public void onPUnsubscribe(final String pattern, final int subscribedChannels) {
-        if (this.debug) this.logger.debug("Client is Unsubscribed to pattern: " + pattern + ", total: " + subscribedChannels);
-    }
+        public PubSub(PubSubManager manager) {
+            this.manager = manager;
+        }
 
-    /**
-     * Shutdown the PubSubManager, disconnecting from Redis and unsubscribing Channels and Patterns.
-     */
-    public void stop() {
-        Arrays.asList(this.channels.getEnumConstants()).forEach(channel -> this.unsubscribe(channel.getChannel()));
-        Arrays.asList(this.patterns.getEnumConstants()).forEach(pattern -> this.punsubscribe(pattern.getPattern()));
+        @Override
+        public void onMessage(final String channel, final String message) {
+            this.manager.onMessage(channel, message);
+        }
     }
 }

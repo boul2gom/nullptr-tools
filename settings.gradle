@@ -1,4 +1,4 @@
 rootProject.name = 'YggTools'
+include 'Tools'
 include 'Redis'
-findProject(':Redis')?.name = 'YggTools-Redis'
 

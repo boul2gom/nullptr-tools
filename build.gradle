@@ -7,10 +7,18 @@ allprojects {
     version = '1.1.0'
     group = 'io.github.yggdrasil80'
 
+    def development = !(System.getenv("RELEASE_TYPE") != null && System.getenv("RELEASE_TYPE").equalsIgnoreCase("master"))
+    def artifact = archivesBaseName.contains("-") && archivesBaseName.split('-')[1] != null ? "-" + archivesBaseName.split('-')[1].toLowerCase() : ""
+    def repository = !development ? "release" : "develop"
+    def branch = !development ? "master" : "develop"
+
     java {
         toolchain {
             languageVersion = JavaLanguageVersion.of(8)
         }
+
+        withSourcesJar()
+        withJavadocJar()
     }
 
     compileJava {
@@ -18,35 +26,41 @@ allprojects {
         options.encoding = 'UTF-8'
     }
 
-    task sourcesJar(type: Jar) {
-        classifier 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar) {
-        classifier 'javadoc'
-        from javadoc
-    }
-
-    artifacts {
-        archives sourcesJar, javadocJar
+    tasks.withType(Javadoc) {
+        options.encoding = 'UTF-8'
     }
 
     repositories {
         mavenCentral()
+
+        maven {
+            url = "https://repo.yggdrasil80.tech/releases/"
+
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_TOKEN")
+            }
+        }
+
+        maven {
+            url = "https://repo.yggdrasil80.tech/develop/"
+
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_TOKEN")
+            }
+        }
     }
 
     publishing {
         publications {
             mavenJava(MavenPublication) { publication ->
                 from components.java
-                artifact tasks.sourcesJar
-                artifact tasks.javadocJar
 
                 pom {
                     groupId = project.group
-                    version = project.version
-                    artifactId = 'yggtools' + (archivesBaseName.contains("-") && archivesBaseName.split('-')[1] != null ? "-" + archivesBaseName.split('-')[1].toLowerCase() : "")
+                    version = project.version + (development ? "-SNAPSHOT" : "")
+                    artifactId = 'yggtools' + artifact
                     name = project.name
                     description = 'YggTools is my tools library'
                     url = 'https://github.com/Yggdrasil80/YggTools'
@@ -69,7 +83,7 @@ allprojects {
                     scm {
                         connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
                         developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
-                        url = 'https://github.com/Yggdrasil80/YggTools/tree/main'
+                        url = 'https://github.com/Yggdrasil80/YggTools/tree/' + branch
                     }
                 }
             }
@@ -77,11 +91,12 @@ allprojects {
 
         repositories {
             maven {
+                url = "https://repo.yggdrasil80.tech/" + repository + "/"
+
                 credentials {
-                    username = System.getenv("OSSRH_USERNAME")
-                    password = System.getenv("OSSRH_PASSWORD")
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_TOKEN")
                 }
-                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             }
         }
     }
@@ -90,10 +105,4 @@ allprojects {
         useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSPHRASE"))
         sign publishing.publications.mavenJava
     }
-}
-
-archivesBaseName = 'YggTools'
-
-dependencies {
-    api 'com.google.code.gson:gson:2.9.0'
 }

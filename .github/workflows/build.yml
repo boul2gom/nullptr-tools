@@ -1,7 +1,6 @@
 name: Gradle CI
 
-on:
-  push:
+on: [push]
 
 jobs:
   build:
@@ -20,3 +19,8 @@ jobs:
 
       - name: Build with Gradle
         run: gradle build
+        env:
+          RELEASE_TYPE: ${{ github.ref_name }}
+
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
