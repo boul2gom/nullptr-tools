@@ -1,9 +1,0 @@
--classpath 'E:\\Projets Java\\YggTools\\Redis\\build\\classes\\java\\main;E:\\Projets Java\\YggTools\\Redis\\build\\resources\\main;E:\\Projets Java\\YggTools\\Tools\\build\\classes\\java\\main;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\redis.clients\\jedis\\4.1.1\\12974fbc993a6dbdc7f282cfa4ab0ceb842d0686\\jedis-4.1.1.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\org.slf4j\\slf4j-nop\\1.7.32\\e5349fc363dbc19c60cb12b10120b4c4f9e4aca8\\slf4j-nop-1.7.32.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\com.google.code.gson\\gson\\2.9.0\\8a1167e089096758b49f9b34066ef98b2f4b37aa\\gson-2.9.0.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\org.slf4j\\slf4j-api\\1.7.32\\cdcff33940d9f2de763bc41ea05a0be5941176c3\\slf4j-api-1.7.32.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\org.apache.commons\\commons-pool2\\2.11.1\\8970fd110c965f285ed4c6e40be7630c62db6f68\\commons-pool2-2.11.1.jar;C:\\Users\\yggdr\\.gradle\\caches\\modules-2\\files-2.1\\org.json\\json\\20211205\\47032dcf2f69880f07dab3dc60b4b0ad97318308\\json-20211205.jar'
--d 'E:\\Projets Java\\YggTools\\Redis\\build\\docs\\javadoc'
--doctitle 'Redis 1.1.0 API'
--encoding 'UTF-8'
--notimestamp 
--quiet 
--windowtitle 'Redis 1.1.0 API'
-'E:\\Projets Java\\YggTools\\Redis\\src\\main\\java\\io\\github\\yggdrasil80\\yggtools\\redis\\PubSubManager.java'
-'E:\\Projets Java\\YggTools\\Redis\\src\\main\\java\\io\\github\\yggdrasil80\\yggtools\\redis\\RedisManager.java'

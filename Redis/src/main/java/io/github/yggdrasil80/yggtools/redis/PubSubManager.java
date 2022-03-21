@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.yggdrasil80.yggtools.builder.BuilderArgument;
 import io.github.yggdrasil80.yggtools.builder.IBuilder;
-import io.github.yggdrasil80.yggtools.handling.ReceiverManager;
+import io.github.yggdrasil80.yggtools.receiver.ReceiverManager;
 import io.github.yggdrasil80.yggtools.logger.Logger;
 import io.github.yggdrasil80.yggtools.message.IMessage;
 import io.github.yggdrasil80.yggtools.message.MessageReceiver;

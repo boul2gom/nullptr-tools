@@ -1,4 +1,4 @@
-package io.github.yggdrasil80.yggtools.handling;
+package io.github.yggdrasil80.yggtools.receiver;
 
 import com.google.gson.Gson;
 import io.github.yggdrasil80.yggtools.logger.Logger;

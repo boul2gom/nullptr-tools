@@ -2,7 +2,7 @@ package io.github.yggdrasil80.yggtools.message;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.github.yggdrasil80.yggtools.handling.Receiver;
+import io.github.yggdrasil80.yggtools.receiver.Receiver;
 
 /**
  * Represents a receiver for messages, sent by any network tool like Redis, Netty, Kafka, etc.
