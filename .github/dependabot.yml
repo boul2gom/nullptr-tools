@@ -22,7 +22,7 @@ updates:
     assignees:
       - "Yggdrasil80"
     commit-message:
-      prefix: "[CI] Update dependencies"
+      prefix: "[CI]"
       include: scope
     target-branch: "develop"
 
@@ -38,7 +38,7 @@ updates:
     assignees:
       - "Yggdrasil80"
     commit-message:
-      prefix: "[Gradle] Update dependencies"
+      prefix: "[Gradle]"
       include: scope
     target-branch: "develop"
 

@@ -8,7 +8,6 @@ import io.github.yggdrasil80.yggtools.message.IMessage;
 import io.github.yggdrasil80.yggtools.message.MessageReceiver;
 import io.github.yggdrasil80.yggtools.receiver.ReceiverManager;
 import io.github.yggdrasil80.yggtools.redis.RedisManager;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPubSub;
 
@@ -19,14 +18,12 @@ import java.util.function.Supplier;
  */
 public class PubSubManager extends ReceiverManager<String, String, IMessage, MessageReceiver<? extends IMessage>> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PubSubManager.class);
-
     private final Gson gson;
     private final PubSubListener psl;
     private final RedisManager redis;
 
     PubSubManager(final RedisManager redis, final GsonBuilder gson, final boolean debug) {
-        super(LOGGER, debug);
+        super(LoggerFactory.getLogger(PubSubManager.class), debug);
 
         this.gson = gson.serializeNulls().create();
         this.psl = new PubSubListener(this);
