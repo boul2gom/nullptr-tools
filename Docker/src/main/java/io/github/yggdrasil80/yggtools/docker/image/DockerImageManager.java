@@ -1,9 +1,11 @@
 package io.github.yggdrasil80.yggtools.docker.image;
 
-import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.command.*;
-import com.github.dockerjava.api.model.*;
+import com.github.dockerjava.api.model.AuthConfig;
+import com.github.dockerjava.api.model.Image;
+import com.github.dockerjava.api.model.SearchItem;
 import io.github.yggdrasil80.yggtools.docker.DockerManager;
+import io.github.yggdrasil80.yggtools.docker.utils.DockerCallbackCreator;
 import io.github.yggdrasil80.yggtools.types.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -16,7 +18,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.*;
 
-public class DockerImageManager {
+public class DockerImageManager extends DockerCallbackCreator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DockerImageManager.class);
 
@@ -32,7 +34,7 @@ public class DockerImageManager {
 
     /**
      * Pulls an image from a registry, Docker Hub by default. <br>
-     * /!\ If you don't want to use a param, simply pass null.
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param image The image to pull.
      * @param tag The tag of the image to pull (optional).
      * @param platform The platform of the image to pull (optional).
@@ -77,7 +79,8 @@ public class DockerImageManager {
     }
 
     /**
-     * Push an image to a registry.
+     * Push an image to a registry. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param image The image to push, with the repository and the registry if needed. <br>
      * Example: "ghcr.io/yggdrasil80/my-image" for custom registry, "yggdrasil80/my-image" or "my-image" if the registry is Docker Hub.
      * @param tag The tag of the image to push (optional).
@@ -85,33 +88,15 @@ public class DockerImageManager {
      */
     public void pushImage(@NotNull String image, String tag, AuthConfig auth) {
         final PushImageCmd cmd = this.manager.getClient().pushImageCmd(image);
-        final ResultCallback<PushResponseItem> callback = new ResultCallback.Adapter<PushResponseItem>() {
-            @Override
-            public void onStart(Closeable stream) {
-                super.onStart(stream);
-
-                LOGGER.info("Pushing image: " + image + (tag != null ? ":" + tag : "") + "...");
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-
-                LOGGER.error("Failed to push image: " + image + (tag != null ? ":" + tag : "") + ".", throwable);
-            }
-
-            @Override
-            public void onComplete() {
-                super.onComplete();
-
-                LOGGER.info("Successfully pushed image: " + image + (tag != null ? ":" + tag : "") + ".");
-            }
-        };
 
         if (tag != null) cmd.withTag(tag);
         if (auth != null) cmd.withAuthConfig(auth); else cmd.withAuthConfig(this.manager.getClient().authConfig());
 
-        cmd.exec(callback);
+        cmd.exec(DockerCallbackCreator.create(LOGGER,
+                "Pushing image: " + image + (tag != null ? ":" + tag : "") + "...",
+                "Failed to push image: " + image + (tag != null ? ":" + tag : "") + ".",
+                "Successfully pushed image: " + image + (tag != null ? ":" + tag : "") + "."
+        ));
     }
 
     /**
@@ -128,7 +113,8 @@ public class DockerImageManager {
     }
 
     /**
-     * Search for an image.
+     * Search for an image. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param term The term to search for.
      * @param limit The maximum number of results to return (optional).
      * @return The list of results.
@@ -143,7 +129,8 @@ public class DockerImageManager {
     }
 
     /**
-     * Remove a pulled image.
+     * Remove a pulled image. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param image The image to remove, with the repository and the registry if needed.
      * @param force Force the removal of the image (optional).
      * @param dontRemoveParents <code>true</code> to don't remove the parent images (optional).
@@ -159,7 +146,8 @@ public class DockerImageManager {
     }
 
     /**
-     * List pulled images.
+     * List pulled images. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param showAll <code>true</code> to show all images (optional).
      * @param nameFilter The name filter to use (optional).
      * @return The list of pulled images.
@@ -186,6 +174,7 @@ public class DockerImageManager {
 
     /**
      * Save an image to a tar archive. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null. <br>
      * /!\ Warning: Don't forget to close the stream after usage to avoid memory leaks.
      * @param image The image to save, with the repository and the registry if needed.
      * @param tag The tag to save (optional).
@@ -218,7 +207,8 @@ public class DockerImageManager {
     }
 
     /**
-     * Build an image from a Dockerfile.
+     * Build an image from a Dockerfile. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param dockerfile The Dockerfile to build.
      * @param tags The tags to apply to the image (optional).
      * @param metadata The metadata to apply to the image (optional).
@@ -228,28 +218,6 @@ public class DockerImageManager {
      */
     public void buildImage(@NotNull File dockerfile, String[] tags, List<Pair<String, String>> metadata, Boolean remove, String platform, List<Pair<String, String>> buildArgs) {
         final BuildImageCmd cmd = this.manager.getClient().buildImageCmd(dockerfile);
-        final ResultCallback<BuildResponseItem> callback = new ResultCallback.Adapter<BuildResponseItem>() {
-            @Override
-            public void onStart(Closeable stream) {
-                super.onStart(stream);
-
-                LOGGER.info("Building image from: " + dockerfile.getAbsolutePath() + "...");
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-
-                LOGGER.error("An error has occurred when building image from: " + dockerfile.getAbsolutePath() + ".", throwable);
-            }
-
-            @Override
-            public void onComplete() {
-                super.onComplete();
-
-                LOGGER.info("Successfully built image from: " + dockerfile.getAbsolutePath() + ".");
-            }
-        };
 
         if (tags != null && tags.length > 0) cmd.withTags(new HashSet<>(Arrays.asList(tags)));
         if (metadata != null && !metadata.isEmpty()) {
@@ -267,11 +235,16 @@ public class DockerImageManager {
             }
         }
 
-        cmd.exec(callback);
+        cmd.exec(DockerCallbackCreator.create(LOGGER,
+                "Building image from: " + dockerfile.getAbsolutePath() + "...",
+                "An error has occurred when building image from: " + dockerfile.getAbsolutePath() + ".",
+                "Successfully built image from: " + dockerfile.getAbsolutePath() + ".")
+        );
     }
 
     /**
-     * Tag an image.
+     * Tag an image. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param imageName The image to tag.
      * @param repository The repository to tag the image to.
      * @param tag The tag to tag the image to.

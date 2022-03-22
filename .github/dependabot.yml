@@ -1,0 +1,45 @@
+version: 2
+
+registries:
+  maven-releases:
+    type: maven-repository
+    url: https://repo.yggdrasil80.tech/releases
+    username: "Yggdrasil80"
+    password: ${{ secrets.MAVEN_TOKEN }}
+  maven-develop:
+    type: maven-repository
+    url: https://repo.yggdrasil80.tech/develop
+    username: "Yggdrasil80"
+    password: ${{ secrets.MAVEN_TOKEN }}
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "Europe/Paris"
+    assignees:
+      - "Yggdrasil80"
+    commit-message:
+      prefix: "[CI] Update dependencies"
+      include: scope
+    target-branch: "develop"
+
+  - package-ecosystem: gradle
+    directory: "/"
+    registries:
+      - maven-releases
+      - maven-develop
+    schedule:
+      interval: daily
+      time: "09:00"
+      timezone: "Europe/Paris"
+    assignees:
+      - "Yggdrasil80"
+    commit-message:
+      prefix: "[Gradle] Update dependencies"
+      include: scope
+    target-branch: "develop"
+
+

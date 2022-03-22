@@ -12,10 +12,10 @@ import java.util.Date;
 /**
  * Logger class.
  */
-public class FileLogger {
+public class FileLogger implements AutoCloseable {
 
     private final String prefix;
-    private PrintWriter writer;
+    private final PrintWriter writer;
 
     /**
      * The File Logger constructor.
@@ -101,6 +101,7 @@ public class FileLogger {
     /**
      * Closes the logger.
      */
+    @Override
     public void close() {
         this.writer.close();
     }

@@ -22,14 +22,14 @@ public class PubSubManager extends ReceiverManager<String, String, IMessage, Mes
     private static final Logger LOGGER = LoggerFactory.getLogger(PubSubManager.class);
 
     private final Gson gson;
-    private final PubSub pubSub;
+    private final PubSubListener psl;
     private final RedisManager redis;
 
     PubSubManager(final RedisManager redis, final GsonBuilder gson, final boolean debug) {
         super(LOGGER, debug);
 
         this.gson = gson.serializeNulls().create();
-        this.pubSub = new PubSub(this);
+        this.psl = new PubSubListener(this);
         this.redis = redis;
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::unregisterReceivers));
@@ -38,7 +38,7 @@ public class PubSubManager extends ReceiverManager<String, String, IMessage, Mes
     @Override
     public <R extends MessageReceiver<? extends IMessage>> void registerReceiver(String channel, R receiver) {
         super.registerReceiver(channel, receiver);
-        this.redis.execute(jedis -> jedis.subscribe(this.pubSub, channel));
+        this.redis.execute(jedis -> jedis.subscribe(this.psl, channel));
     }
 
     public void sendMessage(final String channel, final IMessage message) {
@@ -87,11 +87,11 @@ public class PubSubManager extends ReceiverManager<String, String, IMessage, Mes
         }
     }
 
-    private static class PubSub extends JedisPubSub {
+    private static class PubSubListener extends JedisPubSub {
 
         private final PubSubManager manager;
 
-        public PubSub(PubSubManager manager) {
+        public PubSubListener(PubSubManager manager) {
             this.manager = manager;
         }
 

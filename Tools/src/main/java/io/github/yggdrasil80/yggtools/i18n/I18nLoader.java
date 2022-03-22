@@ -26,7 +26,7 @@ public class I18nLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(I18nLoader.class);
 
     /**
-     * Loads key/value pairs from a "i18n" directory in resources folder containing JSON files. <br>
+     * Loads key/value pairs from an "i18n" directory in resources folder containing JSON files. <br>
      * All JSON files must be named with the Locale in the file name, for example "en_US.json" and "fr_FR.json".
      * @return The loaded key/value pairs in an {@link I18n} instance.
      */

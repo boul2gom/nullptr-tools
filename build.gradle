@@ -82,6 +82,17 @@ subprojects {
                     password = System.getenv("MAVEN_TOKEN")
                 }
             }
+
+            if (!development) {
+                maven {
+                    url = "https://maven.pkg.github.com/Yggdrasil80/YggTools"
+
+                    credentials {
+                        username System.getenv('GITHUB_USERNAME')
+                        password System.getenv('GITHUB_TOKEN')
+                    }
+                }
+            }
         }
     }
 
