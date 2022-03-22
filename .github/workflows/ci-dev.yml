@@ -27,22 +27,6 @@ jobs:
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: YggTools
-          path: |
-            Redis/build/libs/
-            Tools/build/libs/
-
-      - name: Upload doc artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: YggTools-Doc
-          path: |
-            Redis/build/docs/
-            Tools/build/docs/
-
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -57,11 +41,6 @@ jobs:
         with:
           java-version: '8'
           distribution: 'zulu'
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: YggTools
 
       - name: Publish to Maven Repository
         run: gradle publish

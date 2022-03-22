@@ -1,10 +1,14 @@
+plugins {
+    id 'io.freefair.aggregate-javadoc' version '6.4.1'
+}
+
 subprojects {
     apply plugin: 'idea'
     apply plugin: 'signing'
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
 
-    version = '1.1.1'
+    version = '1.1.2'
     group = 'io.github.yggdrasil80'
 
     def development = !(System.getenv("RELEASE_TYPE") != null && System.getenv("RELEASE_TYPE").equalsIgnoreCase("releases"))
@@ -30,24 +34,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-
-        maven {
-            url = "https://repo.yggdrasil80.tech/releases/"
-
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_TOKEN")
-            }
-        }
-
-        maven {
-            url = "https://repo.yggdrasil80.tech/develop/"
-
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_TOKEN")
-            }
-        }
     }
 
     publishing {

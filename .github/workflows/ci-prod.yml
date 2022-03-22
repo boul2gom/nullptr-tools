@@ -20,57 +20,21 @@ jobs:
           distribution: 'zulu'
 
       - name: Build with Gradle
-        run: gradle build
+        run: gradle build aggregateJavadoc
         env:
           RELEASE_TYPE: "releases"
 
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: YggTools
-          path: |
-            Redis/build/libs/
-            Tools/build/libs/
-
       - name: Upload doc artifacts
         uses: actions/upload-artifact@v3
         with:
           name: YggTools-Doc
-          path: |
-            Redis/build/docs/
-            Tools/build/docs/
+          path: build/docs/aggregateJavadoc
+
 
   doc:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Download doc artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: YggTools-Doc
-
-      - name: Create doc archive
-        run: |
-          mkdir YggTools-Doc-Deploy
-          cp -r Tools/build/docs/javadoc/* YggTools-Doc-Deploy
-          cp -r Redis/build/docs/javadoc/ YggTools-Doc-Deploy/Redis
-
-      - name: Upload doc archive
-        uses: actions/upload-artifact@v3
-        with:
-          name: YggTools-Doc-Deploy
-          path: YggTools-Doc-Deploy/
-
-  deploy-doc:
     needs: doc
     runs-on: ubuntu-latest
     permissions:
@@ -82,14 +46,14 @@ jobs:
       - name: Download doc artifacts
         uses: actions/download-artifact@v3
         with:
-          name: YggTools-Doc-Deploy
-          path: YggTools-Doc-Deploy/
+          name: YggTools-Doc
+          path: YggTools-Doc/
 
       - name: Publish doc to Github Pages
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
-          publish_dir: ./YggTools-Doc-Deploy/
+          publish_dir: ./YggTools-Doc/
 
   publish:
     needs: build
@@ -105,11 +69,6 @@ jobs:
         with:
           java-version: '8'
           distribution: 'zulu'
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: YggTools
 
       - name: Publish to Maven Repository
         run: gradle publish

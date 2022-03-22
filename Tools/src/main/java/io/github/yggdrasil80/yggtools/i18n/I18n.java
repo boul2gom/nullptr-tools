@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public class I18n {
 
-    private static I18n instance;
+    private static I18n INSTANCE;
 
     private Locale locale;
     private final Map<Locale, Map<String, String>> languages;
@@ -21,7 +21,8 @@ public class I18n {
     I18n(Map<Locale, Map<String, String>> languages) {
         this.locale = new Locale("en_US");
         this.languages = languages;
-        I18n.instance = this;
+
+        I18n.INSTANCE = this;
     }
 
     /**
@@ -63,8 +64,8 @@ public class I18n {
      * @return The I18n instance.
      */
     public static I18n getInstance() {
-        if (instance == null) {
+        if (I18n.INSTANCE == null) {
             throw new IllegalStateException("I18n is not initialized !");
-        } else return instance;
+        } else return I18n.INSTANCE;
     }
 }

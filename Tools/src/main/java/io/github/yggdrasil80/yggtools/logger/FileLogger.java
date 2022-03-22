@@ -12,42 +12,31 @@ import java.util.Date;
 /**
  * Logger class.
  */
-public class Logger {
+public class FileLogger {
 
-    private final boolean useFile;
     private final String prefix;
     private PrintWriter writer;
 
     /**
-     * The Logger constructor.
-     * @param prefix The prefix of the logger.
-     */
-    public Logger(final String prefix) {
-        this(false, null, prefix);
-    }
-
-    /**
-     * The Logger constructor.
-     * @param useFile <code>true</code> if the logger should log to a file.
+     * The File Logger constructor.
      * @param path The path of the file to log to.
      * @param prefix The prefix of the logger.
      */
-    public Logger(final boolean useFile, final Path path, final String prefix) {
+    public FileLogger(final Path path, final String prefix) {
         this.prefix = "[" + prefix + "] ";
-        this.useFile = useFile;
 
-        if (this.useFile) {
-            try {
-                if (Files.notExists(path)) {
-                    Files.createDirectories(path.getParent());
-                    Files.createFile(path);
-                }
-
-                this.writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path), StandardCharsets.UTF_8)));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        try {
+            if (Files.notExists(path)) {
+                Files.createDirectories(path.getParent());
+                Files.createFile(path);
             }
+
+            this.writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path), StandardCharsets.UTF_8)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
     /**
@@ -57,8 +46,7 @@ public class Logger {
      */
     private void message(final LoggerPrintType type, final String message) {
         final String msg = String.format("[%s] ", new SimpleDateFormat("hh:mm:ss").format(new Date())) + this.prefix + "[" + type + "]: " + message;
-        System.out.println(type.getColor() + msg + LoggerColor.RESET);
-        this.logToFile(msg);
+        this.logToFile(type.getColor() + msg + LoggerColor.RESET);
     }
 
     /**
@@ -106,10 +94,8 @@ public class Logger {
      * @param message The message to log.
      */
     private void logToFile(final String message) {
-        if (this.useFile) {
-            this.writer.println(message);
-            this.writer.flush();
-        }
+        this.writer.println(message);
+        this.writer.flush();
     }
 
     /**

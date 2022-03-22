@@ -1,19 +1,20 @@
 package io.github.yggdrasil80.yggtools.receiver;
 
 import com.google.gson.Gson;
-import io.github.yggdrasil80.yggtools.logger.Logger;
+import io.github.yggdrasil80.yggtools.data.IData;
+import org.slf4j.Logger;
 
 import java.util.*;
 
 /**
  * The receiver manager is responsible for managing the receivers.
- * Multiple receivers can be registered for one key, and will be notified when a message is received.
- * @param <Key> The type of the key in the receivers map entry, usually a {@link String} with a channel name.
- * @param <RawData> The raw data type of the event, usually a {@link String} or a {@link byte[]}.
- * @param <D> The data type of the event, converted, usually with {@link Gson}, from the raw data.
+ * Multiple receivers can be registered for one key, and will be notified when the {@link #fireEvent(Object, Object)} is called, usually on message received.
+ * @param <Key> The type of the key in the receivers map entry, usually a {@link String} with a channel name. Its optional, use {@link String} as default if you don't need it.
+ * @param <RawData> The raw data type of the event, usually a {@link String} or a {@link Byte}[].
+ * @param <Data> The data type of the event, converted, usually with {@link Gson}, from the raw data.
  * @param <Rcv> The type of the receiver, extending from {@link Receiver}.
  */
-public abstract class ReceiverManager<Key, RawData, D extends IData, Rcv extends Receiver<Key, RawData, ? extends D>> {
+public abstract class ReceiverManager<Key, RawData, Data extends IData, Rcv extends Receiver<Key, RawData, ? extends Data>> {
 
     protected final Logger logger;
     protected final boolean debug;

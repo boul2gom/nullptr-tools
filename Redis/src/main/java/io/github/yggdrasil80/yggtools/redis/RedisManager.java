@@ -2,7 +2,8 @@ package io.github.yggdrasil80.yggtools.redis;
 
 import io.github.yggdrasil80.yggtools.builder.BuilderArgument;
 import io.github.yggdrasil80.yggtools.builder.IBuilder;
-import io.github.yggdrasil80.yggtools.logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -20,13 +21,13 @@ import java.util.function.Supplier;
 public class RedisManager {
 
     private static final ExecutorService EXECUTORS = Executors.newCachedThreadPool();
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisManager.class);
 
     private final String redisHost;
     private final int redisPort;
     private final String redisPass;
     private JedisPool jedisPool;
 
-    private final Logger logger;
     private int reconnections;
     private boolean connected;
 
@@ -35,13 +36,11 @@ public class RedisManager {
      * @param redisHost The host of the Redis server.
      * @param redisPort The port of the Redis server.
      * @param redisPass The password of the Redis server.
-     * @param logger The {@link Logger} instance.
      */
-    RedisManager(final String redisHost, final int redisPort, final String redisPass, final Logger logger) {
+    RedisManager(final String redisHost, final int redisPort, final String redisPass) {
         this.redisHost = redisHost;
         this.redisPort = redisPort;
         this.redisPass = redisPass;
-        this.logger = logger;
 
         this.reconnections = 0;
         this.connected = false;
@@ -58,12 +57,13 @@ public class RedisManager {
         this.reconnections += 1;
 
         if (this.reconnections > 3) {
-            this.logger.error("Could not connect to Redis after 3 attempts. Exiting...");
+            LOGGER.error("Could not connect to Redis after 3 attempts. Exiting...");
             throw new RuntimeException("Could not connect to Redis after 3 attempts.");
         }
 
         this.connected = true;
-        this.execute(jedis -> this.logger.info("Connection set with Redis, on database " + jedis.getDB()));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
+        this.execute(jedis -> LOGGER.info("Connection set with Redis, on database " + jedis.getDB()));
     }
 
     /**
@@ -72,7 +72,7 @@ public class RedisManager {
      */
     public void execute(Consumer<Jedis> consumer) {
         if (!this.connected) {
-            this.logger.error("You are trying to execute a function on a disconnected Redis server ! Trying to reconnect...");
+            LOGGER.error("You are trying to execute a function on a disconnected Redis server ! Trying to reconnect...");
             this.start();
             this.execute(consumer);
         }
@@ -81,7 +81,7 @@ public class RedisManager {
             try (final Jedis jedis = this.jedisPool.getResource()) {
                 consumer.accept(jedis);
             } catch (final Exception e) {
-                this.logger.error("An error occurred during connecting to Redis ! (" + e.getMessage() + "). Trying to reconnect...");
+                LOGGER.error("An error occurred during connecting to Redis ! Trying to reconnect...", e);
                 e.printStackTrace();
                 if (this.reconnections > 3) return;
 
@@ -99,7 +99,7 @@ public class RedisManager {
      */
     public <R> R executeWithReturn(Function<Jedis, R> function) {
         if (!this.connected) {
-            this.logger.error("You are trying to execute a function on a disconnected Redis server ! Trying to reconnect...");
+            LOGGER.error("You are trying to execute a function on a disconnected Redis server ! Trying to reconnect...");
             this.start();
             this.executeWithReturn(function);
         }
@@ -111,7 +111,7 @@ public class RedisManager {
                 }
             }).get();
         } catch (ExecutionException | InterruptedException e) {
-            this.logger.error("An error occurred during connecting to Redis ! (" + e.getMessage() + "). Trying to reconnect...");
+            LOGGER.error("An error occurred during connecting to Redis ! Trying to reconnect...", e);
             e.printStackTrace();
             if (this.reconnections > 3) return null;
 
@@ -124,12 +124,16 @@ public class RedisManager {
      * The method that stops the connection to the Redis server.
      */
     public void stop() {
-        this.logger.info("Stopping Redis connection...");
+        LOGGER.info("Stopping Redis connection...");
 
         this.jedisPool.close();
         this.jedisPool.destroy();
     }
 
+    /**
+     * Get the builder instance
+     * @return The builder instance
+     */
     public static Builder builder() {
         return new Builder();
     }
@@ -140,21 +144,11 @@ public class RedisManager {
         private final BuilderArgument<Integer> redisPort = new BuilderArgument<Integer>("RedisPort").required();
         private final BuilderArgument<String> redisPass = new BuilderArgument<String>("RedisPass").required();
 
-        private final BuilderArgument<Logger> logger = new BuilderArgument<>("Logger", () -> new Logger("RedisManager")).optional();
-
         Builder() {}
-
-        public Builder withHost(final String redisHost) {
-            return this.withHost(() -> redisHost);
-        }
 
         public Builder withHost(final Supplier<String> redisHost) {
             this.redisHost.set(redisHost);
             return this;
-        }
-
-        public Builder withPort(final int redisPort) {
-            return this.withPort(() -> redisPort);
         }
 
         public Builder withPort(final Supplier<Integer> redisPort) {
@@ -162,27 +156,14 @@ public class RedisManager {
             return this;
         }
 
-        public Builder withPass(final String redisPass) {
-            return this.withPass(() -> redisPass);
-        }
-
         public Builder withPass(final Supplier<String> redisPass) {
             this.redisPass.set(redisPass);
             return this;
         }
 
-        public Builder withLogger(final Logger logger) {
-            return this.withLogger(() -> logger);
-        }
-
-        public Builder withLogger(final Supplier<Logger> logger) {
-            this.logger.set(logger);
-            return this;
-        }
-
         @Override
         public RedisManager build() {
-            return new RedisManager(this.redisHost.get(), this.redisPort.get(), this.redisPass.get(), this.logger.get());
+            return new RedisManager(this.redisHost.get(), this.redisPort.get(), this.redisPass.get());
         }
     }
 }
