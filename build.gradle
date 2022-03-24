@@ -29,6 +29,7 @@ subprojects {
     }
 
     tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:all')
         options.encoding = 'UTF-8'
     }
 

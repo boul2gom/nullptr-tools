@@ -1,31 +1,39 @@
-package io.github.yggdrasil80.yggtools.receiver;
+package io.github.yggdrasil80.yggtools.receiver.keyed;
 
 import com.google.gson.Gson;
-import io.github.yggdrasil80.yggtools.data.IData;
 import org.slf4j.Logger;
 
 import java.util.*;
 
 /**
- * The receiver manager is responsible for managing the receivers.
+ * The keyed receiver manager is responsible for managing the receivers by key.
  * Multiple receivers can be registered for one key, and will be notified when the {@link #fireEvent(Object, Object)} is called, usually on message received.
- * @param <Key> The type of the key in the receivers map entry, usually a {@link String} with a channel name. Its optional, use {@link String} as default if you don't need it.
+ * @param <Key> The type of the key in the receivers map entry, usually a {@link String} with a channel name.
  * @param <RawData> The raw data type of the event, usually a {@link String} or a {@link Byte}[].
  * @param <Data> The data type of the event, converted, usually with {@link Gson}, from the raw data.
- * @param <Rcv> The type of the receiver, extending from {@link Receiver}.
+ * @param <Rcv> The type of the receiver, extending from {@link KeyedReceiver}.
  */
-public abstract class ReceiverManager<Key, RawData, Data extends IData, Rcv extends Receiver<Key, RawData, ? extends Data>> {
+public abstract class KeyedReceiverManager<Key, RawData, Data, Rcv extends KeyedReceiver<Key, RawData, ? extends Data>> {
 
+    /**
+     * The logger.
+     */
     protected final Logger logger;
+    /**
+     * The debug mode flag.
+     */
     protected final boolean debug;
+    /**
+     * The receivers map.
+     */
     protected final Map<Key, Set<Rcv>> receivers;
 
     /**
-     * The receiver manager constructor.
+     * The keyed receiver manager constructor.
      * @param logger The logger to use.
      * @param debug <code>true</code> if the manager should log debug messages, <code>false</code> otherwise.
      */
-    public ReceiverManager(final Logger logger, final boolean debug) {
+    public KeyedReceiverManager(final Logger logger, final boolean debug) {
         this.logger = logger;
         this.debug = debug;
         this.receivers = new HashMap<>();
@@ -46,9 +54,9 @@ public abstract class ReceiverManager<Key, RawData, Data extends IData, Rcv exte
 
     /**
      * Registers multiple receivers.
-     * @param key The key of the receiver.
+     * @param key The key of the receivers.
      * @param receivers The receivers to register.
-     * @param <R> The type of the receiver.
+     * @param <R> The type of the receivers.
      */
     @SafeVarargs
     public final <R extends Rcv> void registerReceivers(final Key key, final R... receivers) {
@@ -69,13 +77,21 @@ public abstract class ReceiverManager<Key, RawData, Data extends IData, Rcv exte
 
     /**
      * Unregister multiple receivers.
-     * @param key The key of the receiver.
-     * @param receivers The receivers to unregister.
-     * @param <R> The type of the receiver.
+     * @param key The key of the receivers.
+     * @param receivers The receivers to unregisters.
+     * @param <R> The type of the receivers.
      */
     @SafeVarargs
     public final <R extends Rcv> void unregisterReceivers(final Key key, final R... receivers) {
         Arrays.asList(receivers).forEach(receiver -> this.unregisterReceiver(key, receiver));
+    }
+
+    /**
+     * Unregisters all listeners associated with a key.
+     * @param key The key of the listeners to unregister.
+     */
+    public void unregisterReceivers(final Key key) {
+        this.receivers.remove(key);
     }
 
     /**
@@ -85,14 +101,6 @@ public abstract class ReceiverManager<Key, RawData, Data extends IData, Rcv exte
     @SafeVarargs
     public final void unregisterReceivers(final Key... keys) {
         Arrays.asList(keys).forEach(this::unregisterReceivers);
-    }
-
-    /**
-     * Unregisters all listeners associated with a key.
-     * @param key The key of the listeners to unregister.
-     */
-    public void unregisterReceivers(final Key key) {
-        this.receivers.remove(key);
     }
 
     /**

@@ -26,7 +26,7 @@ public enum LoggerPrintType {
 
     /**
      * The LoggerPrintType constructor.
-     * @param color
+     * @param color The color of the message
      */
     LoggerPrintType(final LoggerColor color) {
         this.color = color;

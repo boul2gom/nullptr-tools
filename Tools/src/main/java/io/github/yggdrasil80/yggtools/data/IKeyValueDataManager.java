@@ -3,11 +3,11 @@ package io.github.yggdrasil80.yggtools.data;
 import java.util.List;
 
 /**
- * Interface for data managers.
+ * Interface for key-value data managers.
  * @param <Key> The type of the key.
  * @param <Data> The type of the data.
  */
-public interface IDataManager<Key, Data extends IData> {
+public interface IKeyValueDataManager<Key, Data> {
 
     /**
      * Gets the data for the given key.

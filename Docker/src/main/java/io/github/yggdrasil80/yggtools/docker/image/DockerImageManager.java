@@ -5,23 +5,35 @@ import com.github.dockerjava.api.model.AuthConfig;
 import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.api.model.SearchItem;
 import io.github.yggdrasil80.yggtools.docker.DockerManager;
-import io.github.yggdrasil80.yggtools.docker.utils.DockerCallbackCreator;
-import io.github.yggdrasil80.yggtools.types.Pair;
+import io.github.yggdrasil80.yggtools.docker.callback.image.BuildImageCallback;
+import io.github.yggdrasil80.yggtools.docker.callback.image.PullImageCallback;
+import io.github.yggdrasil80.yggtools.docker.callback.image.PushImageCallback;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
-public class DockerImageManager extends DockerCallbackCreator {
+/**
+ * Manager for Docker images.
+ */
+public class DockerImageManager {
 
+    /**
+     * The logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DockerImageManager.class);
 
+    /**
+     * The Docker manager.
+     */
     private final DockerManager manager;
 
     /**
@@ -37,44 +49,35 @@ public class DockerImageManager extends DockerCallbackCreator {
      * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param image The image to pull.
      * @param tag The tag of the image to pull (optional).
+     * @return The callback.
+     */
+    public PullImageCallback pullImage(@NotNull String image, String tag) {
+        return this.pullImage(image, tag, null, null, null);
+    }
+
+    /**
+     * Pulls an image from a registry, Docker Hub by default. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
+     * @param image The image to pull.
+     * @param tag The tag of the image to pull (optional).
      * @param platform The platform of the image to pull (optional).
      * @param registry The registry to pull the image from (optional).
      * @param auth The authentication to use (optional).
+     * @return The callback.
      */
-    public void pullImage(@NotNull String image, String tag, String platform, String registry, AuthConfig auth) {
+    public PullImageCallback pullImage(@NotNull String image, String tag, String platform, String registry, AuthConfig auth) {
         try {
             final PullImageCmd cmd = this.manager.getClient().pullImageCmd(image);
-            final PullImageResultCallback callback = new PullImageResultCallback() {
-                @Override
-                public void onStart(Closeable stream) {
-                    super.onStart(stream);
-
-                    LOGGER.info("Pulling image: " + image + (tag != null ? ":" + tag : "") + "...");
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    super.onError(throwable);
-
-                    LOGGER.error("Failed to pull image: " + image + (tag != null ? ":" + tag : "") + ".", throwable);
-                }
-
-                @Override
-                public void onComplete() {
-                    super.onComplete();
-
-                    LOGGER.info("Successfully pulled image: " + image + (tag != null ? ":" + tag : "") + ".");
-                }
-            };
 
             if (tag != null) cmd.withTag(tag);
             if (platform != null) cmd.withPlatform(platform);
             if (registry != null) cmd.withRegistry(registry);
             if (auth != null) cmd.withAuthConfig(auth); else cmd.withAuthConfig(this.manager.getClient().authConfig());
 
-            cmd.exec(callback).awaitCompletion();
+            return cmd.exec(new PullImageCallback(image, tag)).awaitCompletion();
         } catch (InterruptedException e) {
-            LOGGER.error("An error has occurred when pulling image: " + image + (tag != null ? ":" + tag : "") + ".", e);
+            LOGGER.error("An error has occurred when pulling image: " + image + (tag != null ? ":" + tag : "") + " !", e);
+            return null;
         }
     }
 
@@ -85,18 +88,20 @@ public class DockerImageManager extends DockerCallbackCreator {
      * Example: "ghcr.io/yggdrasil80/my-image" for custom registry, "yggdrasil80/my-image" or "my-image" if the registry is Docker Hub.
      * @param tag The tag of the image to push (optional).
      * @param auth The authentication to use (optional).
+     * @return The callback.
      */
-    public void pushImage(@NotNull String image, String tag, AuthConfig auth) {
-        final PushImageCmd cmd = this.manager.getClient().pushImageCmd(image);
+    public PushImageCallback pushImage(@NotNull String image, String tag, AuthConfig auth) {
+        try {
+            final PushImageCmd cmd = this.manager.getClient().pushImageCmd(image);
 
-        if (tag != null) cmd.withTag(tag);
-        if (auth != null) cmd.withAuthConfig(auth); else cmd.withAuthConfig(this.manager.getClient().authConfig());
+            if (tag != null) cmd.withTag(tag);
+            if (auth != null) cmd.withAuthConfig(auth); else cmd.withAuthConfig(this.manager.getClient().authConfig());
 
-        cmd.exec(DockerCallbackCreator.create(LOGGER,
-                "Pushing image: " + image + (tag != null ? ":" + tag : "") + "...",
-                "Failed to push image: " + image + (tag != null ? ":" + tag : "") + ".",
-                "Successfully pushed image: " + image + (tag != null ? ":" + tag : "") + "."
-        ));
+            return cmd.exec(new PushImageCallback(image, tag)).awaitCompletion();
+        } catch (InterruptedException e) {
+            LOGGER.error("An error has occurred when pushing image: " + image + (tag != null ? ":" + tag : "") + " !", e);
+            return null;
+        }
     }
 
     /**
@@ -192,14 +197,14 @@ public class DockerImageManager extends DockerCallbackCreator {
     /**
      * Save multiples images to a tar archive. <br>
      * /!\ Warning: Don't forget to close the stream after usage to avoid memory leaks.
-     * @param images The images to save, with the repository and the registry if needed. The left part of the pair is the image, the right part is the tag.
+     * @param images The images to save, with the repository and the registry if needed. The map key is the image name, the map value is the tag.
      * @return The stream to the tar archive.
      */
-    public InputStream saveImages(@NotNull List<Pair<String, String>> images) {
+    public InputStream saveImages(@NotNull Map<String, String> images) {
         final SaveImagesCmd cmd = this.manager.getClient().saveImagesCmd();
 
-        for (Pair<String, String> image : images) {
-            cmd.withImage(image.getLeft(), image.getRight());
+        for (Map.Entry<String, String> entry : images.entrySet()) {
+            cmd.withImage(entry.getKey(), entry.getValue());
         }
 
         LOGGER.info("Saving " + images.size() + " images...");
@@ -211,35 +216,42 @@ public class DockerImageManager extends DockerCallbackCreator {
      * /!\ If you don't want to use a param marked as optional, simply pass null.
      * @param dockerfile The Dockerfile to build.
      * @param tags The tags to apply to the image (optional).
+     * @return The callback.
+     */
+    public BuildImageCallback buildImage(@NotNull File dockerfile, String[] tags) {
+        return this.buildImage(dockerfile, tags, null, null, null, null);
+    }
+
+    /**
+     * Build an image from a Dockerfile. <br>
+     * /!\ If you don't want to use a param marked as optional, simply pass null.
+     * @param dockerfile The Dockerfile to build.
+     * @param tags The tags to apply to the image (optional).
      * @param metadata The metadata to apply to the image (optional).
      * @param remove <code>true</code> to remove intermediate containers (optional).
      * @param platform The platform to build for (optional).
-     * @param buildArgs The build arguments to apply to the image, with the left part of the pair as the argument name and the right part as the argument value (optional).
+     * @param buildArgs The build arguments to apply to the image, with the key as the argument name and the value as the argument value (optional).
+     * @return The callback.
      */
-    public void buildImage(@NotNull File dockerfile, String[] tags, List<Pair<String, String>> metadata, Boolean remove, String platform, List<Pair<String, String>> buildArgs) {
-        final BuildImageCmd cmd = this.manager.getClient().buildImageCmd(dockerfile);
+    public BuildImageCallback buildImage(@NotNull File dockerfile, String[] tags, Map<String, String> metadata, Boolean remove, String platform, Map<String, String> buildArgs) {
+        try {
+            final BuildImageCmd cmd = this.manager.getClient().buildImageCmd(dockerfile);
 
-        if (tags != null && tags.length > 0) cmd.withTags(new HashSet<>(Arrays.asList(tags)));
-        if (metadata != null && !metadata.isEmpty()) {
-            final Map<String, String> labels = new HashMap<>();
-            for (Pair<String, String> label : metadata) {
-                labels.put(label.getLeft(), label.getRight());
+            if (tags != null && tags.length > 0) cmd.withTags(new HashSet<>(Arrays.asList(tags)));
+            if (metadata != null) cmd.withLabels(metadata);
+            if (remove != null) cmd.withRemove(remove);
+            if (platform != null) cmd.withPlatform(platform);
+            if (buildArgs != null) {
+                for (Map.Entry<String, String> entry : buildArgs.entrySet()) {
+                    cmd.withBuildArg(entry.getKey(), entry.getValue());
+                }
             }
-            cmd.withLabels(labels);
-        }
-        if (remove != null) cmd.withRemove(remove);
-        if (platform != null) cmd.withPlatform(platform);
-        if (buildArgs != null && !buildArgs.isEmpty()) {
-            for (Pair<String, String> buildArg : buildArgs) {
-                cmd.withBuildArg(buildArg.getLeft(), buildArg.getRight());
-            }
-        }
 
-        cmd.exec(DockerCallbackCreator.create(LOGGER,
-                "Building image from: " + dockerfile.getAbsolutePath() + "...",
-                "An error has occurred when building image from: " + dockerfile.getAbsolutePath() + ".",
-                "Successfully built image from: " + dockerfile.getAbsolutePath() + ".")
-        );
+            return cmd.exec(new BuildImageCallback(dockerfile)).awaitCompletion();
+        } catch (InterruptedException e) {
+            LOGGER.error("An error has occurred while building the image: " + dockerfile.getName(), e);
+            return null;
+        }
     }
 
     /**

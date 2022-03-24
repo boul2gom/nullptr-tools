@@ -10,11 +10,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Logger class.
+ * The file logger.
  */
 public class FileLogger implements AutoCloseable {
 
+    /**
+     * The logger prefix.
+     */
     private final String prefix;
+    /**
+     * The writer used to write to the file.
+     */
     private final PrintWriter writer;
 
     /**

@@ -1,4 +1,4 @@
-package io.github.yggdrasil80.yggtools.receiver;
+package io.github.yggdrasil80.yggtools.receiver.keyed;
 
 import com.google.gson.Gson;
 
@@ -8,7 +8,7 @@ import com.google.gson.Gson;
  * @param <RawData> The raw data type of the event, usually a {@link String} or a {@link byte[]}.
  * @param <Data> The data type of the event, converted, usually with {@link Gson}, from the raw data.
  */
-public abstract class Receiver<Key, RawData, Data> {
+public abstract class KeyedReceiver<Key, RawData, Data> {
 
     /**
      * Converts the raw data to the data type, and calls receive(Key, RawData, Data).

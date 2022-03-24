@@ -2,16 +2,22 @@ package io.github.yggdrasil80.yggtools.message;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.github.yggdrasil80.yggtools.receiver.Receiver;
+import io.github.yggdrasil80.yggtools.receiver.keyed.KeyedReceiver;
 
 /**
  * Represents a receiver for messages, sent by any network tool like Redis, Netty, Kafka, etc.
  * @param <Data> The type of the data that is received by the receiver.
  */
-public abstract class MessageReceiver<Data extends IMessage> extends Receiver<String, String, Data> {
+public abstract class MessageReceiver<Data extends IMessage> extends KeyedReceiver<String, String, Data> {
 
+    /**
+     * The Gson instance used to deserialize the received data.
+     */
     private static final Gson GSON = new GsonBuilder().serializeNulls().create();
 
+    /**
+     * The class of the data that is received by the receiver.
+     */
     private final Class<Data> clazz;
 
     /**
@@ -23,7 +29,7 @@ public abstract class MessageReceiver<Data extends IMessage> extends Receiver<St
     }
 
     /**
-     * {@inheritDoc}
+     * Receives a message.
      * @param channel The channel of the message.
      * @param rawMessage The raw message.
      */

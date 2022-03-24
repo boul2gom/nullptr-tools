@@ -28,7 +28,7 @@ jobs:
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
           GITHUB_USERNAME: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.YGG_TOKEN }}
 
       - name: Upload doc artifacts
         uses: actions/upload-artifact@v3
@@ -82,7 +82,7 @@ jobs:
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
           GITHUB_USERNAME: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.YGG_TOKEN }}
 
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}

@@ -22,7 +22,13 @@ import java.util.Map;
  */
 public class I18nLoader {
 
+    /**
+     * The Gson to use to parse JSON files.
+     */
     private static final Gson GSON = new Gson();
+    /**
+     * The logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(I18nLoader.class);
 
     /**

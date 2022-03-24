@@ -3,13 +3,22 @@ package io.github.yggdrasil80.yggtools.builder;
 import java.util.function.Supplier;
 
 /**
- * Represents a builder argument.
+ * Represents an argument for the builder.
  * @param <T> The type of the argument.
  */
 public class BuilderArgument<T> {
 
+    /**
+     * The name of the object.
+     */
     private final String objectName;
+    /**
+     * The supplier of the object, to get when building.
+     */
     private Supplier<T> object = null;
+    /**
+     * <code>true</code> if the object is required.
+     */
     private boolean isRequired = false;
 
     /**
@@ -31,7 +40,7 @@ public class BuilderArgument<T> {
     }
 
     /**
-     * Returns the argument object.
+     * Get the argument object.
      * @return The argument object.
      */
     public T get() {
@@ -42,7 +51,7 @@ public class BuilderArgument<T> {
     }
 
     /**
-     * Sets the argument object.
+     * Set the argument object.
      * @param object The argument object to set.
      */
     public void set(Supplier<T> object) {
@@ -50,8 +59,8 @@ public class BuilderArgument<T> {
     }
 
     /**
-     * Set argument not required
-     * @return {@link BuilderArgument}
+     * Set argument as not required
+     * @return The builder argument.
      */
     public BuilderArgument<T> optional() {
         this.isRequired = false;
@@ -59,8 +68,8 @@ public class BuilderArgument<T> {
     }
 
     /**
-     * Set argument required
-     * @return {@link BuilderArgument}
+     * Set argument as required
+     * @return The builder argument.
      */
     public BuilderArgument<T> required() {
         this.isRequired = true;

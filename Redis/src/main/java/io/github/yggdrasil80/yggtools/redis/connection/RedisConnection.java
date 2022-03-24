@@ -1,4 +1,4 @@
-package io.github.yggdrasil80.yggtools.redis;
+package io.github.yggdrasil80.yggtools.redis.connection;
 
 import io.github.yggdrasil80.yggtools.builder.BuilderArgument;
 import io.github.yggdrasil80.yggtools.builder.IBuilder;
@@ -16,28 +16,52 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * The RedisManager class is a wrapper for the Jedis library.
+ * A connection and request manager for the Jedis library.
  */
-public class RedisManager {
+public class RedisConnection {
 
+    /**
+     * Executors, used for asynchronous requests.
+     */
     private static final ExecutorService EXECUTORS = Executors.newCachedThreadPool();
-    private static final Logger LOGGER = LoggerFactory.getLogger(RedisManager.class);
+    /**
+     * The logger.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisConnection.class);
 
+    /**
+     * The Redis host.
+     */
     private final String redisHost;
+    /**
+     * The Redis port.
+     */
     private final int redisPort;
+    /**
+     * The Redis password.
+     */
     private final String redisPass;
+    /**
+     * The connected Jedis pool.
+     */
     private JedisPool jedisPool;
 
+    /**
+     * Reconnections counter.
+     */
     private int reconnections;
+    /**
+     * The connection status.
+     */
     private boolean connected;
 
     /**
-     * The constructor of the RedisManager class.
+     * The constructor of the Redis manager.
      * @param redisHost The host of the Redis server.
      * @param redisPort The port of the Redis server.
      * @param redisPass The password of the Redis server.
      */
-    RedisManager(final String redisHost, final int redisPort, final String redisPass) {
+    RedisConnection(String redisHost, int redisPort, String redisPass) {
         this.redisHost = redisHost;
         this.redisPort = redisPort;
         this.redisPass = redisPass;
@@ -67,8 +91,16 @@ public class RedisManager {
     }
 
     /**
+     * The method that executes a request to the Redis server asynchronously.
+     * @param consumer The consumer that will be executed.
+     */
+    public void executeAsync(Consumer<Jedis> consumer) {
+        EXECUTORS.execute(() -> this.execute(consumer));
+    }
+
+    /**
      * The method that executes a function on the Redis server.
-     * @param consumer The function to execute.
+     * @param consumer The consumer that will be executed.
      */
     public void execute(Consumer<Jedis> consumer) {
         if (!this.connected) {
@@ -77,22 +109,35 @@ public class RedisManager {
             this.execute(consumer);
         }
 
-        EXECUTORS.execute(() -> {
-            try (final Jedis jedis = this.jedisPool.getResource()) {
-                consumer.accept(jedis);
-            } catch (final Exception e) {
-                LOGGER.error("An error occurred during connecting to Redis ! Trying to reconnect...", e);
-                e.printStackTrace();
-                if (this.reconnections > 3) return;
+        try (final Jedis jedis = this.jedisPool.getResource()) {
+            consumer.accept(jedis);
+        } catch (final Exception e) {
+            LOGGER.error("An error occurred during connecting to Redis ! Trying to reconnect...", e);
+            e.printStackTrace();
+            if (this.reconnections > 3) return;
 
-                this.start();
-                this.execute(consumer);
-            }
-        });
+            this.start();
+            this.execute(consumer);
+        }
     }
 
     /**
-     * The method that executes a function on the Redis server, and return an object.
+     * The method that executes a request to the Redis server, and returns a result asynchronously.
+     * @param function The function that will be executed.
+     * @param <R> The type of the result.
+     * @return The result of the function.
+     */
+    public <R> R executeWithReturnAsync(Function<Jedis, R> function) {
+        try {
+            return EXECUTORS.submit(() -> this.executeWithReturn(function)).get();
+        } catch (ExecutionException | InterruptedException e) {
+            LOGGER.error("An error occurred during connecting to Redis ! Trying to reconnect...", e);
+            return null;
+        }
+    }
+
+    /**
+     * The method that executes a function on the Redis server, and return a result.
      * @param function The function to execute.
      * @param <R> The type of the object to return.
      * @return The object returned by the function.
@@ -105,12 +150,10 @@ public class RedisManager {
         }
 
         try {
-            return EXECUTORS.submit(() -> {
-                try (final Jedis jedis = this.jedisPool.getResource()) {
-                    return function.apply(jedis);
-                }
-            }).get();
-        } catch (ExecutionException | InterruptedException e) {
+            try (final Jedis jedis = this.jedisPool.getResource()) {
+                return function.apply(jedis);
+            }
+        } catch (final Exception e) {
             LOGGER.error("An error occurred during connecting to Redis ! Trying to reconnect...", e);
             e.printStackTrace();
             if (this.reconnections > 3) return null;
@@ -131,39 +174,60 @@ public class RedisManager {
     }
 
     /**
-     * Get the builder instance
-     * @return The builder instance
+     * The builder for the Redis connection.
      */
-    public static Builder builder() {
-        return new Builder();
-    }
+    public static class Builder implements IBuilder<RedisConnection> {
 
-    public static class Builder implements IBuilder<RedisManager> {
-
+        /**
+         * The host of the Redis server.
+         */
         private final BuilderArgument<String> redisHost = new BuilderArgument<String>("RedisHost").required();
+        /**
+         * The port of the Redis server.
+         */
         private final BuilderArgument<Integer> redisPort = new BuilderArgument<Integer>("RedisPort").required();
+        /**
+         * The password of the Redis server.
+         */
         private final BuilderArgument<String> redisPass = new BuilderArgument<String>("RedisPass").required();
 
-        Builder() {}
-
+        /**
+         * Sets the host of the Redis server.
+         * @param redisHost The host of the Redis server.
+         * @return The builder.
+         */
         public Builder withHost(final Supplier<String> redisHost) {
             this.redisHost.set(redisHost);
             return this;
         }
 
+        /**
+         * Sets the port of the Redis server.
+         * @param redisPort The port of the Redis server.
+         * @return The builder.
+         */
         public Builder withPort(final Supplier<Integer> redisPort) {
             this.redisPort.set(redisPort);
             return this;
         }
 
+        /**
+         * Sets the password of the Redis server.
+         * @param redisPass The password of the Redis server.
+         * @return The builder.
+         */
         public Builder withPass(final Supplier<String> redisPass) {
             this.redisPass.set(redisPass);
             return this;
         }
 
+        /**
+         * Builds the Redis connection.
+         * @return The built Redis connection.
+         */
         @Override
-        public RedisManager build() {
-            return new RedisManager(this.redisHost.get(), this.redisPort.get(), this.redisPass.get());
+        public RedisConnection build() {
+            return new RedisConnection(this.redisHost.get(), this.redisPort.get(), this.redisPass.get());
         }
     }
 }

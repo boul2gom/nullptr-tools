@@ -9,9 +9,18 @@ import java.util.Map;
  */
 public class I18n {
 
+    /**
+     * The I18n instance.
+     */
     private static I18n INSTANCE;
 
+    /**
+     * The current locale.
+     */
     private Locale locale;
+    /**
+     * The language messages.
+     */
     private final Map<Locale, Map<String, String>> languages;
 
     /**

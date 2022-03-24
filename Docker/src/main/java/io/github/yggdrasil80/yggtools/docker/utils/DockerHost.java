@@ -7,10 +7,22 @@ import org.slf4j.LoggerFactory;
  */
 public enum DockerHost {
 
+    /**
+     * Docker host for the local unix machine.
+     */
     UNIX_SOCKET("unix:///var/run/docker.sock"),
+    /**
+     * Docker host for the local Windows machine, encrypted.
+     */
     TCP_DAEMON_ENCRYPTED("tcp://localhost:2376"),
+    /**
+     * Docker host for the local Windows machine, unencrypted.
+     */
     TCP_DAEMON("tcp://localhost:2375");
 
+    /**
+     * The host.
+     */
     private final String host;
 
     /**

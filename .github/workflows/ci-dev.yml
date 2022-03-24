@@ -28,7 +28,7 @@ jobs:
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
           GITHUB_USERNAME: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.YGG_TOKEN }}
 
   publish:
     needs: build
@@ -54,7 +54,7 @@ jobs:
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
 
           GITHUB_USERNAME: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.YGG_TOKEN }}
 
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
