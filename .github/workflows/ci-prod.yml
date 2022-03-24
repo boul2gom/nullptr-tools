@@ -53,7 +53,7 @@ jobs:
           path: YggTools-Doc/
 
       - name: Publish doc to Github Pages
-        uses: peaceiris/actions-gh-pages@v3.7.3
+        uses: peaceiris/actions-gh-pages@v3.8.0
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
           publish_dir: ./YggTools-Doc/
