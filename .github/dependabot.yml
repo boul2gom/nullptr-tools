@@ -6,11 +6,6 @@ registries:
     url: https://repo.yggdrasil80.tech/releases
     username: "Yggdrasil80"
     password: ${{ secrets.MAVEN_TOKEN }}
-  maven-develop:
-    type: maven-repository
-    url: https://repo.yggdrasil80.tech/develop
-    username: "Yggdrasil80"
-    password: ${{ secrets.MAVEN_TOKEN }}
 
 updates:
   - package-ecosystem: "github-actions"
@@ -24,13 +19,12 @@ updates:
     commit-message:
       prefix: "[CI]"
       include: scope
-    target-branch: "develop"
+    target-branch: "master"
 
   - package-ecosystem: gradle
     directory: "/"
     registries:
       - maven-releases
-      - maven-develop
     schedule:
       interval: daily
       time: "09:00"
@@ -40,6 +34,6 @@ updates:
     commit-message:
       prefix: "[Gradle]"
       include: scope
-    target-branch: "develop"
+    target-branch: "master"
 
 
