@@ -376,17 +376,17 @@
 <dd>
 <div class="block">The method that executes a function on the Redis server.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeAsync-java.util.function.Consumer-">executeAsync(Consumer&lt;Jedis&gt;)</a></span> - Method in class io.github.yggdrasil80.yggtools.redis.connection.<a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html" title="class in io.github.yggdrasil80.yggtools.redis.connection">RedisConnection</a></dt>
-<dd>
-<div class="block">The method that executes a request to the Redis server asynchronously.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeWithReturn-java.util.function.Function-">executeWithReturn(Function&lt;Jedis, R&gt;)</a></span> - Method in class io.github.yggdrasil80.yggtools.redis.connection.<a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html" title="class in io.github.yggdrasil80.yggtools.redis.connection">RedisConnection</a></dt>
+<dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeAndReturn-java.util.function.Function-">executeAndReturn(Function&lt;Jedis, R&gt;)</a></span> - Method in class io.github.yggdrasil80.yggtools.redis.connection.<a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html" title="class in io.github.yggdrasil80.yggtools.redis.connection">RedisConnection</a></dt>
 <dd>
 <div class="block">The method that executes a function on the Redis server, and return a result.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeWithReturnAsync-java.util.function.Function-">executeWithReturnAsync(Function&lt;Jedis, R&gt;)</a></span> - Method in class io.github.yggdrasil80.yggtools.redis.connection.<a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html" title="class in io.github.yggdrasil80.yggtools.redis.connection">RedisConnection</a></dt>
+<dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeAndReturnAsync-java.util.function.Function-">executeAndReturnAsync(Function&lt;Jedis, R&gt;)</a></span> - Method in class io.github.yggdrasil80.yggtools.redis.connection.<a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html" title="class in io.github.yggdrasil80.yggtools.redis.connection">RedisConnection</a></dt>
 <dd>
 <div class="block">The method that executes a request to the Redis server, and returns a result asynchronously.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeAsync-java.util.function.Consumer-">executeAsync(Consumer&lt;Jedis&gt;)</a></span> - Method in class io.github.yggdrasil80.yggtools.redis.connection.<a href="io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html" title="class in io.github.yggdrasil80.yggtools.redis.connection">RedisConnection</a></dt>
+<dd>
+<div class="block">The method that executes a request to the Redis server asynchronously.</div>
 </dd>
 </dl>
 <a name="I:F">
@@ -434,11 +434,11 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/data/IKeyValueDataManager.html#getAllData--">getAllData()</a></span> - Method in interface io.github.yggdrasil80.yggtools.data.<a href="io/github/yggdrasil80/yggtools/data/IKeyValueDataManager.html" title="interface in io.github.yggdrasil80.yggtools.data">IKeyValueDataManager</a></dt>
 <dd>
-<div class="block">Get all the data stored in the data manager.</div>
+<div class="block">Get all the data stored in the data manager, usually deserialized if the data type is an object.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/redis/DefaultRedisManager.html#getAllData--">getAllData()</a></span> - Method in class io.github.yggdrasil80.yggtools.redis.<a href="io/github/yggdrasil80/yggtools/redis/DefaultRedisManager.html" title="class in io.github.yggdrasil80.yggtools.redis">DefaultRedisManager</a></dt>
 <dd>
-<div class="block">Gets all the data</div>
+<div class="block">Gets all the data, usually deserialized if the data type is an object.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/github/yggdrasil80/yggtools/data/IKeyValueDataManager.html#getAllKeys--">getAllKeys()</a></span> - Method in interface io.github.yggdrasil80.yggtools.data.<a href="io/github/yggdrasil80/yggtools/data/IKeyValueDataManager.html" title="interface in io.github.yggdrasil80.yggtools.data">IKeyValueDataManager</a></dt>
 <dd>

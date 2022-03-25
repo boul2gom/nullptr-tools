@@ -156,21 +156,21 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeAsync-java.util.function.Consumer-">executeAsync</a></span>(java.util.function.Consumer&lt;redis.clients.jedis.Jedis&gt;&nbsp;consumer)</code>
-<div class="block">The method that executes a request to the Redis server asynchronously.</div>
+<td class="colFirst"><code>&lt;R&gt;&nbsp;R</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeAndReturn-java.util.function.Function-">executeAndReturn</a></span>(java.util.function.Function&lt;redis.clients.jedis.Jedis,R&gt;&nbsp;function)</code>
+<div class="block">The method that executes a function on the Redis server, and return a result.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;R&gt;&nbsp;R</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeWithReturn-java.util.function.Function-">executeWithReturn</a></span>(java.util.function.Function&lt;redis.clients.jedis.Jedis,R&gt;&nbsp;function)</code>
-<div class="block">The method that executes a function on the Redis server, and return a result.</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeAndReturnAsync-java.util.function.Function-">executeAndReturnAsync</a></span>(java.util.function.Function&lt;redis.clients.jedis.Jedis,R&gt;&nbsp;function)</code>
+<div class="block">The method that executes a request to the Redis server, and returns a result asynchronously.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>&lt;R&gt;&nbsp;R</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeWithReturnAsync-java.util.function.Function-">executeWithReturnAsync</a></span>(java.util.function.Function&lt;redis.clients.jedis.Jedis,R&gt;&nbsp;function)</code>
-<div class="block">The method that executes a request to the Redis server, and returns a result asynchronously.</div>
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/github/yggdrasil80/yggtools/redis/connection/RedisConnection.html#executeAsync-java.util.function.Consumer-">executeAsync</a></span>(java.util.function.Consumer&lt;redis.clients.jedis.Jedis&gt;&nbsp;consumer)</code>
+<div class="block">The method that executes a request to the Redis server asynchronously.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -217,20 +217,6 @@ extends java.lang.Object</pre>
 <div class="block">The method that starts the connection to the Redis server.</div>
 </li>
 </ul>
-<a name="executeAsync-java.util.function.Consumer-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>executeAsync</h4>
-<pre>public&nbsp;void&nbsp;executeAsync(java.util.function.Consumer&lt;redis.clients.jedis.Jedis&gt;&nbsp;consumer)</pre>
-<div class="block">The method that executes a request to the Redis server asynchronously.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>consumer</code> - The consumer that will be executed.</dd>
-</dl>
-</li>
-</ul>
 <a name="execute-java.util.function.Consumer-">
 <!--   -->
 </a>
@@ -245,31 +231,27 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="executeWithReturnAsync-java.util.function.Function-">
+<a name="executeAsync-java.util.function.Consumer-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>executeWithReturnAsync</h4>
-<pre>public&nbsp;&lt;R&gt;&nbsp;R&nbsp;executeWithReturnAsync(java.util.function.Function&lt;redis.clients.jedis.Jedis,R&gt;&nbsp;function)</pre>
-<div class="block">The method that executes a request to the Redis server, and returns a result asynchronously.</div>
+<h4>executeAsync</h4>
+<pre>public&nbsp;void&nbsp;executeAsync(java.util.function.Consumer&lt;redis.clients.jedis.Jedis&gt;&nbsp;consumer)</pre>
+<div class="block">The method that executes a request to the Redis server asynchronously.</div>
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>R</code> - The type of the result.</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>function</code> - The function that will be executed.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The result of the function.</dd>
+<dd><code>consumer</code> - The consumer that will be executed.</dd>
 </dl>
 </li>
 </ul>
-<a name="executeWithReturn-java.util.function.Function-">
+<a name="executeAndReturn-java.util.function.Function-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>executeWithReturn</h4>
-<pre>public&nbsp;&lt;R&gt;&nbsp;R&nbsp;executeWithReturn(java.util.function.Function&lt;redis.clients.jedis.Jedis,R&gt;&nbsp;function)</pre>
+<h4>executeAndReturn</h4>
+<pre>public&nbsp;&lt;R&gt;&nbsp;R&nbsp;executeAndReturn(java.util.function.Function&lt;redis.clients.jedis.Jedis,R&gt;&nbsp;function)</pre>
 <div class="block">The method that executes a function on the Redis server, and return a result.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
@@ -278,6 +260,24 @@ extends java.lang.Object</pre>
 <dd><code>function</code> - The function to execute.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>The object returned by the function.</dd>
+</dl>
+</li>
+</ul>
+<a name="executeAndReturnAsync-java.util.function.Function-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>executeAndReturnAsync</h4>
+<pre>public&nbsp;&lt;R&gt;&nbsp;R&nbsp;executeAndReturnAsync(java.util.function.Function&lt;redis.clients.jedis.Jedis,R&gt;&nbsp;function)</pre>
+<div class="block">The method that executes a request to the Redis server, and returns a result asynchronously.</div>
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>R</code> - The type of the result.</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>function</code> - The function that will be executed.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The result of the function.</dd>
 </dl>
 </li>
 </ul>
