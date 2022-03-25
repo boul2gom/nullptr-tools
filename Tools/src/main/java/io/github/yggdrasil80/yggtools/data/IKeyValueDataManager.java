@@ -36,7 +36,7 @@ public interface IKeyValueDataManager<Key, Data> {
     List<Key> getAllKeys();
 
     /**
-     * Get all the data stored in the data manager.
+     * Get all the data stored in the data manager, usually deserialized if the data type is an object.
      * @return The data.
      */
     List<Data> getAllData();

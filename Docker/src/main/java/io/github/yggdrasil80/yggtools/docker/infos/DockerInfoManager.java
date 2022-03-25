@@ -40,7 +40,7 @@ public class DockerInfoManager {
     public AuthResponse authToRegistry(AuthConfig authConfig) {
         final AuthCmd cmd = this.manager.getClient().authCmd();
 
-        if (authConfig != null) cmd.withAuthConfig(authConfig); else cmd.withAuthConfig(this.manager.getClient().authConfig());
+        if (authConfig != null) cmd.withAuthConfig(authConfig);
 
         LOGGER.info("Authenticating to registry...");
         return cmd.exec();

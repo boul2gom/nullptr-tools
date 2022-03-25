@@ -72,7 +72,7 @@ public class DockerImageManager {
             if (tag != null) cmd.withTag(tag);
             if (platform != null) cmd.withPlatform(platform);
             if (registry != null) cmd.withRegistry(registry);
-            if (auth != null) cmd.withAuthConfig(auth); else cmd.withAuthConfig(this.manager.getClient().authConfig());
+            if (auth != null) cmd.withAuthConfig(auth);
 
             return cmd.exec(new PullImageCallback(image, tag)).awaitCompletion();
         } catch (InterruptedException e) {
@@ -95,7 +95,7 @@ public class DockerImageManager {
             final PushImageCmd cmd = this.manager.getClient().pushImageCmd(image);
 
             if (tag != null) cmd.withTag(tag);
-            if (auth != null) cmd.withAuthConfig(auth); else cmd.withAuthConfig(this.manager.getClient().authConfig());
+            if (auth != null) cmd.withAuthConfig(auth);
 
             return cmd.exec(new PushImageCallback(image, tag)).awaitCompletion();
         } catch (InterruptedException e) {

@@ -91,14 +91,6 @@ public class RedisConnection {
     }
 
     /**
-     * The method that executes a request to the Redis server asynchronously.
-     * @param consumer The consumer that will be executed.
-     */
-    public void executeAsync(Consumer<Jedis> consumer) {
-        EXECUTORS.execute(() -> this.execute(consumer));
-    }
-
-    /**
      * The method that executes a function on the Redis server.
      * @param consumer The consumer that will be executed.
      */
@@ -122,18 +114,11 @@ public class RedisConnection {
     }
 
     /**
-     * The method that executes a request to the Redis server, and returns a result asynchronously.
-     * @param function The function that will be executed.
-     * @param <R> The type of the result.
-     * @return The result of the function.
+     * The method that executes a request to the Redis server asynchronously.
+     * @param consumer The consumer that will be executed.
      */
-    public <R> R executeWithReturnAsync(Function<Jedis, R> function) {
-        try {
-            return EXECUTORS.submit(() -> this.executeWithReturn(function)).get();
-        } catch (ExecutionException | InterruptedException e) {
-            LOGGER.error("An error occurred during connecting to Redis ! Trying to reconnect...", e);
-            return null;
-        }
+    public void executeAsync(Consumer<Jedis> consumer) {
+        EXECUTORS.execute(() -> this.execute(consumer));
     }
 
     /**
@@ -142,11 +127,11 @@ public class RedisConnection {
      * @param <R> The type of the object to return.
      * @return The object returned by the function.
      */
-    public <R> R executeWithReturn(Function<Jedis, R> function) {
+    public <R> R executeAndReturn(Function<Jedis, R> function) {
         if (!this.connected) {
             LOGGER.error("You are trying to execute a function on a disconnected Redis server ! Trying to reconnect...");
             this.start();
-            this.executeWithReturn(function);
+            this.executeAndReturn(function);
         }
 
         try {
@@ -159,7 +144,22 @@ public class RedisConnection {
             if (this.reconnections > 3) return null;
 
             this.start();
-            return this.executeWithReturn(function);
+            return this.executeAndReturn(function);
+        }
+    }
+
+    /**
+     * The method that executes a request to the Redis server, and returns a result asynchronously.
+     * @param function The function that will be executed.
+     * @param <R> The type of the result.
+     * @return The result of the function.
+     */
+    public <R> R executeAndReturnAsync(Function<Jedis, R> function) {
+        try {
+            return EXECUTORS.submit(() -> this.executeAndReturn(function)).get();
+        } catch (ExecutionException | InterruptedException e) {
+            LOGGER.error("An error occurred during connecting to Redis ! Trying to reconnect...", e);
+            return null;
         }
     }
 
@@ -185,7 +185,7 @@ public class RedisConnection {
         /**
          * The port of the Redis server.
          */
-        private final BuilderArgument<Integer> redisPort = new BuilderArgument<Integer>("RedisPort").required();
+        private final BuilderArgument<Integer> redisPort = new BuilderArgument<Integer>("RedisPort", () -> 6379).required();
         /**
          * The password of the Redis server.
          */

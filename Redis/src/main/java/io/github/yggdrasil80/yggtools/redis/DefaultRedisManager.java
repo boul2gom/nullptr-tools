@@ -43,7 +43,7 @@ public class DefaultRedisManager implements IKeyValueDataManager<String, String>
      */
     @Override
     public String getData(String key) {
-        return this.redis.executeWithReturn(jedis -> {
+        return this.redis.executeAndReturn(jedis -> {
             jedis.select(this.dbIndex);
             return jedis.get(this.baseKey + key);
         });
@@ -80,14 +80,14 @@ public class DefaultRedisManager implements IKeyValueDataManager<String, String>
      */
     @Override
     public List<String> getAllKeys() {
-        return this.redis.executeWithReturn(jedis -> {
+        return this.redis.executeAndReturn(jedis -> {
             jedis.select(this.dbIndex);
             return new ArrayList<>(jedis.keys(this.baseKey + "*"));
         });
     }
 
     /**
-     * Gets all the data
+     * Gets all the data, usually deserialized if the data type is an object.
      * @return All the data.
      */
     @Override
