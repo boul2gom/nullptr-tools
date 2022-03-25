@@ -2,7 +2,7 @@ name: Github CI - Production
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
 
 jobs:
   build:

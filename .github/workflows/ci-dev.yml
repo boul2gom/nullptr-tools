@@ -2,7 +2,7 @@ name: Github CI - Development
 
 on:
   push:
-    branches: [develop]
+    branches: [ develop ]
 
 jobs:
   build:
