@@ -1,8 +1,9 @@
-name: Github CI - Production
+name: Github CI - Deployment
 
 on:
   push:
-   branches: [ master ]
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -55,3 +56,30 @@ jobs:
         with:
           personal_token: ${{ secrets.YGG_TOKEN }}
           publish_dir: ./YggTools-Doc/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'zulu'
+
+      - name: Publish to Maven Repository
+        run: gradle publish
+        env:
+          RELEASE_TYPE: "releases"
+
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+          GITHUB_USERNAME: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.YGG_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
