@@ -23,8 +23,6 @@ jobs:
       - name: Build with Gradle
         run: gradle build aggregateJavadoc
         env:
-          RELEASE_TYPE: "releases"
-
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
           GITHUB_USERNAME: ${{ github.actor }}
@@ -75,8 +73,6 @@ jobs:
       - name: Publish to Maven Repository
         run: gradle publish
         env:
-          RELEASE_TYPE: "releases"
-
           MAVEN_USERNAME: ${{ github.actor }}
           MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
           GITHUB_USERNAME: ${{ github.actor }}

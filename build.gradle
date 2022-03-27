@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.0"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
     id 'io.freefair.aggregate-javadoc' version '6.4.1'
 }
 
@@ -10,11 +10,8 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: "com.github.johnrengelman.shadow"
 
-    version = '1.2.0'
+    version = '1.2.1'
     group = 'io.github.yggdrasil80'
-
-    def development = !(System.getenv("RELEASE_TYPE") != null && System.getenv("RELEASE_TYPE").equalsIgnoreCase("releases"))
-    def artifact = rootProject.name.toLowerCase() + (!(project.name == "Tools") ? "-" + project.name.toLowerCase() : "")
 
     java {
         toolchain {
@@ -50,10 +47,10 @@ subprojects {
 
                 pom {
                     groupId = project.group
-                    version = project.version + (development ? "-SNAPSHOT" : "")
-                    artifactId = artifact
+                    version = project.version
+                    artifactId = rootProject.name.toLowerCase() + (!(project.name == "Tools") ? "-" + project.name.toLowerCase() : "")
                     name = project.name
-                    description = 'YggTools is my tools library'
+                    description = '🛠️ A complete, modular and flexible toolset for all your Java ☕ projects'
                     url = 'https://github.com/Yggdrasil80/YggTools'
 
                     developers {
@@ -74,7 +71,7 @@ subprojects {
                     scm {
                         connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
                         developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
-                        url = 'https://github.com/Yggdrasil80/YggTools/tree/' + System.getenv("RELEASE_TYPE")
+                        url = 'https://github.com/Yggdrasil80/YggTools/tree/master'
                     }
                 }
             }
@@ -82,7 +79,7 @@ subprojects {
 
         repositories {
             maven {
-                url = "https://repo.yggdrasil80.tech/" + System.getenv("RELEASE_TYPE") + "/"
+                url = "https://repo.yggdrasil80.tech/releases/"
 
                 credentials {
                     username = System.getenv("MAVEN_USERNAME")
@@ -90,14 +87,12 @@ subprojects {
                 }
             }
 
-            if (!development) {
-                maven {
-                    url = "https://maven.pkg.github.com/Yggdrasil80/YggTools"
+            maven {
+                url = "https://maven.pkg.github.com/Yggdrasil80/YggTools"
 
-                    credentials {
-                        username System.getenv('GITHUB_USERNAME')
-                        password System.getenv('GITHUB_TOKEN')
-                    }
+                credentials {
+                    username System.getenv('GITHUB_USERNAME')
+                    password System.getenv('GITHUB_TOKEN')
                 }
             }
         }

@@ -1,6 +1,9 @@
 package io.github.yggdrasil80.yggtools.logger;
 
+import io.github.yggdrasil80.yggtools.io.FileWriter;
+
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -12,16 +15,12 @@ import java.util.Date;
 /**
  * The file logger.
  */
-public class FileLogger implements AutoCloseable {
+public class FileLogger extends FileWriter {
 
     /**
      * The logger prefix.
      */
     private final String prefix;
-    /**
-     * The writer used to write to the file.
-     */
-    private final PrintWriter writer;
 
     /**
      * The File Logger constructor.
@@ -29,20 +28,8 @@ public class FileLogger implements AutoCloseable {
      * @param prefix The prefix of the logger.
      */
     public FileLogger(final Path path, final String prefix) {
+        super(path);
         this.prefix = "[" + prefix + "] ";
-
-        try {
-            if (Files.notExists(path)) {
-                Files.createDirectories(path.getParent());
-                Files.createFile(path);
-            }
-
-            this.writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path), StandardCharsets.UTF_8)));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
     /**
@@ -52,7 +39,7 @@ public class FileLogger implements AutoCloseable {
      */
     private void message(final LoggerPrintType type, final String message) {
         final String msg = String.format("[%s] ", new SimpleDateFormat("hh:mm:ss").format(new Date())) + this.prefix + "[" + type + "]: " + message;
-        this.logToFile(type.getColor() + msg + LoggerColor.RESET);
+        this.write(type.getColor() + msg + LoggerColor.RESET);
     }
 
     /**
@@ -93,22 +80,5 @@ public class FileLogger implements AutoCloseable {
      */
     public void debug(final String message) {
         this.message(LoggerPrintType.DEBUG, message);
-    }
-
-    /**
-     * Logs a message to the file.
-     * @param message The message to log.
-     */
-    private void logToFile(final String message) {
-        this.writer.println(message);
-        this.writer.flush();
-    }
-
-    /**
-     * Closes the logger.
-     */
-    @Override
-    public void close() {
-        this.writer.close();
     }
 }

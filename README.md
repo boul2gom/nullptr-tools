@@ -2,7 +2,7 @@
 <h2 align="center">🛠️ A complete, modular and flexible toolset for all your Java ☕ projects</h2>
 
 <div align="center">YggTools is a collection of tools for Java projects. Its includes a lot of modules, to make it easier for you to include and interact with many commonly used libraries and frameworks.</div>
-<div align="center">All modules are separated from the whole project and are standalone, to keep your app lightweight. They have only a common base package included.All modules are separated from the whole project and are standalone, to keep your app lightweight. They have only a common base package included.</div>
+<div align="center">All modules are separated from the whole project and are standalone, to keep your app lightweight. They have only a common base package included.</div>
 <br>
 <div align="center">⚠️ The project is still in development, so many modules are planed but not released yet. See "Planned modules and features" below.</div>
 <br>
@@ -61,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    implementation "io.github.yggdrasil80:ModuleID:1.2.0"
+    implementation "io.github.yggdrasil80:ModuleID:1.2.1"
 }
 ```
 - If you are using [Maven](https://maven.apache.org/), you can get it by adding the following code in your pom.xml:
@@ -90,7 +90,7 @@ dependencies {
         <dependency>
             <groupId>io.github.yggdrasil80</groupId>
             <artifactId>ModuleID</artifactId>
-            <version>1.2.0</version>
+            <version>1.2.1</version>
         </dependency>
     </dependencies>
 </project>
