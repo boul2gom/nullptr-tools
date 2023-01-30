@@ -1,7 +1,6 @@
-<h1 align="center">Nullptr-Tools</h1>
 <h2 align="center">🛠️ A complete, modular and flexible toolset for all your Java ☕ projects</h2>
 
-<div align="center">Nullptr-Tools is a collection of tools for Java projects. Its includes a lot of modules, to make it easier for you to include and interact with many commonly used libraries and frameworks.</div>
+<div align="center">Nullptr-tools is a collection of tools for Java projects. Its includes a lot of modules, to make it easier for you to include and interact with many commonly used libraries and frameworks.</div>
 <div align="center">All modules are separated from the whole project and are standalone, to keep your app lightweight. They have only a common base package included.</div>
 <br>
 <div align="center">⚠️ The project is still in development, so many modules are planed but not released yet. See "Planned modules and features" below.</div>

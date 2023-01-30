@@ -1,6 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
-    id 'io.freefair.aggregate-javadoc' version '6.4.1'
+    id 'io.freefair.aggregate-javadoc' version '6.6.1'
 }
 
 subprojects {
@@ -48,7 +48,7 @@ subprojects {
                 pom {
                     groupId = project.group
                     version = project.version
-                    artifactId = rootProject.name.toLowerCase() + (!(project.name == "Tools") ? "-" + project.name.toLowerCase() : "")
+                    artifactId = rootProject.name.toLowerCase() + (!(project.name == "tools") ? "-" + project.name.toLowerCase() : "")
                     name = project.name
                     description = '🛠️ A complete, modular and flexible toolset for all your Java ☕ projects'
                     url = 'https://github.com/nullptr-rs/nullptr-tools'

@@ -28,16 +28,4 @@ public interface IKeyValueDataManager<Key, Data> {
      * @param key The key of the data.
      */
     void deleteData(Key key);
-
-    /**
-     * Get all the keys stored in the data manager.
-     * @return The keys.
-     */
-    List<Key> getAllKeys();
-
-    /**
-     * Get all the data stored in the data manager, usually deserialized if the data type is an object.
-     * @return The data.
-     */
-    List<Data> getAllData();
 }

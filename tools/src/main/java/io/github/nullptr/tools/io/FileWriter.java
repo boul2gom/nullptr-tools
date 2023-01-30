@@ -32,8 +32,6 @@ public abstract class FileWriter implements AutoCloseable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
     /**

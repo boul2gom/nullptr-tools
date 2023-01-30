@@ -11,6 +11,7 @@ import io.github.nullptr.tools.redis.connection.RedisConnection;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPubSub;
 
+import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
 /**
@@ -43,8 +44,6 @@ public class PubSubManager extends KeyedReceiverManager<String, String, IMessage
         this.gson = gson.serializeNulls().create();
         this.psl = new PubSubListener(this);
         this.redis = redis;
-
-        Runtime.getRuntime().addShutdownHook(new Thread(this::unregisterReceivers));
     }
 
     /**
@@ -56,7 +55,14 @@ public class PubSubManager extends KeyedReceiverManager<String, String, IMessage
     @Override
     public <R extends MessageReceiver<? extends IMessage>> void registerReceiver(String channel, R receiver) {
         super.registerReceiver(channel, receiver);
-        this.redis.executeAsync(jedis -> jedis.subscribe(this.psl, channel));
+        try {
+            this.redis.executeAsync(jedis -> {
+                jedis.subscribe(this.psl, channel);
+                return null;
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            this.logger.error("An error occurred while registering a receiver.", e);
+        }
     }
 
     /**
