@@ -16,11 +16,11 @@
 ---
 
 <p align="center">
-  <img src="https://img.shields.io/github/workflow/status/nullptr-rs/nullptr-tools/Github%20CI%20-%20Production/master?label=Master%20CI&logo=Github" alt="Master CI"/>
+  <img src="https://img.shields.io/github/actions/workflow/status/nullptr-rs/nullptr-tools/ci-prod.yml?label=Master%20CI&logo=Github" alt="Master CI"/>
   <img src="https://img.shields.io/github/v/release/nullptr-rs/nullptr-tools?label=Release&logo=Github" alt="Release"/>
   <img src="https://img.shields.io/github/license/nullptr-rs/nullptr-tools?label=License&logo=Github" alt="License">
   <img src="https://img.shields.io/github/deployments/nullptr-rs/nullptr-tools/github-pages?label=Javadoc%20on%20Pages&logo=Github" alt="Pages">
-  <img src="https://img.shields.io/github/workflow/status/nullptr-rs/nullptr-tools/Github%20CI%20-%20Development/develop?label=Develop%20CI&logo=Github" alt="Develop CI"/>
+  <img src="https://img.shields.io/github/actions/workflow/status/nullptr-rs/nullptr-tools/ci-dev.yml?label=Develop%20CI&logo=Github" alt="Develop CI"/>
 <p align="center">
   <img src="https://img.shields.io/github/discussions/nullptr-rs/nullptr-tools?label=Discussions&logo=Github" alt="Discussions">
   <img src="https://img.shields.io/github/issues-raw/nullptr-rs/nullptr-tools?label=Issues&logo=Github" alt="Issues">
