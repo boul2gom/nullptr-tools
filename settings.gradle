@@ -1,4 +1,4 @@
-rootProject.name = 'YggTools'
+rootProject.name = 'nullptr-tools'
 include 'Tools'
 include 'Redis'
 include 'Docker'

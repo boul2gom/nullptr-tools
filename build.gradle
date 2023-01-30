@@ -11,7 +11,7 @@ subprojects {
     apply plugin: "com.github.johnrengelman.shadow"
 
     version = '1.2.1'
-    group = 'io.github.yggdrasil80'
+    group = 'io.github.nullptr'
 
     java {
         toolchain {
@@ -51,13 +51,13 @@ subprojects {
                     artifactId = rootProject.name.toLowerCase() + (!(project.name == "Tools") ? "-" + project.name.toLowerCase() : "")
                     name = project.name
                     description = '🛠️ A complete, modular and flexible toolset for all your Java ☕ projects'
-                    url = 'https://github.com/Yggdrasil80/YggTools'
+                    url = 'https://github.com/nullptr-rs/nullptr-tools'
 
                     developers {
                         developer {
-                            id = 'yggdrasil80'
-                            name = 'Yggdrasil80'
-                            email = 'louisdechorivit@gmail.com'
+                            id = 'nullptr-rs'
+                            name = 'nullptr-rs'
+                            email = 'nullptr.rs@gmail.com'
                         }
                     }
 
@@ -69,26 +69,20 @@ subprojects {
                     }
 
                     scm {
-                        connection = 'scm:git:github.com/Yggdrasil80/YggTools.git'
-                        developerConnection = 'scm:git:ssh://github.com/Yggdrasil80/YggTools.git'
-                        url = 'https://github.com/Yggdrasil80/YggTools/tree/master'
+                        connection = 'scm:git:github.com/nullptr-rs/nullptr-tools.git'
+                        developerConnection = 'scm:git:ssh://github.com/nullptr-rs/nullptr-tools.git'
+                        url = 'https://github.com/nullptr-rs/nullptr-tools/tree/master'
                     }
                 }
             }
         }
 
         repositories {
-            maven {
-                url = "https://repo.yggdrasil80.tech/releases/"
-
-                credentials {
-                    username = System.getenv("MAVEN_USERNAME")
-                    password = System.getenv("MAVEN_TOKEN")
-                }
-            }
+            mavenLocal()
+            mavenCentral()
 
             maven {
-                url = "https://maven.pkg.github.com/Yggdrasil80/YggTools"
+                url = "https://maven.pkg.github.com/nullptr-rs/nullptr-tools"
 
                 credentials {
                     username System.getenv('GITHUB_USERNAME')
