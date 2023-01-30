@@ -48,7 +48,7 @@ subprojects {
                 pom {
                     groupId = project.group
                     version = project.version
-                    artifactId = rootProject.name.toLowerCase() + (!(project.name == "tools") ? "-" + project.name.toLowerCase() : "")
+                    artifactId = "tools" + (!(project.name == "tools") ? "-" + project.name.toLowerCase() : "")
                     name = project.name
                     description = '🛠️ A complete, modular and flexible toolset for all your Java ☕ projects'
                     url = 'https://github.com/nullptr-rs/nullptr-tools'
