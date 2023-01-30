@@ -10,7 +10,7 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: "com.github.johnrengelman.shadow"
 
-    version = '1.2.1'
+    version = '1.3.1'
     group = 'io.github.nullptr'
 
     java {
@@ -78,9 +78,6 @@ subprojects {
         }
 
         repositories {
-            mavenLocal()
-            mavenCentral()
-
             maven {
                 url = "https://maven.pkg.github.com/nullptr-rs/nullptr-tools"
 

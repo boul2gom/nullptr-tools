@@ -11,6 +11,8 @@ jobs:
     permissions:
       contents: write
       packages: write
+      deployments: write
+      pages: write
 
     steps:
       - uses: actions/checkout@v3
@@ -23,8 +25,6 @@ jobs:
       - name: Build with Gradle
         run: gradle build aggregateJavadoc
         env:
-          MAVEN_USERNAME: ${{ github.actor }}
-          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -73,8 +73,6 @@ jobs:
       - name: Publish to Maven Repository
         run: gradle publish
         env:
-          MAVEN_USERNAME: ${{ github.actor }}
-          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
