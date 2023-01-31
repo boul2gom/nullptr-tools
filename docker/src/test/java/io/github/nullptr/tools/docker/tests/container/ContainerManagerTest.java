@@ -6,11 +6,9 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.WaitResponse;
 import io.github.nullptr.tools.docker.DockerManager;
 import io.github.nullptr.tools.docker.container.ContainerManager;
+import io.github.nullptr.tools.docker.tests.utils.DockerContainer;
 import io.github.nullptr.tools.io.InstantFile;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -28,30 +26,21 @@ import java.util.stream.Collectors;
 @DisplayName("ContainerManager")
 public class ContainerManagerTest {
 
-    private static final String STRING_DOCKER_IMAGE = "docker:latest";
     private static final String STRING_DUMMY_IMAGE = "busybox:latest";
-    private static final DockerImageName DOCKER_IMAGE_NAME = DockerImageName.parse(STRING_DOCKER_IMAGE);
     private static final DockerImageName DUMMY_IMAGE_NAME = DockerImageName.parse(STRING_DUMMY_IMAGE);
 
     @org.testcontainers.junit.jupiter.Container
-    private static final GenericContainer<?> DOCKER_CONTAINER = new GenericContainer<>(DOCKER_IMAGE_NAME).withExposedPorts(2375);
+    private final GenericContainer<DockerContainer> DOCKER_CONTAINER = new DockerContainer();
 
-    private static ContainerManager CONTAINER_MANAGER;
+    private ContainerManager CONTAINER_MANAGER;
 
-    @BeforeAll
-    public static void beforeAll() {
-        DOCKER_CONTAINER.start();
-
+    @BeforeEach
+    public void beforeAll() {
         final String dockerHost = "tcp://" + DOCKER_CONTAINER.getHost() + ":" + DOCKER_CONTAINER.getMappedPort(2375);
-        final DockerManager DOCKER_MANAGER = new DockerManager.Builder().withHost(dockerHost).build();
-        CONTAINER_MANAGER = DOCKER_MANAGER.getContainerManager();
-    }
+        final DockerManager manager = new DockerManager.Builder().withHost(dockerHost).build();
 
-    /**
-     *
-     * Tout passer au beforeEach et afterEach pour créer/delete les dummy containers
-     *
-     */
+        CONTAINER_MANAGER = manager.getContainerManager();
+    }
 
     @Test
     @DisplayName("List containers")
