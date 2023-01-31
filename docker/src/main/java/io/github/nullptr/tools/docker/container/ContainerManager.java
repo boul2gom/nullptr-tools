@@ -16,12 +16,12 @@ import java.util.List;
 /**
  * The manager for docker containers.
  */
-public class DockerContainerManager {
+public class ContainerManager {
 
     /**
      * The logger.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DockerContainerManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContainerManager.class);
 
     /**
      * The docker manager.
@@ -32,7 +32,7 @@ public class DockerContainerManager {
      * The docker container manager constructor.
      * @param manager The manager, to get Docker client instance.
      */
-    public DockerContainerManager(DockerManager manager) {
+    public ContainerManager(DockerManager manager) {
         this.manager = manager;
     }
 

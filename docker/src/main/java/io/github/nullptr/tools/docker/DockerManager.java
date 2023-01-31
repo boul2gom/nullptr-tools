@@ -5,7 +5,7 @@ import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.zerodep.ZerodepDockerHttpClient;
 import io.github.nullptr.tools.builder.IBuilder;
-import io.github.nullptr.tools.docker.container.DockerContainerManager;
+import io.github.nullptr.tools.docker.container.ContainerManager;
 import io.github.nullptr.tools.docker.image.DockerImageManager;
 import io.github.nullptr.tools.docker.infos.DockerInfoManager;
 import io.github.nullptr.tools.docker.network.DockerNetworkManager;
@@ -50,7 +50,7 @@ public class DockerManager {
     /**
      * The container manager.
      */
-    private final DockerContainerManager containerManager;
+    private final ContainerManager containerManager;
 
     /**
      * The Docker manager constructor, used to manage all the docker operations through the API.
@@ -70,7 +70,7 @@ public class DockerManager {
         this.swarmManager = new DockerSwarmManager(this);
         this.volumeManager = new DockerVolumeManager(this);
         this.networkManager = new DockerNetworkManager(this);
-        this.containerManager = new DockerContainerManager(this);
+        this.containerManager = new ContainerManager(this);
     }
 
     /**
@@ -125,7 +125,7 @@ public class DockerManager {
      * Get the container manager.
      * @return The container manager.
      */
-    public DockerContainerManager getContainerManager() {
+    public ContainerManager getContainerManager() {
         return this.containerManager;
     }
 

@@ -40,6 +40,17 @@ subprojects {
         mavenCentral()
     }
 
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    }
+    
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+
     publishing {
         publications {
             mavenJava(MavenPublication) { publication ->

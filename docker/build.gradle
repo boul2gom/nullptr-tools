@@ -2,4 +2,7 @@ dependencies {
     api 'com.github.docker-java:docker-java-transport-zerodep:3.2.13'
     api 'com.github.docker-java:docker-java:3.2.13'
     api project(':tools')
+
+    testImplementation "org.testcontainers:testcontainers:1.17.6"
+    testImplementation "org.testcontainers:junit-jupiter:1.17.6"
 }
