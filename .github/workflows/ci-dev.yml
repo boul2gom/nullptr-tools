@@ -9,17 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-
+    container:
+      image: docker:dind
+      env:
+        DOCKER_TLS_CERTDIR: ""
+        DOCKER_HOST: tcp://docker:2375
+        DOCKER_DRIVER: overlay2
+        DOCKER_TLS_VERIFY: 0
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /var/lib/docker:/var/lib/docker
+        - /tmp:/tmp
+      ports:
+        - 2375:2375
+      options: --privileged -it -d --name docker
 
     steps:
       - name: 📁 Check out the repository
         uses: actions/checkout@v3
-
-      - name: 🐳 Set up Docker-in-Docker
-        uses: addnab/docker-run-action@v3
-        with:
-          image: docker:dind
-          options: --privileged --name docker -it -d --rm --privileged -e DOCKER_TLS_CERTDIR="" -e DOCKER_HOST="tcp://docker:2375" -e DOCKER_DRIVER=overlay2 -e DOCKER_TLS_VERIFY=0 -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp -v /var/lib/docker:/var/lib/docker -p 2375:2375
 
       - name: 🏗 Set up JDK 8
         uses: actions/setup-java@v3
@@ -37,7 +44,12 @@ jobs:
         run: docker exec docker docker version
 
       - name: 🔨 Build the project
-        run: gradle build -x test --stacktrace
+        uses: addnab/docker-run-action@v3
+        with:
+          image: gradle:alpine
+          options: |
+            -v /var/run/docker.sock:/var/run/docker.sock -v ${{ github.workspace }}:/home/gradle/project -w /home/gradle/project
+          run: build -x test --stacktrace
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
