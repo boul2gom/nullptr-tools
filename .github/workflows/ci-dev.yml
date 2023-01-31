@@ -21,13 +21,13 @@ jobs:
           distribution: 'zulu'
 
       - name: 🔨 Build the project
-        run: gradle build -x test --debug
+        run: gradle build -x test --info --stacktrace
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🧪 Run tests
-        run: gradle test --debug
+        run: gradle test --info --stacktrace
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
