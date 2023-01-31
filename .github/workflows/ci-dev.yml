@@ -20,19 +20,14 @@ jobs:
           java-version: '8'
           distribution: 'zulu'
 
-      - name: Debug CI
-        run: |
-          ps -aux | grep dockerd
-          docker ps
-
       - name: 🔨 Build the project
-        run: gradle build -x test
+        run: gradle build -x test --debug
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🧪 Run tests
-        run: gradle test
+        run: gradle test --debug
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
