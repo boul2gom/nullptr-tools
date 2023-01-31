@@ -6,9 +6,10 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.WaitResponse;
 import io.github.nullptr.tools.docker.DockerManager;
 import io.github.nullptr.tools.docker.container.ContainerManager;
-import io.github.nullptr.tools.docker.tests.utils.DockerContainer;
 import io.github.nullptr.tools.io.InstantFile;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -29,23 +30,12 @@ public class ContainerManagerTest {
     private static final String STRING_DUMMY_IMAGE = "mongo:latest";
     private static final DockerImageName DUMMY_IMAGE_NAME = DockerImageName.parse(STRING_DUMMY_IMAGE);
 
-    @org.testcontainers.junit.jupiter.Container
-    private final GenericContainer<DockerContainer> DOCKER_CONTAINER = new DockerContainer();
-
-    private ContainerManager CONTAINER_MANAGER;
-
-    @BeforeEach
-    public void beforeEach() {
-        final String dockerHost = "tcp://" + DOCKER_CONTAINER.getHost() + ":" + DOCKER_CONTAINER.getMappedPort(2375);
-        final DockerManager manager = new DockerManager.Builder().withHost(dockerHost).build();
-
-        CONTAINER_MANAGER = manager.getContainerManager();
-    }
+    private static final ContainerManager CONTAINER_MANAGER = new DockerManager.Builder().withHost("tcp://docker:2375").build().getContainerManager();
 
     @Test
     @DisplayName("List containers")
     public void testListContainers() {
-        final GenericContainer<?> dummyContainer = new GenericContainer<>(DUMMY_IMAGE_NAME).dependsOn(DOCKER_CONTAINER);
+        final GenericContainer<?> dummyContainer = new GenericContainer<>(DUMMY_IMAGE_NAME);
         dummyContainer.start();
 
         final List<Container> byName = CONTAINER_MANAGER.listContainers(dummyContainer.getContainerName(), null, null, null, false);
@@ -60,7 +50,7 @@ public class ContainerManagerTest {
     @Test
     @DisplayName("Remove container")
     public void testRemoveContainer() {
-        final GenericContainer<?> dummyContainer = new GenericContainer<>(DUMMY_IMAGE_NAME).dependsOn(DOCKER_CONTAINER);
+        final GenericContainer<?> dummyContainer = new GenericContainer<>(DUMMY_IMAGE_NAME);
         dummyContainer.start();
 
         CONTAINER_MANAGER.removeContainer(dummyContainer.getContainerId(), true, true);

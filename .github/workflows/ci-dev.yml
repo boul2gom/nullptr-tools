@@ -9,6 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    services:
+      docker:
+        image: docker:dind
+        env:
+          DOCKER_HOST: "tcp://docker:2375"
+          DOCKER_DRIVER: overlay2
+          DOCKER_TLS_CERTDIR: ""
+        ports:
+          - 2375:2375
+        options: --privileged --tls=false -v /var/run/docker.sock:/var/run/docker.sock
+
 
     steps:
       - name: 📁 Check out the repository
