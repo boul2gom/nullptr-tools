@@ -15,7 +15,6 @@ jobs:
         DOCKER_TLS_CERTDIR: ""
         DOCKER_HOST: tcp://docker:2375
         DOCKER_DRIVER: overlay2
-        DOCKER_TLS_VERIFY: 0
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - /var/lib/docker:/var/lib/docker
@@ -48,7 +47,7 @@ jobs:
         with:
           image: gradle:alpine
           options: |
-            -v /var/run/docker.sock:/var/run/docker.sock -v ${{ github.workspace }}:/home/gradle/project -w /home/gradle/project
+            -v /var/run/docker.sock:/var/run/docker.sock -v ${{ github.workspace }}:/home/nullptr-tools -w /home/nullptr-tools
           run: build -x test --stacktrace
         env:
           GITHUB_USERNAME: ${{ github.actor }}
