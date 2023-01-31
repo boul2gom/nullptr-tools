@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @DisplayName("ContainerManager")
 public class ContainerManagerTest {
 
-    private static final String STRING_DUMMY_IMAGE = "busybox:latest";
+    private static final String STRING_DUMMY_IMAGE = "mongo:latest";
     private static final DockerImageName DUMMY_IMAGE_NAME = DockerImageName.parse(STRING_DUMMY_IMAGE);
 
     @org.testcontainers.junit.jupiter.Container
