@@ -8,6 +8,7 @@ import io.github.nullptr.tools.docker.DockerManager;
 import io.github.nullptr.tools.docker.container.ContainerManager;
 import io.github.nullptr.tools.io.InstantFile;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
@@ -34,10 +35,17 @@ public class ContainerManagerTest {
 
     @org.testcontainers.junit.jupiter.Container
     private static final GenericContainer<?> DOCKER_CONTAINER = new GenericContainer<>(DOCKER_IMAGE_NAME).withExposedPorts(2375);
-    private static final String DOCKER_HOST = "tcp://" + DOCKER_CONTAINER.getHost() + ":" + DOCKER_CONTAINER.getMappedPort(2375);
 
-    private static final DockerManager DOCKER_MANAGER = new DockerManager.Builder().withHost(DOCKER_HOST).build();
-    private static final ContainerManager CONTAINER_MANAGER = DOCKER_MANAGER.getContainerManager();
+    private static ContainerManager CONTAINER_MANAGER;
+
+    @BeforeAll
+    public static void beforeAll() {
+        DOCKER_CONTAINER.start();
+
+        final String dockerHost = "tcp://" + DOCKER_CONTAINER.getHost() + ":" + DOCKER_CONTAINER.getMappedPort(2375);
+        final DockerManager DOCKER_MANAGER = new DockerManager.Builder().withHost(dockerHost).build();
+        CONTAINER_MANAGER = DOCKER_MANAGER.getContainerManager();
+    }
 
     /**
      *
