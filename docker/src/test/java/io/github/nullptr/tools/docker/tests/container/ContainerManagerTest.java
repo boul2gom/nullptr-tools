@@ -35,7 +35,7 @@ public class ContainerManagerTest {
     private ContainerManager CONTAINER_MANAGER;
 
     @BeforeEach
-    public void beforeAll() {
+    public void beforeEach() {
         final String dockerHost = "tcp://" + DOCKER_CONTAINER.getHost() + ":" + DOCKER_CONTAINER.getMappedPort(2375);
         final DockerManager manager = new DockerManager.Builder().withHost(dockerHost).build();
 
