@@ -27,10 +27,13 @@ jobs:
           java-version: '8'
           distribution: 'zulu'
 
-      - name: 🐳 Checking Docker version
+      - name: 🐳 Check Docker version
         run: docker version
 
-      - name: 🐳 Checking Docker-in-Docker version
+      - name: 🐳 Check running containers
+        run: docker ps
+
+      - name: 🐳 Check Docker-in-Docker version
         run: docker exec docker docker version
 
       - name: 🔨 Build the project
