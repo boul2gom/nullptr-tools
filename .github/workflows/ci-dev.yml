@@ -9,27 +9,29 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    services:
-      docker:
-        image: docker:dind
-        env:
-          DOCKER_HOST: "tcp://docker:2375"
-          DOCKER_DRIVER: overlay2
-          DOCKER_TLS_CERTDIR: ""
-        ports:
-          - 2375:2375
-        options: --privileged --tls=false -v /var/run/docker.sock:/var/run/docker.sock
 
 
     steps:
       - name: 📁 Check out the repository
         uses: actions/checkout@v3
 
+      - name: 🐳 Set up Docker
+        run: |
+          docker run --name docker -it -d --rm --privileged -e DOCKER_TLS_CERTDIR="" -e DOCKER_HOST="tcp://docker:2375" -e DOCKER_DRIVER=overlay2 \
+          -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp -v /var/lib/docker:/var/lib/docker \
+          docker:dind --tls=false
+
       - name: 🏗 Set up JDK 8
         uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'zulu'
+
+      - name: 🐳 Checking Docker version
+        run: docker version
+
+      - name: 🐳 Checking Docker-in-Docker version
+        run: docker exec docker docker version
 
       - name: 🔨 Build the project
         run: gradle build -x test --stacktrace
