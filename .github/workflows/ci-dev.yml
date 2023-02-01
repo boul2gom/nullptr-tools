@@ -9,19 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    container:
-      image: docker:dind
-      env:
-        DOCKER_TLS_CERTDIR: ""
-        DOCKER_HOST: tcp://docker:2375
-        DOCKER_DRIVER: overlay2
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - /var/lib/docker:/var/lib/docker
-        - /tmp:/tmp
-      ports:
-        - 2375:2375
-      options: -it --name docker
 
     steps:
       - name: 📁 Check out the repository
@@ -39,16 +26,8 @@ jobs:
       - name: 🐳 Check running containers
         run: docker ps
 
-      - name: 🐳 Check Docker-in-Docker version
-        run: docker exec docker docker version
-
       - name: 🔨 Build the project
-        uses: addnab/docker-run-action@v3
-        with:
-          image: gradle:alpine
-          options: |
-            -v /var/run/docker.sock:/var/run/docker.sock -v ${{ github.workspace }}:/home/nullptr-tools -w /home/nullptr-tools
-          run: build -x test --stacktrace
+        run: gradle build -x test --stacktrace
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -6,6 +6,7 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.WaitResponse;
 import io.github.nullptr.tools.docker.DockerManager;
 import io.github.nullptr.tools.docker.container.ContainerManager;
+import io.github.nullptr.tools.docker.utils.DockerHost;
 import io.github.nullptr.tools.io.InstantFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +31,7 @@ public class ContainerManagerTest {
     private static final String STRING_DUMMY_IMAGE = "mongo:latest";
     private static final DockerImageName DUMMY_IMAGE_NAME = DockerImageName.parse(STRING_DUMMY_IMAGE);
 
-    private static final ContainerManager CONTAINER_MANAGER = new DockerManager.Builder().withHost("tcp://docker:2375").build().getContainerManager();
+    private static final ContainerManager CONTAINER_MANAGER = new DockerManager.Builder().withHost(DockerHost.UNIX_SOCKET).build().getContainerManager();
 
     @Test
     @DisplayName("List containers")
