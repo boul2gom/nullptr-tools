@@ -4,6 +4,8 @@ import java.nio.file.Path;
 
 public class InstantFile extends FileWriter {
 
+    private final String content;
+
     /**
      * Constructs a new InstantFile.
      *
@@ -12,6 +14,10 @@ public class InstantFile extends FileWriter {
     public InstantFile(Path path, String content) {
         super(path);
 
+        this.content = content;
+    }
+
+    public void write() {
         super.write(content);
         super.close();
     }

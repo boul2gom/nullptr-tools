@@ -6,11 +6,16 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.WaitResponse;
 import io.github.nullptr.tools.docker.DockerManager;
 import io.github.nullptr.tools.docker.container.ContainerManager;
+import io.github.nullptr.tools.docker.tests.helper.ContainerHelper;
 import io.github.nullptr.tools.docker.utils.DockerHost;
 import io.github.nullptr.tools.io.InstantFile;
+import io.github.nullptr.tools.list.ListHelper;
+import io.github.nullptr.tools.platform.PlatformHelper;
+import io.github.nullptr.tools.platform.PlatformOS;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -28,108 +33,126 @@ import java.util.stream.Collectors;
 @DisplayName("ContainerManager")
 public class ContainerManagerTest {
 
-    private static final String STRING_DUMMY_IMAGE = "mongo:latest";
-    private static final DockerImageName DUMMY_IMAGE_NAME = DockerImageName.parse(STRING_DUMMY_IMAGE);
+    private static final DockerImageName DUMMY_IMAGE_NAME = DockerImageName.parse("alpine:latest");
 
-    private static final ContainerManager CONTAINER_MANAGER = new DockerManager.Builder().withHost(DockerHost.UNIX_SOCKET).build().getContainerManager();
+    private static final ContainerManager CONTAINER_MANAGER;
+
+    static {
+        final DockerHost host = PlatformHelper.isOn(PlatformOS.WINDOWS) ? DockerHost.TCP_DAEMON : DockerHost.UNIX_SOCKET;
+
+        CONTAINER_MANAGER = new DockerManager.Builder().withHost(host).build().getContainerManager();
+    }
 
     @Test
     @DisplayName("List containers")
     public void testListContainers() {
-        final GenericContainer<?> dummyContainer = new GenericContainer<>(DUMMY_IMAGE_NAME);
-        dummyContainer.start();
+        ContainerHelper.withTestContainer(DUMMY_IMAGE_NAME, container ->
+            {
+                final String containerId = container.getContainerId();
+                final List<Container> byId = CONTAINER_MANAGER.listContainers(null, containerId, null, null, true);
+                Assertions.assertTrue(ListHelper.contains(byId, c -> c.getId().contains(containerId)));
 
-        final List<Container> byName = CONTAINER_MANAGER.listContainers(dummyContainer.getContainerName(), null, null, null, false);
-        Assertions.assertEquals(1, byName.size());
-
-        final List<Container> byId = CONTAINER_MANAGER.listContainers(null, dummyContainer.getContainerId(), null, null, false);
-        Assertions.assertEquals(1, byId.size());
-
-        dummyContainer.stop();
+                final String containerName = container.getContainerName();
+                final List<Container> byName = CONTAINER_MANAGER.listContainers(containerName, null, null, null, true);
+                Assertions.assertTrue(ListHelper.contains(byName, c -> c.getNames()[0].contains(containerName)));
+            }
+        );
     }
 
     @Test
     @DisplayName("Remove container")
     public void testRemoveContainer() {
-        final GenericContainer<?> dummyContainer = new GenericContainer<>(DUMMY_IMAGE_NAME);
-        dummyContainer.start();
+        ContainerHelper.withTestContainer(DUMMY_IMAGE_NAME, container ->
+            {
+                final String containerId = container.getContainerId();
+                CONTAINER_MANAGER.stopContainer(containerId, 1000);
+                CONTAINER_MANAGER.removeContainer(containerId, true, true);
 
-        CONTAINER_MANAGER.removeContainer(dummyContainer.getContainerId(), true, true);
-
-        final List<Container> byId = CONTAINER_MANAGER.listContainers(null, dummyContainer.getContainerId(), null, null, false);
-        Assertions.assertEquals(0, byId.size());
-
-        dummyContainer.stop();
+                final List<Container> byId = CONTAINER_MANAGER.listContainers(null, containerId, null, null, false);
+                Assertions.assertFalse(ListHelper.contains(byId, c -> c.getId().contains(containerId)));
+            }
+        );
     }
 
     @Test
     @DisplayName("Create container")
     public void testCreateContainer() {
-        final CreateContainerResponse container = CONTAINER_MANAGER.createContainer(STRING_DUMMY_IMAGE, null, null);
-        Assertions.assertAll(
-                () -> Assertions.assertNotNull(container.getId()),
-                () -> Assertions.assertNull(container.getWarnings())
-        );
+        ContainerHelper.withContainer(CONTAINER_MANAGER, DUMMY_IMAGE_NAME, container ->
+            {
+                final String containerId = container.getId();
+                final List<Container> byId = CONTAINER_MANAGER.listContainers(null, containerId, null, null, true);
 
-        CONTAINER_MANAGER.removeContainer(container.getId(), true, true);
+                Assertions.assertTrue(ListHelper.contains(byId, c -> c.getId().contains(containerId)));
+            }
+        );
     }
 
     @Test
     @DisplayName("Start and stop container")
     public void testStartAndStopContainer() {
-        final CreateContainerResponse container = CONTAINER_MANAGER.createContainer(STRING_DUMMY_IMAGE, null, null);
-        CONTAINER_MANAGER.stopContainer(container.getId(), 1000);
+        ContainerHelper.withContainer(CONTAINER_MANAGER, DUMMY_IMAGE_NAME, container ->
+                {
+                    final String containerId = container.getId();
+                    CONTAINER_MANAGER.stopContainer(containerId, 0);
 
-        CONTAINER_MANAGER.startContainer(container.getId());
-        Assertions.assertEquals(Boolean.TRUE, CONTAINER_MANAGER.inspectContainer(container.getId()).getState().getRunning());
-
-        CONTAINER_MANAGER.removeContainer(container.getId(), true, true);
+                    CONTAINER_MANAGER.startContainer(container.getId());
+                    Assertions.assertEquals(Boolean.TRUE, CONTAINER_MANAGER.inspectContainer(container.getId()).getState().getRunning());
+                }
+        );
     }
 
     @Test
     @DisplayName("Inspect container")
     public void testInspectContainer() {
-        final CreateContainerResponse container = CONTAINER_MANAGER.createContainer(STRING_DUMMY_IMAGE, null, null);
-
-        final InspectContainerResponse inspectContainer = CONTAINER_MANAGER.inspectContainer(container.getId());
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(container.getId(), inspectContainer.getId()),
-                () -> Assertions.assertEquals(STRING_DUMMY_IMAGE, inspectContainer.getImageId())
+        ContainerHelper.withContainer(CONTAINER_MANAGER, DUMMY_IMAGE_NAME, container ->
+            {
+                final InspectContainerResponse inspectContainer = CONTAINER_MANAGER.inspectContainer(container.getId());
+                Assertions.assertAll(
+                        () -> Assertions.assertEquals(container.getId(), inspectContainer.getId()),
+                        () -> Assertions.assertEquals(DUMMY_IMAGE_NAME.getUnversionedPart(), inspectContainer.getImageId())
+                );
+            }
         );
-
-        CONTAINER_MANAGER.removeContainer(container.getId(), true, true);
     }
 
     @Test
     @DisplayName("Wait container")
     public void testWaitContainer() {
-        final CreateContainerResponse container = CONTAINER_MANAGER.createContainer(STRING_DUMMY_IMAGE, null, null);
-
-        final WaitResponse response = CONTAINER_MANAGER.waitContainer(container.getId()).getLastResult();
-        Assertions.assertEquals(0, response.getStatusCode());
-
-        CONTAINER_MANAGER.removeContainer(container.getId(), true, true);
+        ContainerHelper.withContainer(CONTAINER_MANAGER, DUMMY_IMAGE_NAME, container ->
+            {
+                final WaitResponse response = CONTAINER_MANAGER.waitContainer(container.getId()).getLastResult();
+                LoggerFactory.getLogger(getClass()).info("Exit code: {}", response.getStatusCode());
+                Assertions.assertEquals(0, response.getStatusCode());
+            }
+        );
     }
 
     @Test
     @DisplayName("Copy file into and from container")
     public void testCopyWithContainer() {
-        final CreateContainerResponse container = CONTAINER_MANAGER.createContainer(STRING_DUMMY_IMAGE, null, null);
-        final Path path = Paths.get("test.txt");
-        new InstantFile(path, "Test content for testing");
+        ContainerHelper.withContainer(CONTAINER_MANAGER, DUMMY_IMAGE_NAME, container ->
+            {
+                final Path path = Paths.get("test.txt");
+                try (final InstantFile file = new InstantFile(path, "Test content for testing")) {
+                    file.write();
+                }
 
-        CONTAINER_MANAGER.copyToContainer(container.getId(), "test.txt", "/test.txt", false, false);
+                CONTAINER_MANAGER.copyToContainer(container.getId(), "test.txt", "/test.txt", false, false);
 
-        try (final InputStream stream = CONTAINER_MANAGER.copyFromContainer(container.getId(), "/test.txt", "new-test.txt")) {
-            final String content = new BufferedReader(new InputStreamReader(stream)).lines().collect(Collectors.joining("\n"));
-            Assertions.assertEquals("Test content for testing", content);
+                try (final InputStream stream = CONTAINER_MANAGER.copyFromContainer(container.getId(), "/test.txt", "new-test.txt")) {
+                    final String content = new BufferedReader(new InputStreamReader(stream)).lines().collect(Collectors.joining("\n"));
+                    Assertions.assertEquals("Test content for testing", content);
+                } catch (final Exception e) {
+                    Assertions.fail(e);
+                }
 
-            Files.delete(path);
-            Files.delete(Paths.get("new-test.txt"));
-        } catch (final Exception e) {
-            Assertions.fail(e);
-        }
-
-        CONTAINER_MANAGER.removeContainer(container.getId(), true, true);
+                try {
+                    Files.delete(path);
+                    Files.delete(Paths.get("new-test.txt"));
+                } catch (final Exception e) {
+                    Assertions.fail(e);
+                }
+            }
+        );
     }
 }

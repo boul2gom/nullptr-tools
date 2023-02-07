@@ -1,5 +1,7 @@
 package io.github.nullptr.tools.docker.utils;
 
+import io.github.nullptr.tools.platform.PlatformHelper;
+import io.github.nullptr.tools.platform.PlatformOS;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -38,8 +40,8 @@ public enum DockerHost {
      * @return The host.
      */
     public String getHost() {
-        if (System.getProperty("os.name").toLowerCase().contains("win") && this.host.startsWith("unix://")) {
-            LoggerFactory.getLogger(DockerHost.class).warn("Windows does not support unix sockets. Using tcp instead.");
+        if (PlatformHelper.isOn(PlatformOS.WINDOWS) && this.host.startsWith("unix://")) {
+            LoggerFactory.getLogger(DockerHost.class).warn("Windows does not support unix sockets. Use tcp instead.");
         }
 
         return this.host;
