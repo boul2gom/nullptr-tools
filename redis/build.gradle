@@ -1,4 +1,0 @@
-dependencies {
-    api project(':tools')
-    api 'redis.clients:jedis:4.1.1'
-}
