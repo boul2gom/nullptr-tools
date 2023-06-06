@@ -71,10 +71,10 @@
 <h1 class="title">Hierarchy For All Packages</h1>
 <span class="packageHierarchyLabel">Package Hierarchies:</span>
 <ul class="horizontal">
+<li><a href="io/github/nullptr/tools/annotations/package-tree.html">io.github.nullptr.tools.annotations</a>, </li>
+<li><a href="io/github/nullptr/tools/annotations/processor/package-tree.html">io.github.nullptr.tools.annotations.processor</a>, </li>
+<li><a href="io/github/nullptr/tools/annotations/processor/builder/package-tree.html">io.github.nullptr.tools.annotations.processor.builder</a>, </li>
 <li><a href="io/github/nullptr/tools/builder/package-tree.html">io.github.nullptr.tools.builder</a>, </li>
-<li><a href="io/github/nullptr/tools/data/package-tree.html">io.github.nullptr.tools.data</a>, </li>
-<li><a href="io/github/nullptr/tools/dispatcher/basic/package-tree.html">io.github.nullptr.tools.dispatcher.basic</a>, </li>
-<li><a href="io/github/nullptr/tools/dispatcher/keyed/package-tree.html">io.github.nullptr.tools.dispatcher.keyed</a>, </li>
 <li><a href="io/github/nullptr/tools/docker/package-tree.html">io.github.nullptr.tools.docker</a>, </li>
 <li><a href="io/github/nullptr/tools/docker/callback/package-tree.html">io.github.nullptr.tools.docker.callback</a>, </li>
 <li><a href="io/github/nullptr/tools/docker/callback/container/package-tree.html">io.github.nullptr.tools.docker.callback.container</a>, </li>
@@ -89,17 +89,12 @@
 <li><a href="io/github/nullptr/tools/docker/swarm/package-tree.html">io.github.nullptr.tools.docker.swarm</a>, </li>
 <li><a href="io/github/nullptr/tools/docker/utils/package-tree.html">io.github.nullptr.tools.docker.utils</a>, </li>
 <li><a href="io/github/nullptr/tools/docker/volume/package-tree.html">io.github.nullptr.tools.docker.volume</a>, </li>
-<li><a href="io/github/nullptr/tools/events/package-tree.html">io.github.nullptr.tools.events</a>, </li>
-<li><a href="io/github/nullptr/tools/events/listener/package-tree.html">io.github.nullptr.tools.events.listener</a>, </li>
 <li><a href="io/github/nullptr/tools/i18n/package-tree.html">io.github.nullptr.tools.i18n</a>, </li>
 <li><a href="io/github/nullptr/tools/io/package-tree.html">io.github.nullptr.tools.io</a>, </li>
+<li><a href="io/github/nullptr/tools/list/package-tree.html">io.github.nullptr.tools.list</a>, </li>
 <li><a href="io/github/nullptr/tools/logger/package-tree.html">io.github.nullptr.tools.logger</a>, </li>
-<li><a href="io/github/nullptr/tools/message/package-tree.html">io.github.nullptr.tools.message</a>, </li>
-<li><a href="io/github/nullptr/tools/receiver/basic/package-tree.html">io.github.nullptr.tools.receiver.basic</a>, </li>
-<li><a href="io/github/nullptr/tools/receiver/keyed/package-tree.html">io.github.nullptr.tools.receiver.keyed</a>, </li>
-<li><a href="io/github/nullptr/tools/redis/package-tree.html">io.github.nullptr.tools.redis</a>, </li>
-<li><a href="io/github/nullptr/tools/redis/connection/package-tree.html">io.github.nullptr.tools.redis.connection</a>, </li>
-<li><a href="io/github/nullptr/tools/redis/pubsub/package-tree.html">io.github.nullptr.tools.redis.pubsub</a>, </li>
+<li><a href="io/github/nullptr/tools/platform/package-tree.html">io.github.nullptr.tools.platform</a>, </li>
+<li><a href="io/github/nullptr/tools/string/package-tree.html">io.github.nullptr.tools.string</a>, </li>
 <li><a href="io/github/nullptr/tools/types/package-tree.html">io.github.nullptr.tools.types</a></li>
 </ul>
 </div>
@@ -108,15 +103,32 @@
 <ul>
 <li type="circle">java.lang.Object
 <ul>
-<li type="circle">io.github.nullptr.tools.dispatcher.basic.<a href="io/github/nullptr/tools/dispatcher/basic/BasicDispatcher.html" title="class in io.github.nullptr.tools.dispatcher.basic"><span class="typeNameLink">BasicDispatcher</span></a>&lt;Receiver,Data&gt;
+<li type="circle">javax.lang.model.util.AbstractElementVisitor6&lt;R,P&gt; (implements javax.lang.model.element.ElementVisitor&lt;R,P&gt;)
 <ul>
-<li type="circle">io.github.nullptr.tools.events.<a href="io/github/nullptr/tools/events/EventManager.html" title="class in io.github.nullptr.tools.events"><span class="typeNameLink">EventManager</span></a></li>
+<li type="circle">javax.lang.model.util.ElementScanner6&lt;R,P&gt;
+<ul>
+<li type="circle">javax.lang.model.util.ElementScanner7&lt;R,P&gt;
+<ul>
+<li type="circle">javax.lang.model.util.ElementScanner8&lt;R,P&gt;
+<ul>
+<li type="circle">io.github.nullptr.tools.annotations.processor.<a href="io/github/nullptr/tools/annotations/processor/ImportScanner.html" title="class in io.github.nullptr.tools.annotations.processor"><span class="typeNameLink">ImportScanner</span></a></li>
 </ul>
 </li>
-<li type="circle">io.github.nullptr.tools.receiver.basic.<a href="io/github/nullptr/tools/receiver/basic/BasicReceiver.html" title="class in io.github.nullptr.tools.receiver.basic"><span class="typeNameLink">BasicReceiver</span></a>&lt;RawData,Data&gt;</li>
-<li type="circle">io.github.nullptr.tools.receiver.basic.<a href="io/github/nullptr/tools/receiver/basic/BasicReceiverManager.html" title="class in io.github.nullptr.tools.receiver.basic"><span class="typeNameLink">BasicReceiverManager</span></a>&lt;RawData,Data,Rcv&gt;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li type="circle">javax.annotation.processing.AbstractProcessor (implements javax.annotation.processing.Processor)
+<ul>
+<li type="circle">io.github.nullptr.tools.annotations.processor.builder.<a href="io/github/nullptr/tools/annotations/processor/builder/BuilderAnnotationProcessor.html" title="class in io.github.nullptr.tools.annotations.processor.builder"><span class="typeNameLink">BuilderAnnotationProcessor</span></a></li>
+</ul>
+</li>
+<li type="circle">io.github.nullptr.tools.annotations.processor.<a href="io/github/nullptr/tools/annotations/processor/AnnotationProcessorHelper.html" title="class in io.github.nullptr.tools.annotations.processor"><span class="typeNameLink">AnnotationProcessorHelper</span></a></li>
+<li type="circle">io.github.nullptr.tools.annotations.processor.builder.<a href="io/github/nullptr/tools/annotations/processor/builder/BuilderAnnotationWriter.html" title="class in io.github.nullptr.tools.annotations.processor.builder"><span class="typeNameLink">BuilderAnnotationWriter</span></a></li>
 <li type="circle">io.github.nullptr.tools.builder.<a href="io/github/nullptr/tools/builder/BuilderArgument.html" title="class in io.github.nullptr.tools.builder"><span class="typeNameLink">BuilderArgument</span></a>&lt;T&gt;</li>
-<li type="circle">io.github.nullptr.tools.docker.container.<a href="io/github/nullptr/tools/docker/container/DockerContainerManager.html" title="class in io.github.nullptr.tools.docker.container"><span class="typeNameLink">DockerContainerManager</span></a></li>
+<li type="circle">io.github.nullptr.tools.docker.container.<a href="io/github/nullptr/tools/docker/container/ContainerManager.html" title="class in io.github.nullptr.tools.docker.container"><span class="typeNameLink">ContainerManager</span></a></li>
 <li type="circle">io.github.nullptr.tools.docker.image.<a href="io/github/nullptr/tools/docker/image/DockerImageManager.html" title="class in io.github.nullptr.tools.docker.image"><span class="typeNameLink">DockerImageManager</span></a></li>
 <li type="circle">io.github.nullptr.tools.docker.infos.<a href="io/github/nullptr/tools/docker/infos/DockerInfoManager.html" title="class in io.github.nullptr.tools.docker.infos"><span class="typeNameLink">DockerInfoManager</span></a></li>
 <li type="circle">io.github.nullptr.tools.docker.<a href="io/github/nullptr/tools/docker/DockerManager.html" title="class in io.github.nullptr.tools.docker"><span class="typeNameLink">DockerManager</span></a></li>
@@ -124,31 +136,18 @@
 <li type="circle">io.github.nullptr.tools.docker.network.<a href="io/github/nullptr/tools/docker/network/DockerNetworkManager.html" title="class in io.github.nullptr.tools.docker.network"><span class="typeNameLink">DockerNetworkManager</span></a></li>
 <li type="circle">io.github.nullptr.tools.docker.swarm.<a href="io/github/nullptr/tools/docker/swarm/DockerSwarmManager.html" title="class in io.github.nullptr.tools.docker.swarm"><span class="typeNameLink">DockerSwarmManager</span></a></li>
 <li type="circle">io.github.nullptr.tools.docker.volume.<a href="io/github/nullptr/tools/docker/volume/DockerVolumeManager.html" title="class in io.github.nullptr.tools.docker.volume"><span class="typeNameLink">DockerVolumeManager</span></a></li>
-<li type="circle">io.github.nullptr.tools.events.<a href="io/github/nullptr/tools/events/Event.html" title="class in io.github.nullptr.tools.events"><span class="typeNameLink">Event</span></a></li>
 <li type="circle">io.github.nullptr.tools.io.<a href="io/github/nullptr/tools/io/FileWriter.html" title="class in io.github.nullptr.tools.io"><span class="typeNameLink">FileWriter</span></a> (implements java.lang.AutoCloseable)
 <ul>
 <li type="circle">io.github.nullptr.tools.docker.dockerfile.<a href="io/github/nullptr/tools/docker/dockerfile/DockerfileGenerator.html" title="class in io.github.nullptr.tools.docker.dockerfile"><span class="typeNameLink">DockerfileGenerator</span></a></li>
 <li type="circle">io.github.nullptr.tools.logger.<a href="io/github/nullptr/tools/logger/FileLogger.html" title="class in io.github.nullptr.tools.logger"><span class="typeNameLink">FileLogger</span></a></li>
+<li type="circle">io.github.nullptr.tools.io.<a href="io/github/nullptr/tools/io/InstantFile.html" title="class in io.github.nullptr.tools.io"><span class="typeNameLink">InstantFile</span></a></li>
 </ul>
 </li>
 <li type="circle">io.github.nullptr.tools.i18n.<a href="io/github/nullptr/tools/i18n/I18n.html" title="class in io.github.nullptr.tools.i18n"><span class="typeNameLink">I18n</span></a></li>
 <li type="circle">io.github.nullptr.tools.i18n.<a href="io/github/nullptr/tools/i18n/I18nLoader.html" title="class in io.github.nullptr.tools.i18n"><span class="typeNameLink">I18nLoader</span></a></li>
-<li type="circle">io.github.nullptr.tools.dispatcher.keyed.<a href="io/github/nullptr/tools/dispatcher/keyed/KeyedDispatcher.html" title="class in io.github.nullptr.tools.dispatcher.keyed"><span class="typeNameLink">KeyedDispatcher</span></a>&lt;Key,Receiver,Data&gt;</li>
-<li type="circle">io.github.nullptr.tools.receiver.keyed.<a href="io/github/nullptr/tools/receiver/keyed/KeyedReceiver.html" title="class in io.github.nullptr.tools.receiver.keyed"><span class="typeNameLink">KeyedReceiver</span></a>&lt;Key,RawData,Data&gt;
-<ul>
-<li type="circle">io.github.nullptr.tools.message.<a href="io/github/nullptr/tools/message/MessageReceiver.html" title="class in io.github.nullptr.tools.message"><span class="typeNameLink">MessageReceiver</span></a>&lt;Data&gt;</li>
-</ul>
-</li>
-<li type="circle">io.github.nullptr.tools.receiver.keyed.<a href="io/github/nullptr/tools/receiver/keyed/KeyedReceiverManager.html" title="class in io.github.nullptr.tools.receiver.keyed"><span class="typeNameLink">KeyedReceiverManager</span></a>&lt;Key,RawData,Data,Rcv&gt;
-<ul>
-<li type="circle">io.github.nullptr.tools.redis.pubsub.<a href="io/github/nullptr/tools/redis/pubsub/PubSubManager.html" title="class in io.github.nullptr.tools.redis.pubsub"><span class="typeNameLink">PubSubManager</span></a></li>
-</ul>
-</li>
+<li type="circle">io.github.nullptr.tools.list.<a href="io/github/nullptr/tools/list/ListHelper.html" title="class in io.github.nullptr.tools.list"><span class="typeNameLink">ListHelper</span></a></li>
 <li type="circle">io.github.nullptr.tools.types.<a href="io/github/nullptr/tools/types/Pair.html" title="class in io.github.nullptr.tools.types"><span class="typeNameLink">Pair</span></a>&lt;Left,Right&gt;</li>
-<li type="circle">io.github.nullptr.tools.redis.pubsub.<a href="io/github/nullptr/tools/redis/pubsub/PubSubManager.Builder.html" title="class in io.github.nullptr.tools.redis.pubsub"><span class="typeNameLink">PubSubManager.Builder</span></a> (implements io.github.nullptr.tools.builder.<a href="io/github/nullptr/tools/builder/IBuilder.html" title="interface in io.github.nullptr.tools.builder">IBuilder</a>&lt;T&gt;)</li>
-<li type="circle">io.github.nullptr.tools.redis.connection.<a href="io/github/nullptr/tools/redis/connection/RedisConnection.html" title="class in io.github.nullptr.tools.redis.connection"><span class="typeNameLink">RedisConnection</span></a></li>
-<li type="circle">io.github.nullptr.tools.redis.connection.<a href="io/github/nullptr/tools/redis/connection/RedisConnection.Builder.html" title="class in io.github.nullptr.tools.redis.connection"><span class="typeNameLink">RedisConnection.Builder</span></a> (implements io.github.nullptr.tools.builder.<a href="io/github/nullptr/tools/builder/IBuilder.html" title="interface in io.github.nullptr.tools.builder">IBuilder</a>&lt;T&gt;)</li>
-<li type="circle">io.github.nullptr.tools.redis.<a href="io/github/nullptr/tools/redis/RedisManager.html" title="class in io.github.nullptr.tools.redis"><span class="typeNameLink">RedisManager</span></a> (implements io.github.nullptr.tools.data.<a href="io/github/nullptr/tools/data/IKeyValueDataManager.html" title="interface in io.github.nullptr.tools.data">IKeyValueDataManager</a>&lt;Key,Data&gt;)</li>
+<li type="circle">io.github.nullptr.tools.platform.<a href="io/github/nullptr/tools/platform/PlatformHelper.html" title="class in io.github.nullptr.tools.platform"><span class="typeNameLink">PlatformHelper</span></a></li>
 <li type="circle">com.github.dockerjava.api.async.ResultCallbackTemplate&lt;RC_T,A_RES_T&gt; (implements com.github.dockerjava.api.async.ResultCallback&lt;A_RES_T&gt;)
 <ul>
 <li type="circle">io.github.nullptr.tools.docker.callback.<a href="io/github/nullptr/tools/docker/callback/BaseCallback.html" title="class in io.github.nullptr.tools.docker.callback"><span class="typeNameLink">BaseCallback</span></a>&lt;Callback,Result&gt;
@@ -170,19 +169,18 @@
 </li>
 </ul>
 </li>
+<li type="circle">io.github.nullptr.tools.string.<a href="io/github/nullptr/tools/string/StringHelper.html" title="class in io.github.nullptr.tools.string"><span class="typeNameLink">StringHelper</span></a></li>
 </ul>
 </li>
 </ul>
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
 <li type="circle">io.github.nullptr.tools.builder.<a href="io/github/nullptr/tools/builder/IBuilder.html" title="interface in io.github.nullptr.tools.builder"><span class="typeNameLink">IBuilder</span></a>&lt;T&gt;</li>
-<li type="circle">io.github.nullptr.tools.data.<a href="io/github/nullptr/tools/data/IKeyValueDataManager.html" title="interface in io.github.nullptr.tools.data"><span class="typeNameLink">IKeyValueDataManager</span></a>&lt;Key,Data&gt;</li>
-<li type="circle">io.github.nullptr.tools.message.<a href="io/github/nullptr/tools/message/IMessage.html" title="interface in io.github.nullptr.tools.message"><span class="typeNameLink">IMessage</span></a></li>
-<li type="circle">io.github.nullptr.tools.events.listener.<a href="io/github/nullptr/tools/events/listener/Listener.html" title="interface in io.github.nullptr.tools.events.listener"><span class="typeNameLink">Listener</span></a></li>
 </ul>
 <h2 title="Annotation Type Hierarchy">Annotation Type Hierarchy</h2>
 <ul>
-<li type="circle">io.github.nullptr.tools.events.listener.<a href="io/github/nullptr/tools/events/listener/EventHandler.html" title="annotation in io.github.nullptr.tools.events.listener"><span class="typeNameLink">EventHandler</span></a> (implements java.lang.annotation.Annotation)</li>
+<li type="circle">io.github.nullptr.tools.annotations.<a href="io/github/nullptr/tools/annotations/Builder.html" title="annotation in io.github.nullptr.tools.annotations"><span class="typeNameLink">Builder</span></a> (implements java.lang.annotation.Annotation)</li>
+<li type="circle">io.github.nullptr.tools.annotations.<a href="io/github/nullptr/tools/annotations/BuilderArgument.html" title="annotation in io.github.nullptr.tools.annotations"><span class="typeNameLink">BuilderArgument</span></a> (implements java.lang.annotation.Annotation)</li>
 </ul>
 <h2 title="Enum Hierarchy">Enum Hierarchy</h2>
 <ul>
@@ -192,8 +190,9 @@
 <ul>
 <li type="circle">io.github.nullptr.tools.docker.utils.<a href="io/github/nullptr/tools/docker/utils/DockerHost.html" title="enum in io.github.nullptr.tools.docker.utils"><span class="typeNameLink">DockerHost</span></a></li>
 <li type="circle">io.github.nullptr.tools.docker.dockerfile.<a href="io/github/nullptr/tools/docker/dockerfile/DockerInstruction.html" title="enum in io.github.nullptr.tools.docker.dockerfile"><span class="typeNameLink">DockerInstruction</span></a></li>
-<li type="circle">io.github.nullptr.tools.logger.<a href="io/github/nullptr/tools/logger/LoggerColor.html" title="enum in io.github.nullptr.tools.logger"><span class="typeNameLink">LoggerColor</span></a></li>
+<li type="circle">io.github.nullptr.tools.platform.<a href="io/github/nullptr/tools/platform/PlatformOS.html" title="enum in io.github.nullptr.tools.platform"><span class="typeNameLink">PlatformOS</span></a></li>
 <li type="circle">io.github.nullptr.tools.logger.<a href="io/github/nullptr/tools/logger/LoggerPrintType.html" title="enum in io.github.nullptr.tools.logger"><span class="typeNameLink">LoggerPrintType</span></a></li>
+<li type="circle">io.github.nullptr.tools.logger.<a href="io/github/nullptr/tools/logger/LoggerColor.html" title="enum in io.github.nullptr.tools.logger"><span class="typeNameLink">LoggerColor</span></a></li>
 </ul>
 </li>
 </ul>
