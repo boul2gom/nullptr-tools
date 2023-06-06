@@ -40,18 +40,6 @@ subprojects {
         mavenCentral()
     }
 
-    dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-        testImplementation 'org.slf4j:log4j-over-slf4j:2.0.6'
-    }
-    
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events "passed", "skipped", "failed"
-        }
-    }
-
     publishing {
         publications {
             mavenJava(MavenPublication) { publication ->
@@ -63,7 +51,7 @@ subprojects {
                     artifactId = "tools" + (!(project.name == "tools") ? "-" + project.name.toLowerCase() : "")
                     name = project.name
                     description = '🛠️ A complete, modular and flexible toolset for all your Java ☕ projects'
-                    url = 'https://github.com/nullptr-rs/nullptr-tools'
+                    url = 'https://github.com/boul2gom/nullptr-tools'
 
                     developers {
                         developer {
@@ -91,7 +79,7 @@ subprojects {
 
         repositories {
             maven {
-                url = "https://maven.pkg.github.com/nullptr-rs/nullptr-tools"
+                url = "https://maven.pkg.github.com/boul2gom/nullptr-tools"
 
                 credentials {
                     username System.getenv('GITHUB_USERNAME')
