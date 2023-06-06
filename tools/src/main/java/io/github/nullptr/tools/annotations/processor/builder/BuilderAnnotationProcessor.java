@@ -1,8 +1,8 @@
 package io.github.nullptr.tools.annotations.processor.builder;
 
 import com.google.auto.service.AutoService;
-import io.github.nullptr.tools.annotations.BuilderArgumentGenerator;
-import io.github.nullptr.tools.annotations.BuilderGenerator;
+import io.github.nullptr.tools.annotations.Builder;
+import io.github.nullptr.tools.annotations.BuilderArgument;
 import io.github.nullptr.tools.annotations.processor.AnnotationProcessorHelper;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -22,9 +22,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @AutoService(Processor.class)
 public class BuilderAnnotationProcessor extends AbstractProcessor {
 
+    private Messager messager;
+
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Collections.singleton("io.github.nullptr.tools.annotations.BuilderGenerator");
+        return Collections.singleton("io.github.nullptr.tools.annotations.Builder");
     }
 
     @Override
@@ -35,45 +37,40 @@ public class BuilderAnnotationProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         final AtomicBoolean isProcessing = new AtomicBoolean(false);
-        final Messager messager = processingEnv.getMessager();
+        this.messager = this.processingEnv.getMessager();
 
-        messager.printMessage(Diagnostic.Kind.NOTE, "Processing " + annotations.size() + " annotations");
-        for (final TypeElement annotation : annotations) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "Processing annotation " + annotation.getQualifiedName());
+        for (final Element element : roundEnv.getElementsAnnotatedWith(Builder.class)) {
+            this.messager.printMessage(Diagnostic.Kind.NOTE, "Processing element " + element.getSimpleName());
+            final Builder builder = element.getAnnotation(Builder.class);
 
-            for (final Element element : roundEnv.getElementsAnnotatedWith(annotation)) {
-                messager.printMessage(Diagnostic.Kind.NOTE, "Processing element " + element.getSimpleName());
-                final BuilderGenerator builderGenerator = element.getAnnotation(BuilderGenerator.class);
+            if (AnnotationProcessorHelper.getAnnotations(element, BuilderArgument.class).isEmpty()) {
+                this.messager.printMessage(Diagnostic.Kind.ERROR, "No fields annotated with @BuilderArgument found");
+                continue;
+            }
 
-                if (AnnotationProcessorHelper.getAnnotations(element, BuilderArgumentGenerator.class).isEmpty()) {
-                    continue;
-                }
+            isProcessing.set(true);
+            this.messager.printMessage(Diagnostic.Kind.NOTE, "Generating builder for " + element.getSimpleName());
 
-                isProcessing.set(true);
-                messager.printMessage(Diagnostic.Kind.NOTE, "Generating builder for " + element.getSimpleName());
+            final String builderClassName = this.getBuilderClassName(element, builder);
+            this.messager.printMessage(Diagnostic.Kind.NOTE, "Builder class name: " + builderClassName);
+            try {
+                final JavaFileObject file = processingEnv.getFiler().createSourceFile(builderClassName);
+                this.messager.printMessage(Diagnostic.Kind.NOTE, "Writing...");
 
-                final String builderClassName = this.getBuilderClassName(element, builderGenerator);
-                messager.printMessage(Diagnostic.Kind.NOTE, "Builder class name: " + builderClassName);
-                try {
-                    final JavaFileObject file = processingEnv.getFiler().createSourceFile(builderClassName);
-                    messager.printMessage(Diagnostic.Kind.NOTE, "Created file " + file.toUri());
-                    final BuilderAnnotationWriter writer = new BuilderAnnotationWriter(element, builderClassName, file);
-                    messager.printMessage(Diagnostic.Kind.NOTE, "Writing...");
-
-                    writer.write();
-                } catch (IOException e) {
-                    messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
-                    isProcessing.set(false);
-                }
+                final BuilderAnnotationWriter writer = new BuilderAnnotationWriter(element, builderClassName, file);
+                writer.write();
+            } catch (IOException e) {
+                this.messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+                isProcessing.set(false);
             }
         }
 
         return isProcessing.get();
     }
 
-    private String getBuilderClassName(final Element element, final BuilderGenerator builderGenerator) {
+    private String getBuilderClassName(final Element element, final Builder builder) {
         final String className = element.getSimpleName().toString();
-        final String pattern = builderGenerator.name();
+        final String pattern = builder.name();
 
         return pattern.replace("${Class}", className);
     }

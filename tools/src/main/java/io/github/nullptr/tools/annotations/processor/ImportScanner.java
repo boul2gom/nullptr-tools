@@ -22,7 +22,6 @@ public class ImportScanner extends ElementScanner8<Void, Void> {
     @Override
     public Void visitType(TypeElement e, Void aVoid) {
         final String name = e.getQualifiedName().toString();
-        System.out.println("ImportScanner.visitType: " + name);
 
         if (this.importRequired(name)) {
             this.imports.add(name);
@@ -33,7 +32,6 @@ public class ImportScanner extends ElementScanner8<Void, Void> {
     @Override
     public Void visitTypeParameter(TypeParameterElement e, Void aVoid) {
         final String name = e.asType().toString();
-        System.out.println("ImportScanner.visitTypeParameter: " + name);
 
         if (this.importRequired(name)) {
             this.imports.add(name);
@@ -44,7 +42,6 @@ public class ImportScanner extends ElementScanner8<Void, Void> {
     @Override
     public Void visitExecutable(ExecutableElement e, Void aVoid) {
         final String name = e.getReturnType().toString();
-        System.out.println("ImportScanner.visitExecutable: " + name);
 
         if (this.importRequired(name)) {
             this.imports.add(name);
@@ -55,7 +52,6 @@ public class ImportScanner extends ElementScanner8<Void, Void> {
     @Override
     public Void visitVariable(VariableElement e, Void aVoid) {
         final String name = e.asType().toString();
-        System.out.println("ImportScanner.visitVariable: " + name);
 
         if (this.importRequired(name)) {
             this.imports.add(name);

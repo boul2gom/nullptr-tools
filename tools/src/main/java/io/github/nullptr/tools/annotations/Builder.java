@@ -5,10 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
-public @interface BuilderArgumentGenerator {
-    String name();
-    boolean required() default false;
-    String defaultValue() default "";
+public @interface Builder {
+    String name() default "${Class}Builder";
 }
